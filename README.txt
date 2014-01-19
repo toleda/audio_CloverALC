@@ -69,7 +69,8 @@ Notes
   4. Recommendations
 	1. Backup native AppleHDA.kext after each Software Update
 	2. If audio fails after Software Update
-		1. Install AppleHDA.kext backup (previous working native 		   AppleHDA.kext)
+		1. Install AppleHDA.kext backup (previous working native
+                   AppleHDA.kext)
 
 Problem Reporting (include the following information)
   1. Description of audio problem
