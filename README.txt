@@ -77,10 +77,13 @@ Problem Reporting (include the following information)
 	1. OS X version/motherboard model/BIOS version/processor/graphics
 	2. Procedure/Guide Used/AppleHDA.kext version
 	3. AppleHDA(codec).kext (i.e., AppleHDA1150.kext)
-	4. Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (not 	   ioreg.txt)
+	4. Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (not
+           ioreg.txt)
 	5. Extra/dsdt.aml (if installed)
-	6. Console/All Messages/kernel Sound assertions selected/Save 		   Selection As…..
-	7. Screenshot of System Information/Hardware/Audio/Intel High 		   Definition Audio (not Devices)
+	6. Console/All Messages/kernel Sound assertions selected/Save
+           Selection As…..
+	7. Screenshot of System Information/Hardware/Audio/Intel High
+           Definition Audio (not Devices)
   2. Post to:
 	1. http://www.tonymacx86.com/audio/112461-mavericks-no-audio-realtek-alc-applehda.html
 	2. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
