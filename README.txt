@@ -11,7 +11,7 @@ Requirements
 Required Information (Select one from each category)
   1. Codec/ALC
 	1. 885
-	2. 887 )Legacy, Note 2)
+	2. 887 (Legacy, Note 2)
 	3. 888 (Legacy, Note 2)
 	4. 889
 	5. 892
