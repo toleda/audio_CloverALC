@@ -58,7 +58,8 @@ Notes
 	1. dsdt/ssdt edits
 	2. framebuffer edits
   2. 887/888 Legacy
-	1.  Replace AppleHDALoader.kext/Contents/Resources/Platforms.xml.zlib 	    with Legacy Platforms.xml.zlib (v100202) from:
+	1.  Replace AppleHDALoader.kext/Contents/Resources/Platforms.xml.zlib
+            with Legacy Platforms.xml.zlib (v100202) from:
 		1. https://github.com/toleda/audio_ALC887
 		2. https://github.com/toleda/audio_ALC888
   3. Layout Definitions
