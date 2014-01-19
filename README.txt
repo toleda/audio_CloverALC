@@ -17,7 +17,7 @@ Required Information (Select one from each category)
 	5. 892
 	6. 898
 	7. 1150
-  2. Layout  (Definitions, Note 3)
+  2. Layout Support (Definitions, Note 3)
 	1. 885, 887, 888, 889, 892, 898, 1150
 	2. 887, 888, 889, 892, 898, 1150
 	3. 887, 888, 889, 892, 898
