@@ -1,4 +1,5 @@
 Clover Realtek ALC Audio - No Patching/Persistant
+https://github.com/toleda/audio_CloverALC
 
 The Realtek ALC AppleHDA Support kext installed with the native AppleHDA.kext enables full onboard, HDMI and DP audio (Note 1).  The ALC Support kext provides  pin configuration, layout and pathmap injection and Clover provides audio codec binary patching.
 
@@ -64,7 +65,7 @@ Notes
 		2. https://github.com/toleda/audio_ALC888
   3. Layout Definitions
 	1 - 3/5/6 audio port analog audio
-	2 - 3 audio port analog audiio
+	2 - 3 audio port analog audio
 	3 - HD3000/HD4000 HDMI audio and analog audio
   4. Recommendations
 	1. Backup native AppleHDA.kext after each Software Update
