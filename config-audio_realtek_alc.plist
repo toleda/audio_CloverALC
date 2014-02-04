@@ -88,6 +88,16 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
+				<string>ALC887 Codec</string>
+				<key>Find</key>
+				<data>ixnUEQ==</data>
+				<key>Name</key>
+				<string>AppleHDA</string>
+				<key>Replace</key>
+				<data>hwjsEA==</data>
+			</dict>
+			<dict>
+				<key>Comment</key>
 				<string>ALC888 Codec</string>
 				<key>Find</key>
 				<data>ixnUEQ==</data>

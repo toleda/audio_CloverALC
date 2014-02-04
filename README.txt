@@ -37,7 +37,7 @@ Steps
 	1. https://github.com/Piker-Alpha/AppleHDA8Series.sh 
 	2. Download Zip
 	3. $ cd Downloads/AppleHDA8Series.sh-master 
-	4. $ ./AppleHDA8Series  (no arguments required)
+	4. $ ./AppleHDA8Series.sh  (no arguments required)
 	5. Password
 	6. Codec
 	7. Layout
