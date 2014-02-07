@@ -1,37 +1,38 @@
+audio_CloverALC
+============
 Clover Realtek ALC Audio - No Patching/Persistant
-https://github.com/toleda/audio_CloverALC
 
 The Realtek ALC AppleHDA Support kext installed with the native AppleHDA.kext enables full onboard, HDMI and DP audio (Note 1).  The ALC Support kext provides  pin configuration, layout and pathmap injection and Clover provides audio codec binary patching.
 
 Requirements
-  1. Clover
-  2. Mavericks
+  1. Clover (2512 or newer)
+  2. Mavericks (10.9 or newer)
   3. Native AppleHDA.kext  (If not installed, apply Combo Update)
   4. Supported Realtek on board audio codec
 
 Required Information (Select one from each category)
   1. Codec/ALC
 	1. 885
-	2. 887 (Legacy, Note 2)
-	3. 888 (Legacy, Note 2)
+	2. 887 (for Legacy, Note 2)
+	3. 888 (for Legacy, Note 2)
 	4. 889
 	5. 892
 	6. 898
 	7. 1150
-  2. Layout Support (Definitions, Note 3)
+  2. Layout ID Support (Definitions, Note 3)
 	1. 885, 887, 888, 889, 892, 898, 1150
 	2. 887, 888, 889, 892, 898, 1150
 	3. 887, 888, 889, 892, 898
   3. Mavericks version (Info.plist reference)
-	1. 10.9 (-90),
-	2. 10.9.1(-91)
-
+	1. 10.9.2 (-92)
+	2. 10.9.1 (-91)
+	3. 10.9 (-90
 Steps
   1. Clover (Use Clover Configurator, Xcode, Property List Editor, etc.)
 	1. Downloads/audio_CloverALC-master/config-audio_realtek_alc.plist
 	2. EFI/Clover/config.plist/Add
 	  1. Kernel and KextsPatches/KextsToPatch/ALC---- Codec Patch
-	  2. Devices/Audio/Inject/Layout (1, 2, or 3)  
+	  2. Devices/Audio/Inject/Layout (1, 2 or 3)  
 	  3. Save
   2. ALC Support kext (Use Terminal)
 	1. https://github.com/Piker-Alpha/AppleHDA8Series.sh 
@@ -53,6 +54,7 @@ Steps
 	6. S/L/E/AppleHDA898
 	7. S/L/E/AppleHDA1150
   5. Verify ALC onboard audio
+	1. System Preferences/Sound/Output/select audio device
 
 Notes
   1. HDMI/DP audio may require
@@ -73,6 +75,12 @@ Notes
 		1. Install AppleHDA.kext backup (previous working native
                    AppleHDA.kext)
 
+Tools
+  1. Clover Configurator - http://www.osx86.net/files/file/49-clover-configurator/
+  2. Clover Wiki - http://clover-wiki.zetam.org/Home
+  3. Property List Editor - Xcode, Property List Editor, PlistEdit Pro, TextEdit, etc.
+  4. IOReg (View Raw) - https://github.com/toleda/audio_ALCInjection/blob/master/IORegistryExplorer_v2.1.zip
+
 Problem Reporting (include the following information)
   1. Description of audio problem
 	1. OS X version/motherboard model/BIOS version/processor/graphics
@@ -80,13 +88,18 @@ Problem Reporting (include the following information)
 	3. AppleHDA(codec).kext (i.e., AppleHDA1150.kext)
 	4. Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (not
            ioreg.txt)
-	5. Extra/dsdt.aml (if installed)
-	6. Console/All Messages/kernel Sound assertions selected/Save
+	5. EFI/Clover/config.plist
+	6. EFI/Clover/ACPI/Patched/dsdt.aml (if installed)
+	7. EFI/Clover/ACPI/Patched/ssdt.aml (if installed)
+	8. Console/All Messages/kernel Sound assertions selected/Save
            Selection As…..
-	7. Screenshot of System Information/Hardware/Audio/Intel High
+	9. Screenshot of System Information/Hardware/Audio/Intel High
            Definition Audio (not Devices)
   2. Post to:
 	1. http://www.tonymacx86.com/audio/112461-mavericks-no-audio-realtek-alc-applehda.html
 	2. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
 
 Credit: PikeRAlpha http://pikeralpha.wordpress.com/2014/01/05/new-style-of-applehda-kext-patching-take-ii/
+
+toleda
+https://github.com/toleda/audio_CloverALC
