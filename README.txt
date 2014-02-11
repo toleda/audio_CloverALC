@@ -2,7 +2,7 @@ audio_cloverALC
 ============
 Clover Realtek ALC Audio - No Patching/Persistant
 
-The Realtek ALC AppleHDA Support kext installed with the native AppleHDA.kext enables full onboard, HDMI and DP audio (Note 1).  The ALC Support kext provides  pin configuration, layout and pathmap injection and Clover provides audio codec binary patching.
+The Realtek ALC AppleHDA Support kext installed with the native AppleHDA.kext enables full onboard, HDMI and DP audio (Note 1).  The ALC Support kext provides audio codec binary patch and pin configuration, layout and pathmap injection.
 
 Requirements
   1. Clover (2512 or newer)
