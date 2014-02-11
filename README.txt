@@ -1,4 +1,4 @@
-audio_CloverALC
+audio_cloverALC
 ============
 Clover Realtek ALC Audio - No Patching/Persistant
 
@@ -29,11 +29,9 @@ Required Information (Select one from each category)
 	3. 10.9 (-90
 Steps
   1. Clover (Use Clover Configurator, Xcode, Property List Editor, etc.)
-	1. Downloads/audio_CloverALC-master/config-audio_realtek_alc.plist
-	2. EFI/Clover/config.plist/Add
-	  1. Kernel and KextsPatches/KextsToPatch/ALC---- Codec Patch
-	  2. Devices/Audio/Inject/Layout (1, 2 or 3)  
-	  3. Save
+	1. EFI/Clover/config.plist/Add
+	  1. Devices/Audio/Inject/Layout (1, 2 or 3)  
+	  2. Save
   2. ALC Support kext (Use Terminal)
 	1. https://github.com/Piker-Alpha/AppleHDA8Series.sh 
 	2. Download Zip
