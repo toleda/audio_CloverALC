@@ -26,7 +26,7 @@ Required Information (Select one from each category)
   3. Mavericks version (Info.plist reference)
 	1. 10.9.2 (-92)
 	2. 10.9.1 (-91)
-	3. 10.9 (-90
+	3. 10.9 (-90)
 Steps
   1. Clover (Use Clover Configurator, Xcode, Property List Editor, etc.)
 	1. EFI/Clover/config.plist/Add
