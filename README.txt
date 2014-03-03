@@ -54,7 +54,7 @@ Clover Patched AppleHDA - Installation
 	   to EFI/Clover/kexts/10.9/realtekALC.kext
   4. Install layouts and Platforms (Terminal output below)
 	1. Downloads/audio_ALCxxx-master/cloverALC/audio_cloverALCxxx-90_patch.command
-	2. Double click audio_cloverALC1150-90_patch.command 
+	2. Double click audio_cloverALCxxxx-90_patch.command 
 	   1. Do not move folder or file
 	3. Enter password at prompt
   5. Restart
