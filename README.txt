@@ -44,6 +44,7 @@ Clover Patched AppleHDA - Installation
 	1. Select Download ZIP
   2. Clover (Use Clover Configurator, Xcode, Property List Editor, etc.)
 	1. Open Downloads/audio_CloverALC-master/config-audio_cloverALC.plist
+	   1. Double click to open zip
 	2. EFI/Clover/config.plist/Add
 	   1. Devices/Audio/Inject/Layout (1, 2 or 3)  
 	   2. KernelAndKextPatches/KextsToPatch/AppleHDA/Resources/xml>zml
@@ -52,6 +53,7 @@ Clover Patched AppleHDA - Installation
   3. Install realtekALC.kext
 	1. Copy Downloads/audio_CloverALC-master/realtekALC.kext 
 	   to EFI/Clover/kexts/10.9/realtekALC.kext
+	   1. Double click to open zip
   4. Install layouts and Platforms (Terminal output below)
 	1. Downloads/audio_ALCxxx-master/cloverALC/audio_cloverALCxxx-90_patch.command
 	2. Double click audio_cloverALCxxxx-90_patch.command 
@@ -106,7 +108,7 @@ Problem Reporting (include the following information)
 	2. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
 
 Credit
-Alex Auditore http://www.insanelymac.com/forum/topic/290092-how-to-patch-applehda-with-the-help-of-bootloader/
+Alex Auditore/abxite http://www.insanelymac.com/forum/topic/290092-how-to-patch-applehda-with-the-help-of-bootloader/
 
 toleda
 https://github.com/toleda/audio_cloverALC
