@@ -108,7 +108,7 @@ Problem Reporting (include the following information)
 	2. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
 
 Credit
-Alex Auditore/abxite http://www.insanelymac.com/forum/topic/290092-how-to-patch-applehda-with-the-help-of-bootloader/
+Alex abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647
 
 toleda
 https://github.com/toleda/audio_cloverALC
