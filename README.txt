@@ -31,7 +31,7 @@ Required Information (Select one from each category)
 	2. 10.9.1 (-91)
 	3. 10.9 (-90)
 
-Clover Patched AppleHDA Method, Credit; Alex Auditore/abxite
+Clover Patched AppleHDA Method, Credit: abxite
    1. Native AppleHDA.kex
       1. renamed layouts and platforms installed, persistent 
    2. Clover/Devices/Audio/Inject/Audio ID
@@ -42,7 +42,7 @@ Clover Patched AppleHDA Method, Credit; Alex Auditore/abxite
 Clover Patched AppleHDA - Installation
   1. https://github.com/toleda/audio_CloverALC
 	1. Select Download ZIP
-  2. Clover (Use Clover Configurator, Xcode, Property List Editor, etc.)
+  2. Clover/config.plist (Use Clover Configurator, Xcode, Property List Editor, etc.)
 	1. Open Downloads/audio_CloverALC-master/config-audio_cloverALC.plist
 	   1. Double click to open zip
 	2. EFI/Clover/config.plist/Add
@@ -68,8 +68,8 @@ Notes
 	1. dsdt/ssdt edits
 	2. framebuffer edits
   2. 887/888 Legacy
-	1.  Replace AppleHDALoader.kext/Contents/Resources/Platforms.xml.zlib
-            with Legacy Platforms.xml.zlib (v100202) from:
+	1.  Remame Platforms.xml.zlib(v100202, below) to Platforms.zml.zlib and copy to
+	    S/L/E/AppleHDA.kext/Contents/Resources/Platforms.zml.zlib:
 	    1. https://github.com/toleda/audio_ALC887
 	    2. https://github.com/toleda/audio_ALC888
   3. Layout Definitions
@@ -92,8 +92,8 @@ Tools
 Problem Reporting (include the following information)
   1. Description of audio problem
 	1. OS X version/motherboard model/BIOS version/processor/graphics
-	2. Procedure/Guide Used/AppleHDA.kext version
-	3. AppleHDA(codec).kext (i.e., AppleHDA1150.kext)
+	2. Procedure/Guide Used
+	3. S/L/E/AppleHDA.kext
 	4. Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (not
            ioreg.txt)
 	5. EFI/Clover/config.plist
@@ -108,7 +108,7 @@ Problem Reporting (include the following information)
 	2. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
 
 Credit
-Alex abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647
+abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647
 
 toleda
 https://github.com/toleda/audio_cloverALC
