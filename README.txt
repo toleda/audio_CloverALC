@@ -5,6 +5,8 @@ Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persist
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 ____________________________________________________________Download ZIP >  > 
 
+Update: 10.9-9series/Realtek ALC support, see Note 5
+
 Requirements
   1. Clover (2512 or newer)
   2. Mavericks (10.9 or newer)
@@ -81,6 +83,14 @@ Notes
 	   1. Rename Desktop/AppleHDA-orig.kext to AppleHDA-10-9-x.kext
 	2. If audio fails after Software Update
 	   1. Install AppleHDA-10-9-x-1.kext (previous working native AppleHDA.kext)
+  5. Maveicks/10.9.3 and newer/9series/AppleHDA.kext support (Temporary)
+	1. See screenshot above
+	   1. Clover Configurator-Kernel and Kext Patches-10.9-9series-cloverALC
+	2. ApppleHDAController binary patch:
+	   1. Find: 20 8C
+	   2. Replace (4x): A0 8C
+	   3. Save
+	   4. Restart
 
 Tools
   1. Clover Configurator - http://www.osx86.net/files/file/49-clover-configurator/
