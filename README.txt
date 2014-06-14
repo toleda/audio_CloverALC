@@ -12,8 +12,8 @@ Requirements
   1. OS X/Clover
 	1. 10.10 or newer/v2696 or newer
 	2. 10.9 or newer/v2512 or newer
-  3. Native AppleHDA.kext  (If not installed, apply Combo Update)
-  4. Supported Realtek on board audio codec
+  2. Native AppleHDA.kext  (If not installed, apply Combo Update)
+  3. Supported Realtek on board audio codec
 
 Required Information (Select one from each category)
   1. Codec/ALC - Select link/Select Download ZIP
@@ -116,7 +116,8 @@ Problem Reporting (include the following information)
 	4. EFI/Clover/ACPI/Patched/ssdt.aml (if installed)  
   6. Post to:
 	1. http://www.tonymacx86.com/audio/112461-mavericks-no-audio-realtek-alc-applehda.html
-	2. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
+	2. http://www.insanelymac.com/forum/topic/298819-yosemite-audio-realtek-alc-applehda/
+	3. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
 
 Credit
 abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647
