@@ -46,9 +46,9 @@ Clover Patched AppleHDA - Installation
 	1. Open Downloads/audio_CloverALC-master/config-audio_cloverALC.plist
 	   1. Double click to open zip
 	2. EFI/Clover/config.plist/Add
-	   1. Devices/Audio/Inject/Layout (1, 2 or 3)  
+	   1. Devices/Audio/Inject/Layout/1, 2 or 3 (w/dsdt/ssdt injection, leave blank)
 	   2. KernelAndKextPatches/KextsToPatch/AppleHDA/Resources/xml>zml
-	   3. KernelAndKextPatches/KextsToPatch/AppleHDA/RealtekALCxxx
+	   3. SystemParameters/InjectKexts/YES
 	   4. Save
   3. Install realtekALC.kext
 	1. Copy Downloads/audio_CloverALC-master/realtekALC.kext to:
