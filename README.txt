@@ -52,7 +52,7 @@ Clover Patched AppleHDA - Installation
 	   2. KernelAndKextPatches/KextsToPatch
 		1. AppleHDA/ALCxxx binary
 		   1. Select patch for installed codec
-		1. AppleHDA/Resources/xml>zml
+		2. AppleHDA/Resources/xml>zml
 	   3. SystemParameters/InjectKexts/YES
 	   4. Save
   3. Install realtekALC.kext
