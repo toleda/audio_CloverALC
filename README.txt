@@ -9,24 +9,27 @@ Update: v2, new script, no downloads, double click and done.
 Update: 10.10 - Yosemite Initial Realtek ALC support
 Update: 10.9 - 9series/Realtek ALC support (temporary), see Note 5
 
+Other OS X Realtek ALC Onboard Audio Solutions
+  1. https://github.com/toleda/audio_pikeralphaALC
+  2. https://github.com/toleda/audio_RealtekALC
+
 Requirements
   1. OS X/Clover
 	1. 10.10 or newer/v2696 or newer
 	2. 10.9 or newer/v2512 or newer
+	3. 10.8 or newer/2512 or newer
   2. Native AppleHDA.kext  (If not installed, apply Combo Update)
   3. Supported Realtek on board audio codec
 
 Required Information (Select one from each category)
   1. Codec/ALC - Select link/Select Download ZIP
-	1. 885 https://github.com/toleda/audio_ALC885
-	2. 887 https://github.com/toleda/audio_ALC887
-	   1. for 887 Legacy, Note 2
-	3. 888 https://github.com/toleda/audio_ALC888
-	   1. for 888 Legacy, Note 2
-	4. 889 https://github.com/toleda/audio_ALC889
-	5. 892 https://github.com/toleda/audio_ALC892
-	6. 898 https://github.com/toleda/audio_ALC898
-	7. 1150 https://github.com/toleda/audio_ALC1150
+	1. 885
+	2. 887
+	3. 888
+	4. 889
+	5. 892
+	6. 898
+	7. 1150 (see Note 6.)
   2. Layout ID Support (Definitions, Note 3)
 	1. 885, 887, 888, 889, 892, 898, 1150
 	2. 887, 888, 889, 892, 898, 1150
@@ -41,32 +44,13 @@ Clover Patched AppleHDA Method, Credit: abxite
       2. EFI/Clover/kexts/10.10 or 10.9/realtekALC.kext (ConfigData)
 
 Clover Patched AppleHDA - Installation
-  1. https://github.com/toleda/audio_CloverALC
-	1. Select Download ZIP
-  2. Clover/config.plist (Use Clover Configurator, Xcode, Property List Editor, etc.)
-	1. Open Downloads/audio_CloverALC-master/config-audio_cloverALC.plist
-	   1. Double click to open zip
-	2. EFI/Clover/config.plist/Add
-	   1. Devices/Audio/Inject/Layout/1, 2 or 3
-		1. With dsdt or ssdt HDEF/layout-id injection, leave blank
-	   2. KernelAndKextPatches/KextsToPatch
-		1. AppleHDA/ALCxxx binary
-		   1. Select patch for installed codec
-		2. AppleHDA/Resources/xml>zml
-	   3. SystemParameters/InjectKexts/YES
-	   4. Save
-  3. Install realtekALC.kext
-	1. Copy Downloads/audio_CloverALC-master/realtekALC.kext to:
-	   1. EFI/Clover/kexts/10.10/realtekALC.kext
-	   2. EFI/Clover/kexts/10.9/realtekALC.kext
-  4. Install codec layouts and Platforms (Terminal output below)
-	1. Downloads/audio_ALCxxx-master/cloverALC/audio_cloverALCxxx-90_patch.command
-	   1. audio_ALCxxx implies specific codec, i.e., ALC898
-	   2. If no, Downloads/audio_ALCxxx-master, see Codec/ALC links above
-	2. Double click audio_cloverALCxxxx-90_patch.command 
-	   1. Verify audio_cloverALCxxxx..., not audio_alcxxx...
-	   1. Do not move folder or file
-	3. Enter password at prompt
+  1. v2 Clover Realtek ALC AppleHDA.kext  (patch in place)
+	1. https://github.com/toleda/audio_RealtekALC/blob/master/audio_cloverALC-90_v2.1_patch.command.zip
+	2. Download (View Raw)
+	3. Double click Downloads/clover-90_patch_v2.command
+	4. Password?
+	5. Verify Codec? (885, 887, 888, 889, 892, 898, 1150 only)
+	6. Legacy_v100202 - y/n? (887, 888 only)
   5. Restart
   6. Verify ALC onboard audio
 	1. System Preferences/Sound/Output/select audio device	
@@ -97,6 +81,11 @@ Notes
 	   2. Replace (4x): A0 8C
 	   3. Save
 	   4. Restart
+  6. Mavericks/10.10
+	1. 1150 only: edit config.plist/KernekAndKextPatches/KextsToPatch/ALC1150 Binary
+	   1. Replace
+	      1. Before: <09ec10>
+	      1. After: <0009ec10>
 
 Tools
   1. Clover Configurator - http://www.osx86.net/files/file/49-clover-configurator/
@@ -109,17 +98,12 @@ Problem Reporting (include the following information)
   2. OS X version/motherboard model/BIOS version/processor/graphics
   3. Procedure/Guide Used
   3. Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (no ioreg.txt)
-  4. Chimera/Chameleon
-	1. Extra/org.chameleon.Boot.plist
-	2. DPCIManager/Misc/Boot Log
-	3. Extra/dsdt.aml (if installed) 
-	4. Extra/ssdt.aml (if installed)
-  5. Clover
+  4. Clover
 	1. EFI/Clover/config.plist
 	2. EFI/Clover/misc/debug.log (Set config.plist/Boot/Debug/YES)
 	3. EFI/Clover/ACPI/Patched/dsdt.aml (if installed) 
 	4. EFI/Clover/ACPI/Patched/ssdt.aml (if installed)  
-  6. Post to:
+  5. Post to:
 	1. http://www.tonymacx86.com/audio/112461-mavericks-no-audio-realtek-alc-applehda.html
 	2. http://www.insanelymac.com/forum/topic/298819-yosemite-audio-realtek-alc-applehda/
 	3. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
@@ -130,14 +114,44 @@ abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.3940
 toleda
 https://github.com/toleda/audio_cloverALC
 
-Clover Patched AppleHDA MethodTerminal Output
-$ .../Downloads/audio_ALC1150-master/clover/audio_cloverALC1150-90_patch.command; exit;
-
-Backup AppleHDA.kext to Desktop
+Clover Patched AppleHDA Method/Terminal Output
+Last login: Wed Aug  6 16:24:14 on ttys000
+ 
+File: audio_realtekALC-90_v2.command
+Verify EFI partition mounted, Finder/Devices/EFI
+Verify kext-dev-mode=1 boot flag/argument
 Password:
-Permissions...
+Confirm Realtek ALC1150 (y/n): y
+Clover Audio ID injection (y/n): n
+
+Download ALC1150 files ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 21163  100 21163    0     0  15286      0  0:00:01  0:00:01 --:--:-- 15280
+Edit config.plist/Devices/Audio/Inject
+Edit config.plist/KernelAndKextPatches/KextsToPatch
+Download kext patches and merge to config.plist ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1268  100  1268    0     0   5208      0 --:--:-- --:--:-- --:--:--  5218
+Install /Volumes/EFI/EFI/CLOVER/kexts/10.10/realtekALC.kext
+Download config kext and install ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3122  100  3122    0     0  10870      0 --:--:-- --:--:-- --:--:-- 10840
+Install System/Library/Extensions/AppleHDA.kext/ALC1150 zml files
+Fix permissions ...
 Kernel cache...
-Finished.
+kextcache -Boot -U /
+rebuilding //System/Library/Caches/com.apple.kext.caches/Startup/kernelcache
+kextcache -arch x86_64 -local-root -all-loaded -kernel /System/Library/Kernels/kernel -prelinked-kernel /System/Library/Caches/com.apple.kext.caches/Startup/kernelcache -volume-root / /System/Library/Extensions /Library/Extensions
+kext file:///System/Library/Extensions/Soundflower.kext/ is in hash exception list, allowing to load
+kext com.jmicron.JMicronATA  101069000 is in exception list, allowing to load
+kext com.intel.driver.EnergyDriver  200009000 is in exception list, allowing to load
+kext-dev-mode allowing invalid signature -67030 0xFFFFFFFFFFFEFA2A for kext AppleKextExcludeList.kext
+kext com.apple.driver.AppleHDA  26569009000 is in exception list, allowing to load
+kext com.apple.driver.AppleHDA  26569009000 is in exception list, allowing to load
+Install finished, restart required.
 logout
 
 [Process completed]
