@@ -51,8 +51,8 @@ Clover Patched AppleHDA - Installation
 	4. Password?
 	5. Verify Codec? (885, 887, 888, 889, 892, 898, 1150 only)
 	6. Legacy_v100202 - y/n? (887, 888 only)
-  5. Restart
-  6. Verify ALC onboard audio
+  2. Restart
+  3. Verify ALC onboard audio
 	1. System Preferences/Sound/Output/select audio device	
 
 Notes
@@ -81,11 +81,10 @@ Notes
 	   2. Replace (4x): A0 8C
 	   3. Save
 	   4. Restart
-  6. Mavericks/10.10
-	1. 1150 only: edit config.plist/KernekAndKextPatches/KextsToPatch/ALC1150 Binary
+  6. 1150 only: edit config.plist/KernekAndKextPatches/KextsToPatch/ALC1150 Binary
 	   1. Replace
 	      1. Before: <09ec10>
-	      1. After: <0009ec10>
+	      2. After: <0009ec10>
 
 Tools
   1. Clover Configurator - http://www.osx86.net/files/file/49-clover-configurator/
