@@ -81,10 +81,13 @@ Notes
 	   2. Replace (4x): A0 8C
 	   3. Save
 	   4. Restart
-  6. 1150 only: edit config.plist/KernekAndKextPatches/KextsToPatch/ALC1150 Binary
-	   1. Replace
+  6. 1150 only: edit config.plist/KernelAndKextPatches/KextsToPatch/ALC1150 Binary
+	   1. Clover Configurator/Property List Editor/Replace
 	      1. Before: <09ec10>
 	      2. After: <0009ec10>
+	   2. TextEdit/Replace
+	      1. Before: CewQ
+	      2. After: AAnsEA==
 
 Tools
   1. Clover Configurator - http://www.osx86.net/files/file/49-clover-configurator/
