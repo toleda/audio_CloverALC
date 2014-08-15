@@ -81,7 +81,8 @@ Notes
 	   2. Replace (4x): A0 8C
 	   3. Save
 	   4. Restart
-  6. 1150 only: edit config.plist/KernelAndKextPatches/KextsToPatch/ALC1150 Binary
+  6. 1150 only: edit config.plist/KernelAndKextPatches/KextsToPatch/
+	   "10.9/AppleHDA/Realtek ALC1150"
 	   1. Clover Configurator/Property List Editor/Replace
 	      1. Before: <09ec10>
 	      2. After: <0009ec10>
