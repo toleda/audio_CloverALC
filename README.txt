@@ -14,6 +14,9 @@ Other OS X Realtek ALC Onboard Audio Solutions
   1. https://github.com/toleda/audio_pikeralphaALC
   2. https://github.com/toleda/audio_RealtekALC
 
+OS X/AppleHDA.kext/9 Series motherboard support (temporary)
+Install/config.plist/KextsToPatch: audio_alc_9series-hda-93_patch.command.zip
+
 Requirements
   1. OS X/Clover
 	1. 10.10 or newer/v2696 or newer
