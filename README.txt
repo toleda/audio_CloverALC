@@ -75,8 +75,7 @@ Notes
 	   1. Install AppleHDA-10-9-x-1.kext (previous working native AppleHDA.kext)
   4. OS X/AppleHDA.kext/9 Series motherboard support (temporary, select one)
 	1. Install/config.plist/KextsToPatch: config-audio_cloverALC-9series.plist.zip
-	2. Binary patch: audio_alc_9series-hda-93_patch.command.zip
-	3. ApppleHDAController binary patch:
+	2. ApppleHDAController binary patch:
 	   1. Find: 20 8C
 	   2. Replace (4x): A0 8C
 	   3. Save
