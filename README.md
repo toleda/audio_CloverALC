@@ -19,12 +19,12 @@ Update: 10.9 - 9series/Realtek ALC support (temporary, see Note 4)
   * X99 motherboard support (see Note 5 below)
 
 ### Requirements
-	* OS X/Clover
-		1. 10.10 or newer/v2696 or newer
-		2. 10.9 or newer/v2512 or newer
-		3. 10.8 or newer/2512 or newer
-	* Native AppleHDA.kext (If not installed, apply Combo Update)
-	* Supported Realtek onboard audio codec
+* OS X/Clover
+	1. 10.10 or newer/v2696 or newer
+	2. 10.9 or newer/v2512 or newer
+	3. 10.8 or newer/2512 or newer
+* Native AppleHDA.kext (If not installed, apply Combo Update)
+* Supported Realtek onboard audio codec
 
 ### Installation
 
