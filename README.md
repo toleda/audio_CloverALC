@@ -19,28 +19,29 @@ Update: 10.9 - 9series/Realtek ALC support (temporary, see Note 4)
   * X99 motherboard support (see Note 5 below)
 
 ### Requirements
-  * OS X/Clover
-	1. 10.10 or newer/v2696 or newer
-	2. 10.9 or newer/v2512 or newer
-	3. 10.8 or newer/2512 or newer
-  * Native AppleHDA.kext  (If not installed, apply Combo Update)
-  * Supported Realtek onboard audio codec
+	* OS X/Clover
+		1. 10.10 or newer/v2696 or newer
+		2. 10.9 or newer/v2512 or newer
+		3. 10.8 or newer/2512 or newer
+	* Native AppleHDA.kext (If not installed, apply Combo Update)
+	* Supported Realtek onboard audio codec
 
-### Required Information (Select one from each category)
-  * Codec/ALC - Select link/Select Download ZIP
-	1. 885
-	2. 887
-	3. 888
-	4. 889
-	5. 892
-	6. 898
-	7. 1150 (see Note 6.)
-  * Layout ID Support (Definitions, Note 3)
-	1. 885, 887, 888, 889, 892, 898, 1150
-	2. 887, 888, 889, 892, 898, 1150
-	3. 887, 888, 889, 892, 898
+### Installation
 
-Clover Patched AppleHDA Method, Credit: abxite
+1. Choose a codec/ALC  
+	* 885  
+	* 887  
+	* 888  
+	* 889  
+	* 892  
+	* 898  
+	* 1150 (see Note 6.)  
+2. Choose a Layout ID
+	* Layout ID 1 supports 885, 887, 888, 889, 892, 898, 1150
+	* Layout ID 2 supports 887, 888, 889, 892, 898, 1150
+	* Layout ID 3 supports 887, 888, 889, 892, 898
+
+Clover Patched AppleHDA Method ([Credit: abxite](http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647))
   1. Native AppleHDA.kext
       1. renamed layouts and platforms installed, persistent 
   2. Clover/Devices/Audio/Inject/Audio ID
@@ -117,9 +118,5 @@ Notes
 	1. http://www.tonymacx86.com/audio/112461-mavericks-no-audio-realtek-alc-applehda.html
 	2. http://www.insanelymac.com/forum/topic/298819-yosemite-audio-realtek-alc-applehda/
 	3. http://www.insanelymac.com/forum/topic/293001-mavericks-realtek-alc-applehda-audio/
-
-Credit
-abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647
-
 
 [Clover Patched AppleHDA Method/Terminal Output](output.txt)
