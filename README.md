@@ -2,7 +2,7 @@ audio_cloverALC
 ============
 Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persistant
 
-The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
+The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio. The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data.
 
 Update: v2.2 - X99 motherboard support (temporary, see Note 5)  
 Update: v2.1 - 9 Series/EAPD added to 887, 892, 898, 1150, credit: kidalive  
@@ -10,15 +10,15 @@ Update: v2 - new script, no downloads, double click and done.
 Update: 10.10 - Yosemite Initial Realtek ALC support  
 Update: 10.9 - 9series/Realtek ALC support (temporary, see Note 4)  
 
-Other OS X Realtek ALC Onboard Audio Solutions
+### Other OS X Realtek ALC Onboard Audio Solutions
   * [audio_pikeralphaALC](https://github.com/toleda/audio_pikeralphaALC)
   * [audio_RealtekALC](https://github.com/toleda/audio_RealtekALC)
 
-Unsupported Chipsets (OS X)
+### Unsupported Chipsets (OS X)
   * 9 Series motherboard support (see Note 4 below)
   * X99 motherboard support (see Note 5 below)
 
-Requirements
+### Requirements
   * OS X/Clover
 	1. 10.10 or newer/v2696 or newer
 	2. 10.9 or newer/v2512 or newer
@@ -26,7 +26,7 @@ Requirements
   * Native AppleHDA.kext  (If not installed, apply Combo Update)
   * Supported Realtek onboard audio codec
 
-Required Information (Select one from each category)
+### Required Information (Select one from each category)
   * Codec/ALC - Select link/Select Download ZIP
 	1. 885
 	2. 887
@@ -97,13 +97,13 @@ Notes
 	      1. Before: CewQ
 	      2. After: AAnsEA==
 
-Tools
+### Tools
   * [Clover Configurator](http://www.osx86.net/files/file/49-clover-configurator/)
   * [Clover Wiki](http://clover-wiki.zetam.org/Home)
   * Property List Editor - [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12), Property List Editor, PlistEdit Pro, TextEdit, etc.
   * [IOReg](https://github.com/toleda/audio_ALCInjection/blob/master/IORegistryExplorer_v2.1.zip)
 
-Problem Reporting (include the following information)
+### Problem Reporting (include the following information)
   * Description of onboard audio problem
   * OS X version/motherboard model/BIOS version/processor/graphics
   * Procedure/Guide Used
