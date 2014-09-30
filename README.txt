@@ -27,7 +27,7 @@ Requirements
   3. Supported Realtek on board audio codec
 
 Required Information (Select one from each category)
-  1. Codec/ALC - Select link/Select Download ZIP
+  1. Codec Support (Realtek ALC)
 	1. 885
 	2. 887
 	3. 888
