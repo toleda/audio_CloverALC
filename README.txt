@@ -4,18 +4,20 @@ Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persist
 
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
+Update: v3 - Yosemite/10.10.x, Mavericks/10.9.x and Mountain Lion/10.8.x support
+	Note: audio_cloverALC-90_v2.command deprecated
 Update: v2.2 - X99 motherboard support (temporary, see Note 5)
 Update: v2.1 - 9 Series/EAPD added to 887, 892, 898, 1150, credit: kidalive
 Update: v2 - new script, no downloads, double click and done.
 Update: 10.10 - Yosemite Initial Realtek ALC support
-Update: 10.9 - 9series/Realtek ALC support (temporary, see Note 4)
+Update: 10.9 - 9series/Realtek ALC support (Mavericks, see Note 4)
 
 Other OS X Realtek ALC Onboard Audio Solutions
   1. https://github.com/toleda/audio_pikeralphaALC
   2. https://github.com/toleda/audio_RealtekALC
 
 Unsupported Chipsets (OS X)
-  1. 9 Series motherboard support (see Note 4., below)
+  1. 9 Series motherboard support (Mavericks, see Note 4., below)
   2. X99 motherboard support (see Note 5., below)
 
 Requirements
@@ -49,10 +51,10 @@ Clover Patched AppleHDA Method, Credit: abxite
       2. EFI/Clover/kexts/10.10 or 10.9/realtekALC.kext (ConfigData)
 
 Clover Patched AppleHDA - Installation
-  1. v2 Clover Realtek ALC AppleHDA.kext  (patch in place)
-	1. https://github.com/toleda/audio_RealtekALC/blob/master/audio_cloverALC-90_v2.1_patch.command.zip
+  1. Clover Realtek ALC AppleHDA.kext  (patch in place)
+	1. https://github.com/toleda/audio_RealtekALC/blob/master/audio_cloverALC-100.command.zip
 	2. Download (View Raw)
-	3. Double click Downloads/clover-90_patch_v2.command
+	3. Double click Downloads/clover-100.command
 	4. Password?
 	5. Verify Codec? (885, 887, 888, 889, 892, 898, 1150 only)
 	6. Legacy_v100202 - y/n? (887, 888 only)
@@ -73,7 +75,7 @@ Notes
 	   1. Rename Desktop/AppleHDA-orig.kext to AppleHDA-10-9-x.kext
 	2. If audio fails after Software Update
 	   1. Install AppleHDA-10-9-x-1.kext (previous working native AppleHDA.kext)
-  4. OS X/AppleHDA.kext/9 Series motherboard support (temporary, select one)
+  4. OS X/AppleHDA.kext/9 Series motherboard support (Mavericks only, select one)
 	1. Install/config.plist/KextsToPatch: config-audio_cloverALC-9series.plist.zip
 	2. ApppleHDAController binary patch:
 	   1. Find: 20 8C
@@ -89,7 +91,7 @@ Notes
 	   3. Save
 	   4. Restart
   6. 1150 only: edit config.plist/KernelAndKextPatches/KextsToPatch/
-	   "10.9/AppleHDA/Realtek ALC1150"
+	   "10.9 or 10.10/AppleHDA/Realtek ALC1150"
 	   1. Clover Configurator/Property List Editor/Replace
 	      1. Before: <09ec10>
 	      2. After: <0009ec10>
@@ -127,7 +129,7 @@ https://github.com/toleda/audio_cloverALC
 Clover Patched AppleHDA Method/Terminal Output
 Last login: Wed Aug  6 16:24:14 on ttys000
  
-File: audio_realtekALC-90_v2.command
+File: audio_realtekALC-100.command
 Verify EFI partition mounted, Finder/Devices/EFI
 Verify kext-dev-mode=1 boot flag/argument
 Password:
