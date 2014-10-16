@@ -52,7 +52,7 @@ Clover Patched AppleHDA Method, Credit: abxite
 
 Clover Patched AppleHDA - Installation
   1. Clover Realtek ALC AppleHDA.kext  (patch in place)
-	1. https://github.com/toleda/audio_RealtekALC/blob/master/audio_cloverALC-100.command.zip
+	1. https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-100.command.zip
 	2. Download (View Raw)
 	3. Double click Downloads/clover-100.command
 	4. Password?
