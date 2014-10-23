@@ -54,7 +54,7 @@ Clover Patched AppleHDA - Installation
   1. Clover Realtek ALC AppleHDA.kext  (patch in place)
 	1. https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-100.command.zip
 	2. Download (View Raw)
-	3. Double click Downloads/clover-100.command
+	3. Double click Downloads/audio_cloverALC-100.command
 	4. Password?
 	5. Verify Codec? (885, 887, 888, 889, 892, 898, 1150 only)
 	6. Legacy_v100202 - y/n? (887, 888 only)
@@ -129,7 +129,7 @@ https://github.com/toleda/audio_cloverALC
 Clover Patched AppleHDA Method/Terminal Output
 Last login: Wed Aug  6 16:24:14 on ttys000
  
-File: audio_realtekALC-100.command
+File: audio_cloverALC-100.command
 Verify EFI partition mounted, Finder/Devices/EFI
 Verify kext-dev-mode=1 boot flag/argument
 Password:
