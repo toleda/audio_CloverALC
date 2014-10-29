@@ -26,7 +26,7 @@ Requirements
 	1. 10.10 or newer/v2696 or newer
 	2. 10.9 or newer/v2512 or newer
 	3. 10.8 or newer/2512 or newer
-  2. Native AppleHDA.kext  (If not installed, apply Combo Update)
+  2. Native AppleHDA.kext  (If not installed, run OS X Installer)
   3. Supported Realtek on board audio codec
 
 Required Information (Select one from each category)
