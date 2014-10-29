@@ -85,7 +85,6 @@ Notes
 	   4. Restart
   5. OS X/AppleHDA.kext/x99 motherboard support (temporary, select one)
 	1. Install/config.plist/KextsToPatch: config-audio_cloverALC-x99.plist.zip
-	   1. Edit patch for replace value below
 	2. ApppleHDAController binary patch:
 	   1. Find: 20 8C
 	   2. Replace (4x): 20 8D
