@@ -4,6 +4,7 @@ Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persist
 
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
+Update: v3.2 - audio_cloverALC-100 UI update, ALC88x Current replaces ALC88x Legacy
 Update: v3.1 - Yosemite/config-audio_cloverALC-x99.plist added
 Update: v3 - Yosemite/10.10.x, Mavericks/10.9.x and Mountain Lion/10.8.x support
 	Note: audio_cloverALC-90_v2.command deprecated
@@ -126,48 +127,54 @@ abxite http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.3940
 toleda
 https://github.com/toleda/audio_cloverALC
 
-Clover Patched AppleHDA Method/Terminal Output
-Last login: Wed Aug  6 16:24:14 on ttys000
- 
-File: audio_cloverALC-100.command
+Last login: Wed Oct 29 18:18:37 on ttys009
+
+File: audio_cloverALC-100.command_v1.0.1
 Verify EFI partition mounted, Finder/Devices/EFI
-Verify kext-dev-mode=1 boot flag/argument
 Password:
 Confirm Realtek ALC1150 (y/n): y
-Clover Audio ID injection (y/n): n
+Clover Audio ID Injection (y/n): y
+Use Audio ID: 2 (y/n): y
 
 Download ALC1150 files ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 21163  100 21163    0     0  15286      0  0:00:01  0:00:01 --:--:-- 15280
+100 21366  100 21366    0     0  12389      0  0:00:01  0:00:01 --:--:-- 12386
 Edit config.plist/Devices/Audio/Inject
 Edit config.plist/KernelAndKextPatches/KextsToPatch
 Download kext patches and merge to config.plist ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  1268  100  1268    0     0   5208      0 --:--:-- --:--:-- --:--:--  5218
+100  1268  100  1268    0     0   7429      0 --:--:-- --:--:-- --:--:--  7458
+Edit config.plist/SystemParameters/InjectKexts/YES
+Edit config.plist/Boot/Arguments/kext-dev-mode=1
 Install /Volumes/EFI/EFI/CLOVER/kexts/10.10/realtekALC.kext
 Download config kext and install ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  3122  100  3122    0     0  10870      0 --:--:-- --:--:-- --:--:-- 10840
+100  3322  100  3322    0     0  19770      0 --:--:-- --:--:-- --:--:-- 19892
+/Volumes/EFI/EFI/CLOVER/kexts/10.10/realtekALC.kext deleted
 Install System/Library/Extensions/AppleHDA.kext/ALC1150 zml files
 Fix permissions ...
 Kernel cache...
-kextcache -Boot -U /
 rebuilding //System/Library/Caches/com.apple.kext.caches/Startup/kernelcache
-kextcache -arch x86_64 -local-root -all-loaded -kernel /System/Library/Kernels/kernel -prelinked-kernel /System/Library/Caches/com.apple.kext.caches/Startup/kernelcache -volume-root / /System/Library/Extensions /Library/Extensions
+JMicronATA.kext has no Info.plist file.
+JMicronATA.kext has no Info.plist file.
+JMicronATA.kext has no Info.plist file.
+JMicronATA.kext has no Info.plist file.
+JMicronATA.kext has no Info.plist file.
 kext file:///System/Library/Extensions/Soundflower.kext/ is in hash exception list, allowing to load
-kext com.jmicron.JMicronATA  101069000 is in exception list, allowing to load
-kext com.intel.driver.EnergyDriver  200009000 is in exception list, allowing to load
-kext-dev-mode allowing invalid signature -67030 0xFFFFFFFFFFFEFA2A for kext AppleKextExcludeList.kext
-kext com.apple.driver.AppleHDA  26569009000 is in exception list, allowing to load
-kext com.apple.driver.AppleHDA  26569009000 is in exception list, allowing to load
+JMicronATA.kext has no Info.plist file.
+kext file:///System/Library/Extensions/EnergyDriver.kext/ is in hash exception list, allowing to load
+JMicronATA.kext has no Info.plist file.
+kext-dev-mode allowing invalid signature -67054 0xFFFFFFFFFFFEFA12 for kext AppleHDA.kext
+JMicronATA.kext has no Info.plist file.
+
 Install finished, restart required.
+To save a Copy to this Terminal session: Terminal/Shell/Export Text As ...
 logout
 
 [Process completed]
-
 
 toleda
 https://github.com/toleda/audio_CloverALC
