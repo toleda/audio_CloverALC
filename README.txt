@@ -4,9 +4,10 @@ Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persist
 
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
+Update: v3.1 - Yosemite/config-audio_cloverALC-x99.plist added
 Update: v3 - Yosemite/10.10.x, Mavericks/10.9.x and Mountain Lion/10.8.x support
 	Note: audio_cloverALC-90_v2.command deprecated
-Update: v2.2 - X99 motherboard support (temporary, see Note 5)
+Update: v2.2 - x99 motherboard support (temporary, see Note 5)
 Update: v2.1 - 9 Series/EAPD added to 887, 892, 898, 1150, credit: kidalive
 Update: v2 - new script, no downloads, double click and done.
 Update: 10.10 - Yosemite Initial Realtek ALC support
@@ -82,8 +83,8 @@ Notes
 	   2. Replace (4x): A0 8C
 	   3. Save
 	   4. Restart
-  5. OS X/AppleHDA.kext/X99 motherboard support (temporary, select one)
-	1. Install/config.plist/KextsToPatch: config-audio_cloverALC-9series.plist.zip
+  5. OS X/AppleHDA.kext/x99 motherboard support (temporary, select one)
+	1. Install/config.plist/KextsToPatch: config-audio_cloverALC-x99.plist.zip
 	   1. Edit patch for replace value below
 	2. ApppleHDAController binary patch:
 	   1. Find: 20 8C
@@ -92,7 +93,7 @@ Notes
 	   4. Restart
   6. 1150 only: edit config.plist/KernelAndKextPatches/KextsToPatch/
 	   "10.9 or 10.10/AppleHDA/Realtek ALC1150"
-	   1. Clover Configurator/Property List Editor/Replace
+	   1. Clover Configurator/Property List Editor/Replace/
 	      1. Before: <09ec10>
 	      2. After: <0009ec10>
 	   2. TextEdit/Replace
