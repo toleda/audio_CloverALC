@@ -1,6 +1,6 @@
 audio_cloverALC
 ============
-Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persistant
+Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persistent
 
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
