@@ -2,7 +2,7 @@ audio_cloverALC
 ============
 Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persistent
 
-The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
+The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note A). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
 Update: v3.4 - BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support, see Note G
 Update: v3.3 - audio_cloverALC-100.sh (v1.0.3) release
@@ -10,11 +10,11 @@ Update: v3.2 - audio_cloverALC-100 UI update, ALC88x Current replaces ALC88x Leg
 Update: v3.1 - Yosemite/config-audio_cloverALC-x99.plist added
 Update: v3 - Yosemite/10.10.x, Mavericks/10.9.x and Mountain Lion/10.8.x support
 	Note: audio_cloverALC-90_v2.command deprecated
-Update: v2.2 - x99 motherboard support (temporary, see Note 5)
+Update: v2.2 - x99 motherboard support (temporary, see Note E)
 Update: v2.1 - 9 Series/EAPD added to 887, 892, 898, 1150, credit: kidalive
 Update: v2 - new script, no downloads, double click and done.
 Update: 10.10 - Yosemite Initial Realtek ALC support
-Update: 10.9 - 9series/Realtek ALC support (Mavericks, see Note 4)
+Update: 10.9 - 9series/Realtek ALC support (Mavericks, see Note D)
 
 Clover Patched AppleHDA Method, Credit: abxite
   A. Native AppleHDA.kext
