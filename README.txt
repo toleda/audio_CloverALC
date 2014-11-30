@@ -4,6 +4,7 @@ Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persist
 
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note 1). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
+Update: v3.4 - BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support, see Note G
 Update: v3.3 - audio_cloverALC-100.sh (v1.0.3) release
 Update: v3.2 - audio_cloverALC-100 UI update, ALC88x Current replaces ALC88x Legacy
 Update: v3.1 - Yosemite/config-audio_cloverALC-x99.plist added
@@ -52,15 +53,17 @@ Requirements
 
 Required Information (Select one from each category)
   A. Codec Support (Realtek ALC)
-	1. 885
-	2. 887
-	3. 888
-	4. 889
-	5. 892
-	6. 898
-	7. 1150 (see Note F)
+	1. 269 (BRIX only)
+	2. 283 (BRIX Pro and NUC)
+	3. 885
+	4. 887
+	5. 888
+	6. 889
+	7. 892
+	8. 898
+	9. 1150 (see Note F)
   B. Layout ID Support (Definitions, Note B)
-	1. 885, 887, 888, 889, 892, 898, 1150
+	1. 269, 283. 885, 887, 888, 889, 892, 898, 1150
 	2. 887, 888, 889, 892, 898, 1150
 	3. 887, 888, 889, 892, 898
 
@@ -103,6 +106,15 @@ Notes
 	2. TextEdit/Replace
 	   a. Before: CewQ
 	   b. After: AAnsEA==
+  G. BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support
+	1. Installation methods
+	   a. cloverALC/Clover patched
+	2. Audio Devices
+	   a. ALC269 - BRIX/Headphones and SPDIF out
+	   b. ALC283 - BRIX Pro and NUC/Headphones (Microphone is not supported)
+	   c. HDMI audio with dsdt edits or ssdt, see
+	      i.  HD4600 - https://github.com/toleda/audio_hdmi_8series
+	      ii. HD4000 - https://github.com/toleda/audio_hdmi_hd4000
 
 Tools
   A. Clover Configurator - http://www.osx86.net/files/file/49-clover-configurator/
