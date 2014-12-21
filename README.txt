@@ -64,7 +64,7 @@ Required Information (Select one from each category)
 	7. 892
 	8. 898
 	9. 1150 (see Note F)
-  B. Layout ID Support (Definitions, Note B)
+  B. Audio ID Support (Definitions, Note B)
 	1. 269, 283. 885, 887, 888, 889, 892, 898, 1150
 	2. 887, 888, 889, 892, 898, 1150
 	3. 887, 888, 889, 892, 898
@@ -79,7 +79,7 @@ Notes
 	2. framebuffer edits
   B. Layout Definitions
 	1 - 3/5/6 audio port analog audio
-	2 - 3 audio port analog audio
+	2 - 3 audio port analog 5.1 surround sound
 	3 - HD3000/HD4000 HDMI audio and analog audio
   C. Recommendations
 	1. Rename backup AppleHDA.kext after each Software Update
