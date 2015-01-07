@@ -4,9 +4,6 @@ Clover Patched Realtek ALC Audio - Native AppleHDA.kext/No Patching/Most Persist
 
 The Clover Patched Realtek ALC method, applied to the native AppleHDA.kext, enables full onboard, HDMI and DP audio (Note A). The Clover Patched AppleHDA ALC method installs renamed layout and platform files in the native AppleHDA.kext and injects binary patch and config data. 
 
-Change Log - Clover Patched AppleHDA 
-Update: v3.6 - audio_cloverALC-100.sh (v1.0.4) release; ALC1150 patch fix, 887/888 legacy
-	detection, Clover/Legacy support, bug fixes
 Update: v3.5 - Realtek ALC AppleHDA - No Audio After Sleep/Wake [Fixes]
         See https://github.com/toleda/audio_RealtekALC
 Update: v3.4 - BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support, see Note G
@@ -25,22 +22,23 @@ Clover Patched AppleHDA Method, Credit: abxite
   A. Native AppleHDA.kext
 	1. renamed layouts and platforms installed, persistent 
   B. Clover/Devices/Audio/Inject/Audio ID
-  C. Clover/patch kernel cache on boot
+  C. Clover/patch on boot
 	1. KernelAndKextPatches/KextsToPatch/AppleHDA and AppleHDAController
 	2. EFI/Clover/kexts/10.10 or 10.9/realtekALC.kext (ConfigData)
 
-Installation
-  A. Clover patched AppleHDA
+Clover Patched AppleHDA - Installation
+  A. Clover Realtek ALC AppleHDA.kext  (patch in place)
 	1. audio_cloverALC-100.command.zip (above)
 	2. Download (View Raw)
-	3. Double click: Downloads/audio_cloverALC-100.command
+	3. Double click Downloads/audio_cloverALC-100.command
 	4. Password:
 	5. Confirm Codec ALCxxx: (885, 887, 888, 889, 892, 898, 1150 only)
-	6. Clover/Legacy: answer y to Confirm Clover Legacy Install (y/n)
+	6. Current_v100302 (y/n): (887, 888 only)
 	7. Clover Audio ID Injection (y/n):
 	8. Use Audio ID: x (y/n):
-  B. Restart
-  C. Verify ALC onboard audio
+  B. 1150, see Note F
+  C. Restart
+  D. Verify ALC onboard audio
 	1. System Preferences/Sound/Output/select audio device	
 
 Other OS X Realtek ALC Onboard Audio Solutions
@@ -57,15 +55,15 @@ Requirements
 
 Required Information (Select one from each category)
   A. Codec Support (Realtek ALC)
-	1. 269 (BRIX only, Note F)
-	2. 283 (BRIX Pro and NUC, Note F)
+	1. 269 (BRIX only)
+	2. 283 (BRIX Pro and NUC)
 	3. 885
 	4. 887
 	5. 888
 	6. 889
 	7. 892
 	8. 898
-	9. 1150
+	9. 1150 (see Note F)
   B. Audio ID Support (Definitions, Note B)
 	1. 269, 283. 885, 887, 888, 889, 892, 898, 1150
 	2. 887, 888, 889, 892, 898, 1150
@@ -84,9 +82,10 @@ Notes
 	2 - 3 audio port analog 5.1 surround sound
 	3 - HD3000/HD4000 HDMI audio and analog audio
   C. Recommendations
-	1. If audio fails after Software Update
-	   a. Install AppleHDA.kext (previous working native AppleHDA.kext)
-	   b. Run audio_cloverALC-100.command
+	1. Rename backup AppleHDA.kext after each Software Update
+	   a. Rename Desktop/AppleHDA-orig.kext to AppleHDA-10.10.x.kext
+	2. If audio fails after Software Update
+	   a. Install AppleHDA-10-10.x.kext (previous working native AppleHDA.kext)
   D. OS X/AppleHDA.kext/9 Series motherboard support (Mavericks only, select one)
 	1. Install/config.plist/KextsToPatch: config-audio_cloverALC-9series.plist.zip
 	2. ApppleHDAController binary patch:
@@ -101,7 +100,15 @@ Notes
 	   b. Replace (4x): 20 8D
 	   c. Save
 	   d. Restart
-  F. BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support
+  F. 1150 only: edit config.plist/KernelAndKextPatches/KextsToPatch/
+	   "10.9 or 10.10/AppleHDA/Realtek ALC1150"
+	1. Clover Configurator/Property List Editor/Replace/
+	   a. Before: <09ec10>
+	   b. After: <0009ec10>
+	2. TextEdit/Replace
+	   a. Before: CewQ
+	   b. After: AAnsEA==
+  G. BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support
 	1. Installation methods
 	   a. cloverALC/Clover patched
 	2. Audio Devices
