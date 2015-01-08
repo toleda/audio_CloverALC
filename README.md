@@ -2,7 +2,8 @@
 #audio\_cloverALC
 
 **OS X/Clover Patched AppleHDA Realtek ALC Audio**
-- Native AppleHDA/Persistent
+
+Native AppleHDA/Persistent
 
 The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with or without HDMI and DP audio. The script adds codec specific layout and platform files and injects binary patch and pin configuration data to the native installed AppleHDA.kext.
 
@@ -91,8 +92,8 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
     5.  Tools
     6.  Problem Reporting
 2. Terminal Saved Output
-    1.  [Clover/EFI](https://github.com/toleda/audio_RealtekALC/blob/master/Terminal%20Saved%20Output_v1.0.4-efi)
-    2.  [Clover/Legacy](https://github.com/toleda/audio_RealtekALC/blob/master/Terminal%20Saved%20Output_v1.0.4-leg)
+    1.  [Clover/EFI](https://github.com/toleda/audio_CloverALC/blob/master/Terminal%20Saved%20Output_v1.0.4-efi.txt)
+    2.  [Clover/Legacy](https://github.com/toleda/audio_RealtekALC/blob/master/Terminal%20Saved%20Output_v1.0.4-leg.txt)
 
 Credit
 THe KiNG, bcc9, RevoGirl, PikeRAlpha, SJ\_UnderWater, RehabMan, TimeWalker75a, [abxite](http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647)
