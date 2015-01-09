@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="File: audio_cloverALC-100.command_v1.0.4"
+gFile="File: audio_cloverALC-100.command_v1.0.4a"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -803,7 +803,7 @@ case $gCodec in
 885 ) patch1=1;;
 887 ) patch1=2;;
 888 ) patch1=3;;
-889 ) patch1=4;;a
+889 ) patch1=4;;
 892 ) patch1=5;;
 898 ) patch1=6;;
 1150 ) patch1=7;;
@@ -912,20 +912,7 @@ sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout3.xml.zlib  $gHDAContent
 1150 )
 sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
 ;;
-
-* )
-echo "$choice0 not supported with this script"
-echo "No system files were changed"
-echo "To save a Copy to this Terminal session: Terminal/Shell/Export Text As ..."
-exit 1
-;;
-
 esac
-
-else
-echo "Debug mode"
-echo "No system files were changed"
-fi
 
 # exit if error
 if [ "$?" != "0" ]; then
