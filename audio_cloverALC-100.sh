@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="File: audio_cloverALC-100.command_v1.0.4a"
+gFile="File: audio_cloverALC-100.command_v1.0.4b"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -33,6 +33,9 @@ gFile="File: audio_cloverALC-100.command_v1.0.4a"
 # 9. Restart
 #
 # Change log:
+# Change log:
+# v1.0.4b - 1/10/15: add fi mistakely deleted in 4a
+# v1.0.4a - 1/9/15: remove error check for 269, 283, 885, remove 889 typo
 # v1.0.4 - 1/5/15: 1. ALC1150 patch fix, 2. Clover Legacy support, 3. 887/888 legacy 
 # codec detection, 4. bug fixes
 #
@@ -913,6 +916,7 @@ sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout3.xml.zlib  $gHDAContent
 sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
 ;;
 esac
+fi
 
 # exit if error
 if [ "$?" != "0" ]; then
