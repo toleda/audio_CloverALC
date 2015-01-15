@@ -36,7 +36,9 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
     2.  10.9/Mavericks
     3.  10.8/Mountain Lion
 2.  Native AppleHDA.kext
+    1.  [Need native?](https://github.com/toleda/audio_ALC_guides/blob/master/Restore%20native%20AppleHDA%20%5BGuide%5D.pdf)
 3.  Supported Realtek onboard audio codec
+    1.  [Unknown codec?](https://github.com/toleda/audio_ALC_guides/blob/master/Identify%20Audio%20Codec%20%5BGuide%5D.pdf)
 
 **B. Realtek ALCxxx** (verify codec and Audio ID)
 
