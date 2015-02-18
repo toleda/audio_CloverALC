@@ -33,6 +33,7 @@ gFile="audio_cloverALC-100.command_v1.0.4c"
 # 9. Restart
 #
 # Change log:
+# v1.0.4d - 2/17/15: 1. version bug fix
 # v1.0.4c - 2/15/15: 1. validate supported realtek codecs, 2. bug fixes
 # v1.0.4b - 1/10/15: add fi mistakenly deleted in 4a
 # v1.0.4a - 1/9/15: remove error check for 269, 283, 885, remove 889 typo
@@ -326,12 +327,12 @@ gCodecsVersion=$(ioreg -rxn IOHDACodecDevice | grep RevisionID| awk '{ print $4 
 if [ $gDebug = 1 ]; then
 gCodecsInstalled=0x10ec0887
 gCodecsVersion=0x100101
-# gCodecsVersion=0x100201
-# gCodecsVersion=0x100301
+# gCodecsVersion=0x100202
+# gCodecsVersion=0x100302
 # gCodecsInstalled=0x10ec0900
 # gCodecsVersion=0x100001
 # gCodecsInstalled=0x10134206
-# gCodecsVersion=0x100301
+# gCodecsVersion=0x100302
 echo "gCodecsInstalled = $gCodecsInstalled"
 echo "gCodecsVersion = $gCodecsVersion"
 fi
@@ -490,7 +491,7 @@ case "$choice0" in
 	* ) echo "Try again...";;
 esac
 done
-# Versionrealtekaudio=0x100301
+# Versionrealtekaudio=0x100302
 
 fi
 
@@ -503,9 +504,9 @@ if [ $gMake = 0 ]; then
 
 case "$Versionrealtekaudio" in
 
-0x100301 ) echo "ALC$gCodec v_$Versionrealtekaudio (Current)"; gLegacy=n ;;
+0x100302 ) echo "ALC$gCodec v_$Versionrealtekaudio (Current)"; gLegacy=n ;;
 
-0x100201 ) echo "ALC$gCodec v_$Versionrealtekaudio (Legacy)"; gLegacy=y ;;
+0x100202 ) echo "ALC$gCodec v_$Versionrealtekaudio (Legacy)"; gLegacy=y ;;
 
 * ) echo "ALC$gCodec v_$Versionrealtekaudio not supported"
 while true
