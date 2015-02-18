@@ -511,7 +511,7 @@ case "$Versionrealtekaudio" in
 * ) echo "ALC$gCodec v_$Versionrealtekaudio not supported"
 while true
 do
-read -p "Use Legacy (v100201) Patch (y/n): " choice1
+read -p "Use Legacy (v100202) Patch (y/n): " choice1
 case "$choice1" in
  	[yY]* ) gLegacy=y; break;;
 	[nN]* ) echo "No system files were changed"
@@ -525,7 +525,7 @@ esac
 else
 while true
 do
-read -p "887/888 Legacy (v100201) Patch (y/n): " choice1
+read -p "887/888 Legacy (v100202) Patch (y/n): " choice1
 case "$choice1" in
  	[yY]* ) gLegacy=y; break;;
 	[nN]* ) gLegacy=n; break;;
