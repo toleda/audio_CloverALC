@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-100.command_v1.0.4c"
+gFile="audio_cloverALC-100.command_v1.0.4d"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a
 #
 # OS X Clover Realtek ALC Onboard Audio
