@@ -7,34 +7,22 @@ Native AppleHDA/Persistent
 
 The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with or without HDMI and DP audio. The script adds codec specific layout and platform files and injects binary patch and pin configuration data to the native installed AppleHDA.kext.
 
-**Versions: audio_cloverALC-100**
+**Versions: audio_cloverALC-110**
 
 1. Easy: .command, see C. Installation
 2. Bash: .sh, see D. Terminal
 
 **Updates**
 
-1.  v3.6 - audio_cloverALC-100.sh (v1.0.4) release: ALC1150 patch fix, 887/888
-    legacy detection, Clover/Legacy support, bug fixes
-2.  v3.5 - Realtek ALC AppleHDA - [No Audio After Sleep/Wake](https://github.com/toleda/audio_ALC_guides)
-3.  v3.4 - BRIX/ALC269, BRIX Pro/ALC283 and NUC/ALC283 Support
-4.  v3.3 - audio\_cloverALC-100.sh (v1.0.3) release
-5.  v3.2 - audio\_cloverALC-100 UI update, ALC88x Current replaces ALC88x Legacy
-6.  v3.1 - Yosemite/config-audio\_cloverALC-x99.plist added
-7.  v3 - Yosemite/10.10.x, Mavericks/10.9.x and Mountain Lion/10.8.x support
-    Note: audio\_cloverALC-90\_v2.command deprecated
-8.  v2.2 - x99 motherboard support (D. More Information)
-9.  v2.1 - 9 Series/EAPD added to 887, 892, 898, 1150, credit: kidalive
-10. v2 - new script, no downloads, double click and done.
-11. 10.10 - Yosemite Initial Realtek ALC support Update
-12. 10.9 - 9 Series/Realtek ALC support
+1. 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
 
 **A. Requirements**
 
 1.  OS X/Clover_v2696 or newer
-    1.  10.10/Yosemite
-    2.  10.9/Mavericks
-    3.  10.8/Mountain Lion
+    1.  10.11/El Capitan, set boot flag: rootless=0 
+    2.  10.10/Yosemite, set boot flag: kext-dev-mode=1
+    3.  10.9/Mavericks
+    4.  10.8/Mountain Lionon
 2.  Native AppleHDA.kext
     1.  [Need native?](https://github.com/toleda/audio_ALC_guides/blob/master/Restore%20native%20AppleHDA%20%5BGuide%5D.pdf)
 3.  Supported Realtek onboard audio codec
@@ -44,7 +32,7 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
 
 1.  Supported codecs
     1.  269 (BRIX only)
-    2.  283 (BRIX Pro and NUC)
+    2.  283 (BRIX Pro and NUC only)
     3.  885
     4.  887
     5.  888
@@ -69,8 +57,8 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
 
 1.  Clover patched AppleHDA
 
-    1.  [Download (View Raw) audio\_cloverALC-100.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-100.command.zip)
-    2.  Double click: Downloads/audio\_cloverALC-100.command
+    1.  [Download (View Raw) audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip)
+    2.  Double click: Downloads/audio_cloverALC-110.command
     3.  Password:
     4.  Confirm Codec ALCxxx: (885, 887, 888, 889, 892, 898, 1150 only)
     5.  Clover/Legacy: answer y to Confirm Clover Legacy Install (y/n)
@@ -83,7 +71,7 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
 
 **D. Terminal**
 
-1. [audio_cloverALC-100_v1.0.4](https://github.com/toleda/audio_RealtekALC/blob/master/audio_realtekALC-100.sh): 887/888 legacy detection, bug fixes
+1. [audio_cloverALC-110_v1.0.4](https://github.com/toleda/audio_RealtekALC/blob/master/audio_realtekALC-110.sh): 887/888 legacy detection, bug fixes
 2. v1.0.3: First release
 
 **E. More Information**
@@ -100,6 +88,6 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
     2.  [Clover/Legacy](https://github.com/toleda/audio_CloverALC/blob/master/Terminal%20Saved%20Output_v1.0.4-leg.txt)
 
 Credit
-THe KiNG, bcc9, RevoGirl, PikeRAlpha, SJ\_UnderWater, RehabMan, TimeWalker75a, [abxite](http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647)
+THe KiNG, bcc9, RevoGirl, PikeRAlpha, SJ\_UnderWater, RehabMan, TimeWalker75a, lisai9093, [abxite](http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647)
 
 toleda https://github.com/toleda/audio_cloverALC

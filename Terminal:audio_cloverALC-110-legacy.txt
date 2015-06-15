@@ -1,40 +1,41 @@
-Terminal Save Output
-EFI/audio_cloverALC-100.command
-
-Last login: Mon Jan  5 18:15:47 on ttys004
-
-File: audio_cloverALC-100.command_v1.0.4
-Verify EFI partition mounted, Finder/Devices/EFI
-Password:
-EFI partition is mounted
+Last login: Mon Jun 15 14:50:22 on ttys000
+$ /Downloads/audio_cloverALC-110_v1.0a.command ; exit;
+ 
+File: audio_cloverALC-110.command_v1.0a
+EFI partition is not mounted
+Confirm Clover Legacy Install (y/n): y
+S951-10.11/EFI folder found
+Boot/Arguments/rootless=0 found
 Confirm Realtek ALC1150 (y/n): y
-Clover Audio ID Injection (y/n): n
+Clover Audio ID Injection (y/n): y
+Use Audio ID: 1 (y/n): y
 
 Download ALC1150 files ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 21366  100 21366    0     0  61247      0 --:--:-- --:--:-- --:--:-- 61396
+100 21366  100 21366    0     0   6417      0  0:00:03  0:00:03 --:--:--  6418
 Edit config.plist/Devices/Audio/Inject/1
 Edit config.plist/SystemParameters/InjectKexts/YES
-Edit config.plist/Boot/Arguments/kext-dev-mode=1
+Edit config.plist/Boot/Arguments/rootless=0
 Download kext patches
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  1335  100  1335    0     0   7496      0 --:--:-- --:--:-- --:--:--  7458
-Install /Volumes/EFI/EFI/CLOVER/kexts/10.10/realtekALC.kext
+100  1351  100  1351    0     0   1075      0  0:00:01  0:00:01 --:--:--  1076
+Install /Volumes/S951-10.11/EFI/CLOVER//kexts/10.11/realtekALC.kext
 Download config kext and install ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  3451  100  3451    0     0  19488      0 --:--:-- --:--:-- --:--:-- 19497
+100  3451  100  3451    0     0   3041      0  0:00:01  0:00:01 --:--:--  3043
 Install System/Library/Extensions/AppleHDA.kext/ALC1150 zml files
 Fix permissions ...
 Kernel cache...
-rebuilding //System/Library/Caches/com.apple.kext.caches/Startup/kernelcache
+rebuilding //System/Library/PrelinkedKernels/prelinkedkernel
 kext-dev-mode allowing invalid signature -67054 0xFFFFFFFFFFFEFA12 for kext AppleHDA.kext
 
 Install finished, restart required.
-To save a Copy to this Terminal session: Terminal/Shell/Export Text As ...
+To save a Copy of this Terminal session: Terminal/Shell/Export Text As ...
 logout
+Saving session...completed.
 
 [Process completed]
 
