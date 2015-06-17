@@ -1,13 +1,13 @@
 #!/bin/sh
-# Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0a"
-# Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
+# Maintained by: toleda for: github.com/toleda/audio_realtekALC
+gFile="File: audio_realtekALC-110.command_v1.0b"
+# Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker, lisai9093
 #
-# OS X Clover Realtek ALC Onboard Audio
+# OS X Realtek ALC Onboard Audio
 #
-# Enables OS X Realtek ALC onboard audio in 10.11. 10.10, 10.9 and 10.8, all versions
+# Enables OS X Realtek ALC onboard audio in 10.11, 10.10, 10.9 and 10.8, all versions
 # 1. Supports Realtek ALC885, 887, 888, 889, 892, 898 and 1150
-# 2. Clover patched native AppleHDA.kext installed in System/Library/Extensions
+# 2. Patches native AppleHDA.kext installed in System/Library/Extensions
 #
 # Requirements
 # 1. OS X: 10.11/10.10/10.9/10.8, all versions
@@ -18,28 +18,18 @@ gFile="audio_cloverALC-110.command_v1.0a"
 # Installation
 # 1. Double click audio_cloverALC-110.command
 # 2. Enter password at prompt
-# 3. For Clover/EFI, EFI partition must be mounted before running script
-# 4. For Clover/Legacy, answer y to Confirm Clover Legacy Install (y/n)
-# 5. Confirm Realtek ALCxxx (y/n): (885, 887, 888, 889, 892, 898, 1150)
-# 6. Clover Audio ID Injection (y/n):
-#    If y:
-# 7. Use Audio ID: x (y/n):
-#    If n:
-#    Audio IDs:
-#    1 - 3/5/6 port Realtek ALCxxx audio
-#    2 - 3 port (5.1) Realtek ALCxxx audio (n/a 885)
-#    3 - HD3000/HD4000 HDMI audio w/Realtek ALCxxx audio (n/a 885/1150 & 887/888 Legacy)
-# 8. Select Audio ID (1, 2 or 3)
-# 9. Restart
+# 3. Confirm Realtek ALC . . . (y/n): (885, 887, 888, 889, 892, 898, 1150 only)
+# 4. Enable HD4600 HDMI audio (y/n): (887, 892, 898, 1150 only)
+# 5. Restart
 #
 # Change log:
 # v1.0a - 6/15/15: 1. Initial 10.11 support
 #
 echo " "
 echo "Agreement"
-echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
+echo "The audio_realtekALC-110 script is for personal use only. Do not distribute" 
 echo "the patch, any or all of the files or the resulting patched AppleHDA.kext" 
-echo "for any reason without permission. The audio_cloverALC-110 script is" 
+echo "for any reason without permission. The audio_realtekALC-110 script is" 
 echo "provided as is and without any kind of warranty."
 echo " "
 
@@ -47,8 +37,8 @@ echo " "
 gSysVer=`sw_vers -productVersion`
 gSysName="Mavericks"
 gStartupDisk=EFI
-gCloverDirectory=/Volumes/$gStartupDisk/EFI/CLOVER/
-gDesktopDirectory=/Users/$(whoami)/Desktop/
+gCloverDirectory=/Volumes/$gStartupDisk/EFI/CLOVER
+gDesktopDirectory=/Users/$(whoami)/Desktop
 gExtensionsDirectory=/System/Library/Extensions
 gHDAContentsDirectory=$gExtensionsDirectory/AppleHDA.kext/Contents
 gHDAHardwarConfigDirectory=$gHDAContentsDirectory/Plugins/AppleHDAHardwareConfigDriver.kext/Contents
@@ -66,16 +56,16 @@ gDebug=0
 # gCodecDevice
 # gCodecName
 # gCodec
-gCloverALC=1
-gRealtekALC=0
+gCloverALC=0
+gRealtekALC=1
 gAudioidvalid=n
 gCodecvalid=n
 
 # debug
 if [ $gDebug = 1 ]; then
-    echo "gMake = $gMake"
-    echo "gCloverALC = $gCloverALC"
-    echo "gRealtekALC = $gRealtekALC"
+echo "gMake = $gMake"
+echo "gCloverALC = $gCloverALC"
+echo "gRealtekALC = $gRealtekALC"
 
 # while true
 # do
@@ -245,7 +235,7 @@ echo "EFI partition is mounted"
         if [[ $(cat /tmp/config.txt | grep -o "rootless=0") = "rootless=0" ]]; then
             echo "Boot/Arguments/rootless=0 found"
         else
-            rm -R /tmp/org.chameleon.Boot.txt
+            rm -R /tmp/config.txt
             echo "Boot/Arguments/rootless=0 not found; patching not possible"
             echo "Add config.plist/Boot/Arguments/rootless=0 and restart"
             echo "No system files were changed"
@@ -255,10 +245,10 @@ echo "EFI partition is mounted"
         ;;
 
         "Yosemite" )
-        if [[ $(cat /tmp/config.txt.txt | grep -o "kext-dev-mode=1") = "kext-dev-mode=1" ]]; then
+        if [[ $(cat /tmp/config.txt | grep -o "kext-dev-mode=1") = "kext-dev-mode=1" ]]; then
             echo "Boot/Arguments = kext-dev-mode=1 found"
         else
-            rm -R /tmp/org.chameleon.Boot.txt
+            rm -R /tmp/config.txt
             echo "Boot/Arguments/kext-dev-mode=1 not found; patching not possible"
             echo "Add config.plist/Boot/Arguments/kext-dev-mode=1 and restart"
             echo "No system files were changed"
@@ -848,319 +838,255 @@ fi
 
 ######################
 
-if [ $gCloverALC = 1 ]; then    # main loop
+if [ $gRealtekALC = 1 ]; then    # main loop
 
 ######################
 
-# if no clover audio id injection, exit
-configaudio=$(sudo /usr/libexec/PlistBuddy -c "Print ':Devices'" /tmp/config.plist | grep -c "Audio")
-if [ $gAudioid != 0 ]; then
-# set Devices/Audio/Inject/gLayout-id
-    echo "Edit config.plist/Devices/Audio/Inject/$gAudioid"
-    if [ $configaudio = 0 ]; then
-        sudo /usr/libexec/PlistBuddy -c "Add :Devices:Audio dict" /tmp/config.plist
-        sudo /usr/libexec/PlistBuddy -c "Add :Devices:Audio:Inject string '$gAudioid'" /tmp/config.plist
-    else
-        sudo /usr/libexec/PlistBuddy -c "Set :Devices:Audio:Inject $gAudioid" /tmp/config.plist
-    fi
+echo " "
+echo "Preparing $gSysVer ALC$gCodec AppleHDA.kext_v$gHDAversioninstalled"
+
+# manage backup folders
+if [ -d "$gDesktopDirectory/audio_ALC$gCodec-$gSysVer-archive" ]; then
+    sudo rm -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer-archive
+    echo "$gDesktopDirectory/audio_ALC$gCodec-$gSysVer-archive deleted, too late"
 fi
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "gAudioid = $gAudioid"
-    echo "configaudio = $configaudio"
+if [ -d "$gDesktopDirectory/audio_ALC$gCodec-$gSysVer" ]; then
+    sudo mv -f $gDesktopDirectory/audio_ALC$gCodec-$gSysVer $gDesktopDirectory/audio_ALC$gCodec-$gSysVer-archive
+    echo "$gDesktopDirectory/audio_ALC$gCodec-$gSysVer-archive created, max 1 archive"
 fi
-
-echo "Edit config.plist/SystemParameters/InjectKexts/YES"
-
-injectkexts=$(sudo /usr/libexec/PlistBuddy -c "Print ':SystemParameters:InjectKexts:'" /tmp/config.plist)
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "SystemParameters:InjectKexts: = $injectkexts"
-fi
-
-if [ -z "${injectkexts}" ]; then
-    sudo /usr/libexec/PlistBuddy -c "Add :SystemParameters:InjectKexts string" /tmp/config.plist
-    echo "Edit config.plist: Add SystemParameters/InjectKexts - Fixed"
-fi
-
-if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':SystemParameters:InjectKexts'" /tmp/config.plist | grep -c "YES") = 0 ]; then
-    sudo /usr/libexec/PlistBuddy -c "Set :SystemParameters:InjectKexts YES" /tmp/config.plist
-fi
-
-# debug 
-if [ $gDebug = 1 ]; then
-    echo "After edit. :SystemParameters:InjectKexts; = $(sudo /usr/libexec/PlistBuddy -c "Print ':SystemParameters:InjectKexts:'" /tmp/config.plist)"
-fi
+sudo mkdir -p $gDesktopDirectory/audio_ALC$gCodec-$gSysVer
+sudo chown $(whoami) $gDesktopDirectory/audio_ALC$gCodec-$gSysVer
+sudo cp -R $gExtensionsDirectory/AppleHDA.kext $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext
 
 # exit if error
 if [ "$?" != "0" ]; then
-    echo Error: config.plst edit failed
-    echo “Original config.plist restored”
-    sudo cp -R $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
-    sudo rm -R /tmp/ktp.plist
-    sudo rm -R /tmp/config.plist
-    sudo rm -R /tmp/config-audio_cloverALC.plist
-    sudo rm -R /tmp/$gCodec.zip
-    sudo rm -R /tmp/$gCodec
-    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-    exit 1
-fi
-
-case $gSysName in
-
-"El Capitan" )
-# rootless=0
-
-echo "Edit config.plist/Boot/Arguments/rootless=0"
-
-bootarguments=$(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "Boot:Arguments: = $bootarguments"
-fi
-
-if [ -z "${bootarguments}" ]; then
-    sudo /usr/libexec/PlistBuddy -c "Add :Boot:Arguments string" /tmp/config.plist
-    echo "Edit config.plist: Add Boot/Argument - Fixed"
-fi
-
-if [[ $bootarguments != *rootless=0* ]]; then
-    newbootarguments="$bootarguments rootless=0"
-    sudo /usr/libexec/PlistBuddy -c "Set :Boot:Arguments $newbootarguments" /tmp/config.plist
-fi
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "After edit. Boot:Arguments: = $(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)"
-fi
-
-;;
-
-"Yosemite" )
-# kext-dev-mode=1
-
-echo "Edit config.plist/Boot/Arguments/kext-dev-mode=1"
-
-bootarguments=$(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "Boot:Arguments: = $bootarguments"
-fi
-
-if [ -z "${bootarguments}" ]; then
-    sudo /usr/libexec/PlistBuddy -c "Add :Boot:Arguments string" /tmp/config.plist
-    echo "Edit config.plist: Add Boot/Argument - Fixed"
-fi
-
-if [[ $bootarguments != *kext-dev-mode=1* ]]; then
-    newbootarguments="$bootarguments kext-dev-mode=1"
-s   udo /usr/libexec/PlistBuddy -c "Set :Boot:Arguments $newbootarguments" /tmp/config.plist
-fi
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "After edit. Boot:Arguments: = $(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)"
-fi
-
-;;
-esac
-
-# exit if error
-if [ "$?" != "0" ]; then
-    echo Error: config.plst edit failed
-    echo “Original config.plist restored”
-    sudo cp -R $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
-    sudo rm -R /tmp/ktp.plist
-    sudo rm -R /tmp/config.plist
-    sudo rm -R /tmp/config-audio_cloverALC.plist
-    sudo rm -R /tmp/$gCodec.zip
-    sudo rm -R /tmp/$gCodec
-    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-    exit 1
-fi
-
-echo "Download kext patches"
-
-gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/config-audio_cloverALC.plist.zip"
-sudo curl -o "/tmp/config-audio_cloverALC.plist.zip" $gDownloadLink
-unzip -qu "/tmp/config-audio_cloverALC.plist.zip" -d "/tmp/"
-
-# add KernelAndKextPatches/KextsToPatch codec patches
-# remove existing audio patches
-
-
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist)
-
-if [ -z "${ktpexisting}" ]; then
-    sudo /usr/libexec/PlistBuddy -c "Add KernelAndKextPatches:KextsToPatch array" /tmp/config.plist
-    echo "Edit config.plist: Add KernelAndKextPatches/KextsToPatch - Fixed"
-fi
-
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "t1-")
-
-index=0
-while [ $ktpexisting -ge 1 ]; do
-if [ $(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "t1-") = 1 ]; then
-    sudo /usr/libexec/plistbuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
-    ktpexisting=$((ktpexisting - 1))
-    index=$((index - 1))
-fi
-index=$((index + 1))
-# debug
-if [ $gDebug = 1 ]; then
-    echo "index = $index"
-    echo "ktpexisting = $ktpexisting"
-fi
-done
-
-# set patch for codec
-
-case $gCodec in
-885 ) patch1=1;;
-887 ) patch1=2;;
-888 ) patch1=3;;
-889 ) patch1=4;;
-892 ) patch1=5;;
-898 ) patch1=6;;
-1150 ) patch1=7;;
-269 ) patch1=8;;
-283) patch1=9;;
-# el capitan only, patch1=10
-esac
-
-patch=( 0 $patch1 )
-index=0
-
-while [ $index -lt 2 ]; do
-
-sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:${patch[$index]}'" /tmp/config-audio_cloverALC.plist -x > "/tmp/ktp.plist"
-ktpcomment=$(sudo /usr/libexec/PlistBuddy -c "Print 'Comment'" "/tmp/ktp.plist")
-sudo /usr/libexec/PlistBuddy -c "Set :Comment 't1-$ktpcomment'" "/tmp/ktp.plist"
-sudo /usr/libexec/PlistBuddy -c "Add :KernelAndKextPatches:KextsToPatch:0 dict" /tmp/config.plist
-sudo /usr/libexec/PlistBuddy -c "Merge /tmp/ktp.plist ':KernelAndKextPatches:KextsToPatch:0'" /tmp/config.plist
-
-index=$((index + 1))
-done
-
-case $gSysName in
-
-"El Capitan" )
-# codec patch out/credit lisai9093
-
-sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:10}'" /tmp/config-audio_cloverALC.plist -x > "/tmp/ktp.plist"
-ktpcomment=$(sudo /usr/libexec/PlistBuddy -c "Print 'Comment'" "/tmp/ktp.plist")
-sudo /usr/libexec/PlistBuddy -c "Set :Comment 't1-$ktpcomment'" "/tmp/ktp.plist"
-sudo /usr/libexec/PlistBuddy -c "Add :KernelAndKextPatches:KextsToPatch:0 dict" /tmp/config.plist
-sudo /usr/libexec/PlistBuddy -c "Merge /tmp/ktp.plist ':KernelAndKextPatches:KextsToPatch:0'" /tmp/config.plist
-;;
-
-esac
-
-# exit if error
-if [ "$?" != "0" ]; then
-    echo Error: config.plst edit failed
-    echo “Original config.plist restored”
-    sudo cp -R $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
-    sudo rm -R /tmp/ktp.plist
-    sudo rm -R /tmp/config.plist
-    sudo rm -R /tmp/config-audio_cloverALC.plist
-    sudo rm -R /tmp/$gCodec.zip
-    sudo rm -R /tmp/$gCodec
-    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-    exit 1
-fi
-
-# install updated config.plst
-if [ $gDebug = 0 ]; then
-    sudo cp -R /tmp/config.plist $gCloverDirectory/config.plist
-else
-    echo "Debug mode"
-    sudo cp -R /tmp/config.plist gDesktopDirectory
-    echo "/tmp/config.plist copied to Desktop"
-fi
-
-# cleanup /tmp
-sudo rm -R /tmp/ktp.plist
-sudo rm -R /tmp/config.plist
-sudo rm -R /tmp/config-audio_cloverALC.plist
-sudo rm -R /tmp/config-audio_cloverALC.plist.zip
-
-# echo "config.plist patching finished."
-
-echo "Install $gCloverDirectory/$gSysFolder/realtekALC.kext"
-
-echo "Download config kext and install ..."
-gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/realtekALC.kext.zip"
-sudo curl -o "/tmp/realtekALC.kext.zip" $gDownloadLink
-unzip -qu "/tmp/realtekALC.kext.zip" -d "/tmp/"
-
-# install realtekALC.kext
-if [ $gDebug = 0 ]; then
-    if [ -d "$gCloverDirectory/$gSysFolder/realtekALC.kext" ]; then
-    sudo rm -R $gCloverDirectory/$gSysFolder/realtekALC.kext
-# echo "$gCloverDirectory/$gSysFolder/realtekALC.kext deleted"
-    fi
-    sudo cp -R /tmp/realtekALC.kext $gCloverDirectory/$gSysFolder/
-else
-    echo "Debug mode"
+    echo "Error: Backup failed"
     echo "No system files were changed"
-fi
-sudo rm -R /tmp/realtekALC.kext.zip
-sudo rm -R /tmp/realtekALC.kext
-sudo rm -R /tmp/__MACOSX
-
-# exit if error
-if [ "$?" != "0" ]; then
-    echo Error: Download failure
-    echo "No system files were changed"
-    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
+    echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
     exit 1
 fi
 
-# install codec specific files
-if [ $gDebug = 0 ]; then
-    if [ -d "$gHDAContentsDirectory/Resources/*.zml.zlib" ]; then
-    sudo rm -R $gHDAContentsDirectory/Resources/*.zml.zlib
-# echo "System/Library/Extensions/AppleHDA.kext/ALC$gCodec zml files deleted"
-    fi
+echo "Patch binaries ..."
 
-    echo "Install System/Library/Extensions/AppleHDA.kext/ALC$gCodec zml files"
-    sudo install -m 644 -o root -g wheel /tmp/$gCodec/Platforms.xml.zlib  $gHDAContentsDirectory/Resources/Platforms.zml.zlib
-    sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout1.xml.zlib  $gHDAContentsDirectory/Resources/layout1.zml.zlib
+if [ $gController = y ]; then
 
-    case $gCodec in
+    case $gSysVer in
 
-    887|888|889|892|898 )
-    sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
-    sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout3.xml.zlib  $gHDAContentsDirectory/Resources/layout3.zml.zlib
+    10.10*|10.11* )
+    echo "$gSysVer controller patch"
+# HD4600/0c0c HDMI audio patch (10.10)
+    sudo xxd -ps $gHDAControllerbinaryDirectory/AppleHDAController | tr -d '\n' > /tmp/AppleHDAController.txt
+    sudo /usr/bin/perl -pi -e 's|3d0c0a0000|3d0c0c0000|g' /tmp/AppleHDAController.txt
+    sudo /usr/bin/perl -pi -e 's|3d0b0c0000|3d0c0c0000|g' /tmp/AppleHDAController.txt
+    sudo xxd -r -p /tmp/AppleHDAController.txt $gHDAControllerbinaryDirectory/AppleHDAController
+    sudo rm -R /tmp/AppleHDAController.txt
     ;;
-    1150 )
-    sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
+
+    10.9* )
+    echo "$gSysVer controller patch"
+# HD4600/0c0c HDMI audio patch (10.9)
+    sudo xxd -ps $gHDAControllerbinaryDirectory/AppleHDAController | tr -d '\n' > /tmp/AppleHDAController.txt
+    sudo /usr/bin/perl -pi -e 's|0b0c0000|0c0c0000|g' /tmp/AppleHDAController.txt
+    sudo /usr/bin/perl -pi -e 's|0c0a0000|0c0c0000|g' /tmp/AppleHDAController.txt
+    sudo xxd -r -p /tmp/AppleHDAController.txt $gHDAControllerbinaryDirectory/AppleHDAController
+    sudo rm -R /tmp/AppleHDAController.txt
+    ;;
+
+    * ) echo "OS X Version: $gSysVer does not support HD46000 HDMI audio"
+    echo "No system files were changed"
+    echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+    exit 1
     ;;
     esac
+
 fi
+
+# exit if error
+if [ "$?" != "0" ]; then
+    echo "Error: $gCodec  controller patch failure"
+    sudo cp -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext $gExtensionsDirectory/AppleHDA.kext
+    sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
+    sudo touch $gExtensionsDirectory
+    echo "Original S/L/E/AppleHDA.kext restored"
+    echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+    exit 1
+fi
+
+# codec binary patch
+case $gSysVer in
+
+10.8.5|10.9*|10.10*|10.11* )
+echo "$gSysVer codec patch"
+
+# patch out codec, el capitan only/credit lisai9093
+case $gSysName in
+
+"El Capitan" ) sudo perl -pi -e 's|\x83\x19\xd4\x11|\x00\x00\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+esac
+
+# patch codec
+case $gCodec in
+269 ) sudo perl -pi -e 's|\x62\x02\xec\x10|\x69\x02\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+283 ) sudo perl -pi -e 's|\x62\x02\xec\x10|\x83\x02\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+885 ) echo “No patch, native ALC885”  
+# Optional patch, remove "# " from the following two lines
+# sudo perl -pi -e 's|\x85\x08\xec\x10|\x80\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+# sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x85\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+887 ) sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x87\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+888 ) sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x88\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+889 ) sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x89\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+892 ) sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x92\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+898 ) sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x99\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+1150 ) sudo perl -pi -e 's|\x8b\x19\xd4\x11|\x00\x09\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+* )
+echo "$gCodec not supported with this script"
+echo "No system files were changed"
+echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+exit 1
+;;
+esac
+
+;;
+
+10.8|10.8.*[1-4] )
+echo "$gSysVer codec patch"
+
+# patch codec
+case $gCodec in
+
+885 ) echo “No patch, native ALC885, optional patch available, see script”  
+# Optional patch, remove "# " from the following 3 lines
+# sudo perl -pi -e 's|\x85\x08\xec\x10|\x80\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+# sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x53\x01\x00\x00|\x99\x08\xec\x10\x0f\x84\x2a\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/AppleHDA
+# sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x2f\x01\x00\x00|\x99\x08\xec\x10\x0f\x84\x06\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/MacOS/AppleHDA
+;;
+
+887 ) sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x53\x01\x00\x00|\x87\x08\xec\x10\x0f\x84\x2a\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/AppleHDA
+sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x2f\x01\x00\x00|\x87\x08\xec\x10\x0f\x84\x06\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/MacOS/AppleHDA-pi -e 's|\x8b\x19\xd4\x11|\x87\x08\xec\x10|g' $gHDAContentsDirectory/MacOS/AppleHDA
+;;
+
+888 ) sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x53\x01\x00\x00|\x88\x08\xec\x10\x0f\x84\x2a\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/AppleHDA
+sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x2f\x01\x00\x00|\x88\x08\xec\x10\x0f\x84\x06\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/MacOS/AppleHDA
+;;
+
+889 ) sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x53\x01\x00\x00|\x89\x08\xec\x10\x0f\x84\x2a\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/AppleHDA
+sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x2f\x01\x00\x00|\x89\x08\xec\x10\x0f\x84\x06\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/MacOS/AppleHDA
+;;
+
+892 ) sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x53\x01\x00\x00|\x92\x08\xec\x10\x0f\x84\x2a\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/AppleHDA
+sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x2f\x01\x00\x00|\x99\x08\xec\x10\x0f\x84\x06\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/MacOS/AppleHDA
+;;
+
+898 ) sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x53\x01\x00\x00|\x92\x08\xec\x10\x0f\x84\x2a\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/AppleHDA
+sudo perl -pi -e 's|\xff\x87\xec\x1a\x0f\x8f\x2f\x01\x00\x00|\x99\x08\xec\x10\x0f\x84\x06\x01\x00\x00|g' $gHDAContentsDirectory/MacOS/AppleHDA/MacOS/AppleHDA
+;;
+
+1150 ) echo "ALC1150 supported in OS X 10.8.5 and newer"
+sudo cp -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext $gExtensionsDirectory/AppleHDA.kext
+sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
+sudo touch $gExtensionsDirectory
+echo "Original S/L/E/AppleHDA.kext restored"
+echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+exit 1
+;;
+
+* )
+echo "$gCodec not supported with this script"
+sudo cp -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext $gExtensionsDirectory/AppleHDA.kext
+sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
+sudo touch $gExtensionsDirectory
+echo "Original S/L/E/AppleHDA.kext restored"
+echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+exit 1
+;;
+esac
+
+;;
+
+* )
+echo "$gSysVer not supported with this script"
+sudo cp -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext $gExtensionsDirectory/AppleHDA.kext
+sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
+sudo touch $gExtensionsDirectory
+echo "Original S/L/E/AppleHDA.kext restored"
+echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+exit 1
+;;
+
+esac
+
+# exit if error
+if [ "$?" != "0" ]; then
+    echo "Error: $gCodec codec patch failure"
+    sudo cp -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext $gExtensionsDirectory/AppleHDA.kext
+    sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
+    sudo touch $gExtensionsDirectory
+    echo "Original S/L/E/AppleHDA.kext restored"
+    echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
+    exit 1
+fi
+
+echo "Install files ..."
+gPatchversion=$gHDAversioninstalled$gPatch$gCodec
+sudo /usr/libexec/PlistBuddy -c "Set ':CFBundleShortVersionString' $gPatchversion" $gHDAContentsDirectory/Info.plist
+sudo /usr/libexec/PlistBuddy -c "Delete ':IOKitPersonalities:HDA Hardware Config Resource:HDAConfigDefault'" $gHDAHardwarConfigDirectory/Info.plist
+sudo /usr/libexec/PlistBuddy -c "Merge /tmp/$gCodec/hdacd.plist ':IOKitPersonalities:HDA Hardware Config Resource'" $gHDAHardwarConfigDirectory/Info.plist
+
+sudo rm -R $gHDAContentsDirectory/Resources/*.zlib
+
+sudo install -m 644 -o root -g wheel /tmp/$gCodec/Platforms.xml.zlib  $gHDAContentsDirectory/Resources
+
+sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout1.xml.zlib  $gHDAContentsDirectory/Resources
+
+case $gCodec in
+
+887|888|889|892|898 )
+sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources
+
+sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout3.xml.zlib  $gHDAContentsDirectory/Resources
+;;
+1150 )
+sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources
+;;
+esac
 
 # exit if error
 if [ "$?" != "0" ]; then
     echo "Error: Installation failure"
-    sudo rm -R $gHDAContentsDirectory/Resources/*zml.zlib
+    sudo cp -R $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA-orig.kext $gExtensionsDirectory/AppleHDA.kext
+    sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
     sudo touch $gExtensionsDirectory
     echo "Original S/L/E/AppleHDA.kext restored"
-    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
+    echo "To save a copy of this Terminal session: Terminal/Shell/Export Text As ..."
     exit 1
 fi
 
-fi    # end: if [ $gCloverALC = 1 ]
+fi    # end: if [ $gRealtekALC = 1 ]
 
-# remove temp files
 sudo rm -R /tmp/ALC$gCodec.zip
 sudo rm -R /tmp/$gCodec
+sudo cp -R $gExtensionsDirectory/AppleHDA.kext $gDesktopDirectory/audio_ALC$gCodec-$gSysVer/AppleHDA.kext
 
-# fix permissions and rebuild cache
 case $gSysName in
 
 "El Capitan"|"Yosemite" )
