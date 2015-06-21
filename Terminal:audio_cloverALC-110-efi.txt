@@ -1,28 +1,30 @@
-Last login: Sun Jun 14 18:02:34 on ttys019
-$ Downloads/audio_cloverALC-110_v1.0a.command ; exit;
+Last login: Sun Jun 21 14:14:11 on ttys000
+$ Downloads/audio_cloverALC-110_v1.0c.command ; exit;
  
-File: audio_cloverALC-110.command_v1.0a
+File: audio_cloverALC-110.command_v1.0c
+Password:
 EFI partition is mounted
 Boot/Arguments/rootless=0 found
 Confirm Realtek ALC1150 (y/n): y
+Enable HD4600 HDMI audio (y/n): y
 Clover Audio ID Injection (y/n): n
 
 Download ALC1150 files ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 21366  100 21366    0     0  19121      0  0:00:01  0:00:01 --:--:-- 19128
+100 21366  100 21366    0     0  24590      0 --:--:-- --:--:-- --:--:-- 24586
 Edit config.plist/Devices/Audio/Inject/1
 Edit config.plist/SystemParameters/InjectKexts/YES
 Edit config.plist/Boot/Arguments/rootless=0
 Download kext patches
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  1351  100  1351    0     0   2094      0 --:--:-- --:--:-- --:--:--  2097
+100  1404  100  1404    0     0   2209      0 --:--:-- --:--:-- --:--:--  2211
 Install /Volumes/EFI/EFI/CLOVER///kexts/10.11/realtekALC.kext
 Download config kext and install ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  3451  100  3451    0     0   6084      0 --:--:-- --:--:-- --:--:--  6086
+100  3451  100  3451    0     0  11368      0 --:--:-- --:--:-- --:--:-- 11389
 Install System/Library/Extensions/AppleHDA.kext/ALC1150 zml files
 Fix permissions ...
 Kernel cache...
@@ -33,6 +35,7 @@ Install finished, restart required.
 To save a Copy of this Terminal session: Terminal/Shell/Export Text As ...
 logout
 Saving session...completed.
+Deleting expired sessions...none found.
 
 [Process completed]
 
