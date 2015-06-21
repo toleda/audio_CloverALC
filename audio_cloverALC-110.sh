@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0b"
+gFile="audio_cloverALC-110.command_v1.0c"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -34,6 +34,8 @@ gFile="audio_cloverALC-110.command_v1.0b"
 #
 # Change log:
 # v1.0a - 6/15/15: 1. Initial 10.11 support
+# v1.0b - 6/17/15: file name typo
+# v1.0c - 6/21/15: added hd4600 hdmi audio patch option
 #
 echo " "
 echo "Agreement"
@@ -695,7 +697,7 @@ case "$gCodec" in
 esac
 
 # HD4600 HDMI audio patch
-if [ $gRealtekALC = 1 ]; then
+# if [ $gRealtekALC = 1 ]; then
     if [ $gCodec = 887 -a $gLegacy = y ]; then gController=n; else
         case "$gCodec" in
 
@@ -711,7 +713,7 @@ if [ $gRealtekALC = 1 ]; then
         done
         esac
     fi
-fi
+# fi
 
 # validate audio id
 case $gAudioid in
@@ -992,7 +994,6 @@ unzip -qu "/tmp/config-audio_cloverALC.plist.zip" -d "/tmp/"
 # add KernelAndKextPatches/KextsToPatch codec patches
 # remove existing audio patches
 
-
 ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist)
 
 if [ -z "${ktpexisting}" ]; then
@@ -1030,6 +1031,8 @@ case $gCodec in
 269 ) patch1=8;;
 283) patch1=9;;
 # el capitan only, patch1=10
+# hd4600 hdmi audio only, patch1=11
+# hd4600 hdmi audio only, patch1=12
 esac
 
 patch=( 0 $patch1 )
@@ -1059,6 +1062,23 @@ sudo /usr/libexec/PlistBuddy -c "Merge /tmp/ktp.plist ':KernelAndKextPatches:Kex
 ;;
 
 esac
+
+if [ $choice2 = y ]; then
+# codec patch hd4600 hdmi audio/credit TimeWalker75a
+    index=11
+
+    while [ $index -lt 13 ]; do
+
+sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index}'" /tmp/config-audio_cloverALC.plist -x > "/tmp/ktp.plist"
+ktpcomment=$(sudo /usr/libexec/PlistBuddy -c "Print 'Comment'" "/tmp/ktp.plist")
+sudo /usr/libexec/PlistBuddy -c "Set :Comment 't1-$ktpcomment'" "/tmp/ktp.plist"
+sudo /usr/libexec/PlistBuddy -c "Add :KernelAndKextPatches:KextsToPatch:0 dict" /tmp/config.plist
+sudo /usr/libexec/PlistBuddy -c "Merge /tmp/ktp.plist ':KernelAndKextPatches:KextsToPatch:0'" /tmp/config.plist
+
+    index=$((index + 1))
+    done
+
+fi
 
 # exit if error
 if [ "$?" != "0" ]; then
