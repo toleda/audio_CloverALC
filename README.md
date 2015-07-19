@@ -14,7 +14,8 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
 
 **Updates**
 
-1. 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
+1. 7-19-15 - 283 Update
+2. 6-15-15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
 
 **A. Requirements**
 
