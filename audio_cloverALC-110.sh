@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0c"
+gFile="audio_cloverALC-110.command_v1.0d"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -36,7 +36,7 @@ gFile="audio_cloverALC-110.command_v1.0c"
 # v1.0a - 6/15/15: 1. Initial 10.11 support
 # v1.0b - 6/17/15: file name typo
 # v1.0c - 6/21/15: added hd4600 hdmi audio patch option
-#
+# v1.0d - 7/31/15: add SID verification, fix copy extended attributes error
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -47,6 +47,7 @@ echo " "
 
 # set initial variables
 gSysVer=`sw_vers -productVersion`
+gSID=$(csrutil status)
 gSysName="Mavericks"
 gStartupDisk=EFI
 gCloverDirectory=/Volumes/$gStartupDisk/EFI/CLOVER/
@@ -94,16 +95,16 @@ fi
 case ${gSysVer} in
 
 10.11* ) gSysName="El Capitan"
-gSysFolder=/kexts/10.11
+gSysFolder=kexts/10.11
 ;;
 10.10* ) gSysName="Yosemite"
-gSysFolder=/kexts/10.10
+gSysFolder=kexts/10.10
 ;;
 10.9* ) gSysName="Mavericks"
-gSysFolder=/kexts/10.9
+gSysFolder=kexts/10.9
 ;;
 10.8* ) gSysName="Mountain Lion"
-gSysFolder=/kexts/10.8
+gSysFolder=kexts/10.8
 ;;
 
 * )
@@ -135,7 +136,7 @@ if [ $gMake = 1 ]; then
     exit 1
     fi
 
-    sudo cp -R $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
+    sudo cp -X $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
     sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
     sudo touch $gExtensionsDirectory
     gHDAversioninstalled=$(sudo /usr/libexec/PlistBuddy -c "Print ':CFBundleShortVersionString'" $gHDAContentsDirectory/Info.plist)
@@ -186,30 +187,31 @@ if [ $gRealtekALC = 1 ]; then
         case $gSysName in
 
         "El Capitan" )
-        if [[ $(cat /tmp/org.chameleon.Boot.txt | grep -o "rootless=0") = "rootless=0" ]]; then
-            echo "Kernel Flags = rootless=0 found"
-        else
-            rm -R /tmp/org.chameleon.Boot.txt
-            echo "Kernel Flags = rootless=0 not found; patching not possible"
-            echo "Add org.chameleon.Boot.plist/Kernel Flags = rootless=0 and restart"
+	    echo $gSID > /tmp/gsid.txt
+        if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
+            rm -R /tmp/gsid.txt
+            echo "$gSID NOK to patch"
+            echo "Add org.chameleon.Boot.plist/Kernel Flags = CsrActiveConfig=0x3 and restart"
             echo "No system files were changed"
             echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
             exit 1
+        else
+            rm -R /tmp/gsid.txt            	
+	     echo "$gSID OK to patch"
         fi
         ;;
 
         "Yosemite" )
-        if [[ $(cat /tmp/org.chameleon.Boot.txt | grep -o "kext-dev-mode=1") = "kext-dev-mode=1" ]]; then
-            echo "Kernel Flags = kext-dev-mode=1 found"
-        else
+        if [[ $(cat /tmp/org.chameleon.Boot.txt | grep -c "kext-dev-mode=1") = 0 ]]; then
             rm -R /tmp/org.chameleon.Boot.txt
             echo "Kernel Flags = kext-dev-mode=1 not found; patching not possible"
             echo "Add org.chameleon.Boot.plist/Kernel Flags = kext-dev-mode=1 and restart"
             echo "No system files were changed"
             echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-        exit 1
-        fi
-        ;;
+            exit 1
+        else
+            echo "Kernel Flags = kext-dev-mode=1 found"
+        fi        ;;
 
         esac
     fi
@@ -244,28 +246,30 @@ echo "EFI partition is mounted"
         case $gSysName in
 
         "El Capitan" )
-        if [[ $(cat /tmp/config.txt | grep -o "rootless=0") = "rootless=0" ]]; then
-            echo "Boot/Arguments/rootless=0 found"
-        else
-            rm -R /tmp/config.txt
-            echo "Boot/Arguments/rootless=0 not found; patching not possible"
-            echo "Add config.plist/Boot/Arguments/rootless=0 and restart"
+	    echo $gSID > /tmp/gsid.txt
+            if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
+            rm -R /tmp/gsid.txt 
+            echo "$gSID NOK to patch"
+            echo "Add config.plist/RtVariables/CsrActiveConfig=0x3 and restart"
             echo "No system files were changed"
             echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
             exit 1
+        else
+            rm -R /tmp/gsid.txt            
+	     echo "$gSID OK to patch"
         fi
         ;;
 
         "Yosemite" )
-        if [[ $(cat /tmp/config.txt | grep -o "kext-dev-mode=1") = "kext-dev-mode=1" ]]; then
-            echo "Boot/Arguments = kext-dev-mode=1 found"
-        else
+        if [[ $(cat /tmp/config.txt | grep -c "kext-dev-mode=1") = 0 ]]; then
             rm -R /tmp/config.txt
             echo "Boot/Arguments/kext-dev-mode=1 not found; patching not possible"
             echo "Add config.plist/Boot/Arguments/kext-dev-mode=1 and restart"
             echo "No system files were changed"
             echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-        exit 1
+            exit 1
+        else
+            echo "Boot/Arguments = kext-dev-mode=1 found"
         fi
         ;;
 
@@ -303,28 +307,30 @@ else
             case $gSysName in
 
             "El Capitan" )
-            if [[ $(cat /tmp/config.txt | grep -o "rootless=0") = "rootless=0" ]]; then
-                echo "Boot/Arguments/rootless=0 found"
-            else
-                rm -R /tmp/config.txt
-                echo "Boot/Arguments/rootless=0 not found; patching not possible"
-                echo "Add config.plist/Boot/Arguments/rootless=0 and restart"
+	    	echo $gSID > /tmp/gsid.txt
+        	if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
+            	rm -R /tmp/gsid.txt 
+                echo "$gSID NOK to patch"
+                echo "Add config.plist/RtVariables/CsrActiveConfig=0x3 and restart"
                 echo "No system files were changed"
                 echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
                 exit 1
+            else
+            	rm -R /tmp/gsid.txt                
+		echo "$gSID OK to patch"
             fi
             ;;
 
             "Yosemite" )
-            if [[ $(cat /tmp/config.txt | grep -o "kext-dev-mode=1") = "kext-dev-mode=1" ]]; then
-                echo "Boot/Arguments = kext-dev-mode=1 found"
-            else
+            if [[ $(cat /tmp/config.txt | grep -c "kext-dev-mode=1") = 0 ]]; then
                 rm -R /tmp/config.txt
                 echo "Boot/Arguments/kext-dev-mode=1 not found; patching not possible"
                 echo "Add config.plist/Boot/Arguments/kext-dev-mode=1 and restart"
                 echo "No system files were changed"
                 echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-            exit 1
+                exit 1
+            else
+                echo "Boot/Arguments = kext-dev-mode=1 found"
             fi
             ;;
 
@@ -370,7 +376,7 @@ else
     1 )
     echo "gHDAversioninstalled = $gHDAversioninstalled"
     echo "Desktop/config-basic.plist copied to /tmp/config.plist"
-    sudo cp -R config-basic.plist /tmp/config.plist
+    sudo cp -X config-basic.plist /tmp/config.plist
 ;;
 * )
 echo "gDebug = $gDebug, fix"
@@ -841,7 +847,7 @@ if [ $gMake = 1 ]; then
         echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
         exit 1
     fi
-    sudo cp -R $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
+    sudo cp -X $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
     sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
     sudo touch $gExtensionsDirectory
     gHDAversioninstalled=$(sudo /usr/libexec/PlistBuddy -c "Print ':CFBundleShortVersionString'" $gHDAContentsDirectory/Info.plist)
@@ -900,7 +906,7 @@ fi
 if [ "$?" != "0" ]; then
     echo Error: config.plst edit failed
     echo “Original config.plist restored”
-    sudo cp -R $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
+    sudo cp -X $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
     sudo rm -R /tmp/ktp.plist
     sudo rm -R /tmp/config.plist
     sudo rm -R /tmp/config-audio_cloverALC.plist
@@ -911,35 +917,6 @@ if [ "$?" != "0" ]; then
 fi
 
 case $gSysName in
-
-"El Capitan" )
-# rootless=0
-
-echo "Edit config.plist/Boot/Arguments/rootless=0"
-
-bootarguments=$(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "Boot:Arguments: = $bootarguments"
-fi
-
-if [ -z "${bootarguments}" ]; then
-    sudo /usr/libexec/PlistBuddy -c "Add :Boot:Arguments string" /tmp/config.plist
-    echo "Edit config.plist: Add Boot/Argument - Fixed"
-fi
-
-if [[ $bootarguments != *rootless=0* ]]; then
-    newbootarguments="$bootarguments rootless=0"
-    sudo /usr/libexec/PlistBuddy -c "Set :Boot:Arguments $newbootarguments" /tmp/config.plist
-fi
-
-# debug
-if [ $gDebug = 1 ]; then
-    echo "After edit. Boot:Arguments: = $(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)"
-fi
-
-;;
 
 "Yosemite" )
 # kext-dev-mode=1
@@ -975,7 +952,7 @@ esac
 if [ "$?" != "0" ]; then
     echo Error: config.plst edit failed
     echo “Original config.plist restored”
-    sudo cp -R $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
+    sudo cp -X $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
     sudo rm -R /tmp/ktp.plist
     sudo rm -R /tmp/config.plist
     sudo rm -R /tmp/config-audio_cloverALC.plist
@@ -1084,7 +1061,7 @@ fi
 if [ "$?" != "0" ]; then
     echo Error: config.plst edit failed
     echo “Original config.plist restored”
-    sudo cp -R $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
+    sudo cp -X $gCloverDirectory/config-backup.plist $gCloverDirectory/config.plist
     sudo rm -R /tmp/ktp.plist
     sudo rm -R /tmp/config.plist
     sudo rm -R /tmp/config-audio_cloverALC.plist
@@ -1096,10 +1073,10 @@ fi
 
 # install updated config.plst
 if [ $gDebug = 0 ]; then
-    sudo cp -R /tmp/config.plist $gCloverDirectory/config.plist
+    sudo cp -X /tmp/config.plist $gCloverDirectory/config.plist
 else
     echo "Debug mode"
-    sudo cp -R /tmp/config.plist gDesktopDirectory
+    sudo cp -X /tmp/config.plist gDesktopDirectory
     echo "/tmp/config.plist copied to Desktop"
 fi
 
@@ -1111,7 +1088,7 @@ sudo rm -R /tmp/config-audio_cloverALC.plist.zip
 
 # echo "config.plist patching finished."
 
-echo "Install $gCloverDirectory/$gSysFolder/realtekALC.kext"
+echo "Install $gCloverDirectory$gSysFolder/realtekALC.kext"
 
 echo "Download config kext and install ..."
 gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/realtekALC.kext.zip"
