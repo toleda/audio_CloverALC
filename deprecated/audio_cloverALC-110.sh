@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0f"
+gFile="audio_cloverALC-110.command_v1.0g"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -39,6 +39,7 @@ gFile="audio_cloverALC-110.command_v1.0f"
 # v1.0d - 7/31/15: add SID verification, fix copy extended attributes error
 # v1.0e - 8/14/15: fix  SID reporting esthetics
 # v1.0f - 8/14/15: 269/283 binary edit update, kexts/Other check
+# v1.0g - 10/5/15: Legacy fix
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -130,7 +131,7 @@ echo "File: $gFile"
 # debug
 if [ $gMake = 1 ]; then
     if [ -d "$gDesktopDirectory/AppleHDA.kext" ]; then
-        sudo rm -R $gExtensionsDirectory/AppleHDA.kext
+        sudo rm -R "$gExtensionsDirectory/AppleHDA.kext"
     case $gSysName in
 
     "El Capitan" )
@@ -183,7 +184,7 @@ if [ $gRealtekALC = 1 ]; then
 
     if [ -d $gChameleonDirectory ]; then
         if [ -f "$gChameleonDirectory/org.chameleon.Boot.plist" ]; then
-            cp -p $gChameleonDirectory/org.chameleon.Boot.plist /tmp/org.chameleon.Boot.txt
+            cp -p "$gChameleonDirectory/org.chameleon.Boot.plist" "/tmp/org.chameleon.Boot.txt"
 
 # debug
             if [ $gDebug = 1 ]; then
@@ -256,7 +257,7 @@ case $gDebug in
 if [ -d $gCloverDirectory ]; then
 echo "EFI partition is mounted"
     if [ -f "$gCloverDirectory/config.plist" ]; then
-        cp -p $gCloverDirectory/config.plist /tmp/config.txt
+        cp -p "$gCloverDirectory/config.plist" "/tmp/config.txt"
 
         case $gSysName in
 
@@ -293,11 +294,11 @@ echo "EFI partition is mounted"
         esac
 
         rm -R /tmp/config.txt
-        cp -p $gCloverDirectory/config.plist /tmp/config.plist
+        cp -p "$gCloverDirectory/config.plist" "/tmp/config.plist"
         if [ -f "$gCloverDirectory/config-backup.plist" ]; then
-            rm -R $gCloverDirectory/config-backup.plist
+            rm -R "$gCloverDirectory/config-backup.plist"
         fi
-        cp -p $gCloverDirectory/config.plist $gCloverDirectory/config-backup.plist
+        cp -p "$gCloverDirectory/config.plist" "$gCloverDirectory/config-backup.plist"
     else
         echo "$gCloverDirectory/config.plist is missing"
         echo "No system files were changed"
@@ -314,13 +315,12 @@ else
     case "$choice8" in
 
     [yY]* )
-    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER
-    if [ -d $gCloverDirectory ]; then
+    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER/
+    if [ -d "$gCloverDirectory" ]; then
     echo "$gStartupDisk/EFI folder found"
         if [ -f "$gCloverDirectory/config.plist" ]; then
 
-            cp -p $gCloverDirectory/config.plist /tmp/config.txt
-
+            cp -p "$gCloverDirectory/config.plist" "/tmp/config.txt"
             case $gSysName in
 
             "El Capitan" )
@@ -355,12 +355,11 @@ else
 
             esac
 
-            rm -R /tmp/config.txt
-            sudo cp -p $gCloverDirectory/config.plist /tmp/config.plist
+            cp -p "$gCloverDirectory/config.plist" "/tmp/config.plist"
             if [ -f "$gCloverDirectory/config-backup.plist" ]; then
-                rm -R $gCloverDirectory/config-backup.plist
+                rm -R "$gCloverDirectory/config-backup.plist"
             fi
-            sudo cp -p $gCloverDirectory/config.plist $gCloverDirectory/config-backup.plist
+            cp -p "$gCloverDirectory/config.plist" "$gCloverDirectory/config-backup.plist"
         else
             echo "$gCloverDirectory/config.plist is missing"
             echo "No system files were changed"
@@ -1115,10 +1114,11 @@ unzip -qu "/tmp/realtekALC.kext.zip" -d "/tmp/"
 # install realtekALC.kext
 if [ $gDebug = 0 ]; then
     if [ -d "$gCloverDirectory/$gSysFolder/realtekALC.kext" ]; then
-    sudo rm -R $gCloverDirectory/$gSysFolder/realtekALC.kext
+    sudo rm -R "$gCloverDirectory/$gSysFolder/realtekALC.kext"
 # echo "$gCloverDirectory/$gSysFolder/realtekALC.kext deleted"
     fi
     sudo cp -R /tmp/realtekALC.kext $gCloverDirectory/$gSysFolder/
+
 else
     echo "Debug mode"
     echo "No system files were changed"
@@ -1138,7 +1138,7 @@ fi
 # install codec specific files
 if [ $gDebug = 0 ]; then
     if [ -d "$gHDAContentsDirectory/Resources/*.zml.zlib" ]; then
-    sudo rm -R $gHDAContentsDirectory/Resources/*.zml.zlib
+    sudo rm -R "$gHDAContentsDirectory/Resources/*.zml.zlib"
 # echo "System/Library/Extensions/AppleHDA.kext/ALC$gCodec zml files deleted"
     fi
 
@@ -1161,7 +1161,7 @@ fi
 # exit if error
 if [ "$?" != "0" ]; then
     echo "Error: Installation failure"
-    sudo rm -R $gHDAContentsDirectory/Resources/*zml.zlib
+    sudo rm -R "$gHDAContentsDirectory/Resources/*zml.zlib"
     sudo touch $gExtensionsDirectory
     echo "Original S/L/E/AppleHDA.kext restored"
     echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
