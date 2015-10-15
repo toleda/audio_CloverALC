@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0g"
+gFile="audio_cloverALC-110.command_v1.0h"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -40,6 +40,7 @@ gFile="audio_cloverALC-110.command_v1.0g"
 # v1.0e - 8/14/15: fix  SID reporting esthetics
 # v1.0f - 8/14/15: 269/283 binary edit update, kexts/Other check
 # v1.0g - 10/5/15: Legacy fix
+# v1.0h - 10/8/15: Legacy fix - 2
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -52,7 +53,7 @@ echo " "
 gSysVer=`sw_vers -productVersion`
 gSysName="Mavericks"
 gStartupDisk=EFI
-gCloverDirectory=/Volumes/$gStartupDisk/EFI/CLOVER/
+gCloverDirectory=/Volumes/$gStartupDisk/EFI/CLOVER
 gDesktopDirectory=/Users/$(whoami)/Desktop/
 gExtensionsDirectory=/System/Library/Extensions
 gHDAContentsDirectory=$gExtensionsDirectory/AppleHDA.kext/Contents
@@ -205,6 +206,7 @@ if [ $gRealtekALC = 1 ]; then
         if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             rm -R /tmp/gsid.txt
             echo "$gSID"
+            echo ""
             echo "NOK to patch"
             echo "Add org.chameleon.Boot.plist/Kernel Flags = CsrActiveConfig=0x3 and restart"
             echo "No system files were changed"
@@ -213,6 +215,7 @@ if [ $gRealtekALC = 1 ]; then
         else
             rm -R /tmp/gsid.txt            	
 	     echo "$gSID"
+            echo ""
 	     echo "OK to patch"
         fi
         ;;
@@ -266,6 +269,7 @@ echo "EFI partition is mounted"
             if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             rm -R /tmp/gsid.txt 
             echo "$gSID"
+            echo ""
             echo "NOK to patch"
             echo "Add config.plist/RtVariables/CsrActiveConfig=0x3 and restart"
             echo "No system files were changed"
@@ -274,6 +278,7 @@ echo "EFI partition is mounted"
         else
             rm -R /tmp/gsid.txt            
 	     echo "$gSID"
+            echo ""
 	     echo "OK to patch"
         fi
         ;;
@@ -306,18 +311,27 @@ echo "EFI partition is mounted"
         exit 1
     fi
 else
-    echo "EFI partition is not mounted"
+    echo "EFI partition not mounted"
 
 # confirm Clover Legacy install
+    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER
+    if [ -d "$gCloverDirectory" ]; then
+	    echo "$gStartupDisk/EFI folder found"
+    else echo "$gStartupDisk/EFI not found"
+	    echo "EFI/CLOVER folder not available to install audio"
+	    echo "No system files were changed"
+	    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
+	    exit 1
+    fi
+
     while true
     do
     read -p "Confirm Clover Legacy Install (y/n): " choice8
     case "$choice8" in
 
     [yY]* )
-    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER/
+#    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER
     if [ -d "$gCloverDirectory" ]; then
-    echo "$gStartupDisk/EFI folder found"
         if [ -f "$gCloverDirectory/config.plist" ]; then
 
             cp -p "$gCloverDirectory/config.plist" "/tmp/config.txt"
@@ -328,6 +342,7 @@ else
         	if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             	rm -R /tmp/gsid.txt 
                 echo "$gSID"
+                echo ""
                 echo "NOK to patch"
                 echo "Add config.plist/RtVariables/CsrActiveConfig=0x3 and restart"
                 echo "No system files were changed"
@@ -336,6 +351,7 @@ else
             else
             	rm -R /tmp/gsid.txt                
 		echo "$gSID"
+               echo ""
 		echo "OK to patch"
             fi
             ;;
@@ -667,12 +683,16 @@ fi
 if [ $gCodecvalid != y ]; then
 
 #  get supported codec
-    echo "Supported RealtekALC codecs: 885, 887, 888, 889, 892, 898 or 1150"
+    echo "Supported RealtekALC codecs: 885, 887, 888, 889, 892, 898 or 1150 (0 to exit)"
     while true
     do
     read -p "Enter codec: " choice0
     case "$choice0" in
         269|283|885|887|888|889|892|898|1150 ) gCodec=$choice0; break;;
+        0 ) echo "No system files were changed"
+        echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
+        exit 1;;
+
         * ) echo "Try again...";;
     esac
     done
@@ -1082,10 +1102,11 @@ fi
 
 # install updated config.plst
 if [ $gDebug = 0 ]; then
-    sudo cp -X /tmp/config.plist $gCloverDirectory/config.plist
+    sudo cp -R "/tmp/config.plist" "$gCloverDirectory/config.plist"
+
 else
     echo "Debug mode"
-    sudo cp -X /tmp/config.plist gDesktopDirectory
+    sudo cp -R /tmp/config.plist gDesktopDirectory
     echo "/tmp/config.plist copied to Desktop"
 fi
 
@@ -1104,7 +1125,7 @@ if [ -d "$gCloverDirectory/$gSysFolder" ]; then
     gSysFolder=kexts/Other
 fi
 
-echo "Install $gCloverDirectory$gSysFolder/realtekALC.kext"
+echo "Install $gCloverDirectory/$gSysFolder/realtekALC.kext"
 
 echo "Download config kext and install ..."
 gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/realtekALC.kext.zip"
@@ -1117,8 +1138,7 @@ if [ $gDebug = 0 ]; then
     sudo rm -R "$gCloverDirectory/$gSysFolder/realtekALC.kext"
 # echo "$gCloverDirectory/$gSysFolder/realtekALC.kext deleted"
     fi
-    sudo cp -R /tmp/realtekALC.kext $gCloverDirectory/$gSysFolder/
-
+    sudo cp -R "/tmp/realtekALC.kext" "$gCloverDirectory/$gSysFolder/"
 else
     echo "Debug mode"
     echo "No system files were changed"
