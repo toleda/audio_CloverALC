@@ -459,7 +459,7 @@ fi
 # verify ioreg/HDEF
 ioreg -rw 0 -p IODeviceTree -n HDEF > /tmp/HDEF.txt
 
-if [[ $(cat /tmp/HDEF.txt | grep -o "HDEF@1B") = "HDEF@1B" ]]; then
+if [[ $(cat /tmp/HDEF.txt | grep -o "HDEF@1B") = "HDEF@1B" ]] || [[ $(cat /tmp/HDEF.txt | grep -o "HDEF@1F") = "HDEF@1F" ]]; then
     gLayoutidioreg=$(cat /tmp/HDEF.txt | grep layout-id | sed -e 's/.*<//' -e 's/>//')
     gLayoutidhex="0x${gLayoutidioreg:6:2}${gLayoutidioreg:4:2}${gLayoutidioreg:2:2}${gLayoutidioreg:0:2}"
     let gAudioid=$gLayoutidhex
