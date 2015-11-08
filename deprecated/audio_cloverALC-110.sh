@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0h"
+gFile="audio_cloverALC-110.command_v1.0j"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -41,6 +41,7 @@ gFile="audio_cloverALC-110.command_v1.0h"
 # v1.0f - 8/14/15: 269/283 binary edit update, kexts/Other check
 # v1.0g - 10/5/15: Legacy fix
 # v1.0h - 10/8/15: Legacy fix - 2
+# v1.0j - 10/15/15: add /Volume/ESP detection
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -257,8 +258,24 @@ if [ $gCloverALC = 1 ]; then
 # check for debug (debug=1 does not touch CLOVER folder)
 case $gDebug in
 0 )
+
+# verify EFI install
+gEFI=0
 if [ -d $gCloverDirectory ]; then
-echo "EFI partition is mounted"
+     gEFI=1
+fi
+
+if [ $gEFI = 0 ]; then
+
+    if [ -d '/Volumes/ESP/EFI/CLOVER' ]; then
+        gCloverDirectory=/Volumes/ESP/EFI/CLOVER
+        gEFI=1
+    fi
+
+fi
+
+if [ $gEFI = 1 ]; then
+    echo "EFI partition is mounted"
     if [ -f "$gCloverDirectory/config.plist" ]; then
         cp -p "$gCloverDirectory/config.plist" "/tmp/config.txt"
 

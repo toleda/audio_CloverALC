@@ -14,8 +14,9 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
 
 **Updates**
 
-1. 7-19-15 - 283 Update
-2. 6-15-15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
+1. 11-8-15 - Skylake/Series 100 Update, Add 1150/Audio ID: 3
+2. 7-19-15 - 283 Update
+3. 6-15-15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
 
 **A. Requirements**
 
@@ -50,7 +51,7 @@ The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with o
 
         Realtek ALC/5.1 surround sound (3 motherboard audio ports)
 
-    -  Audio ID: 3 supports 887, 888, 889, 892, 898
+    -  Audio ID: 3 supports 887, 888, 889, 892, 898, 1150
 
         HD3000/HD4000 HDMI audio with Realtek ALC audio
 
