@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0j"
+gFile="audio_cloverALC-110.command_v1.0k"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -42,6 +42,7 @@ gFile="audio_cloverALC-110.command_v1.0j"
 # v1.0g - 10/5/15: Legacy fix
 # v1.0h - 10/8/15: Legacy fix - 2
 # v1.0j - 10/15/15: add /Volume/ESP detection
+# v1.0k - 11/5/15: add Skylake HDEF
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -459,7 +460,7 @@ fi
 # verify ioreg/HDEF
 ioreg -rw 0 -p IODeviceTree -n HDEF > /tmp/HDEF.txt
 
-if [[ $(cat /tmp/HDEF.txt | grep -o "HDEF@1B") = "HDEF@1B" ]]; then
+if [[ $(cat /tmp/HDEF.txt | grep -c "HDEF@1") != 0 ]]; then
     gLayoutidioreg=$(cat /tmp/HDEF.txt | grep layout-id | sed -e 's/.*<//' -e 's/>//')
     gLayoutidhex="0x${gLayoutidioreg:6:2}${gLayoutidioreg:4:2}${gLayoutidioreg:2:2}${gLayoutidioreg:0:2}"
     let gAudioid=$gLayoutidhex
@@ -803,7 +804,7 @@ if [ $gRealtekALC = 1 ]; then
 # echo "0 - dsdt/ssdt HDMI audio (AMD/Nvidia/Intel)"
         echo "1 - 3/5/6 port Realtek ALCxxx audio"
         echo "2 - 3 port (5.1) Realtek ALCxxx audio (n/a 885)"
-        echo "3 - HD3000/HD4000 HDMI and Realtek ALCxxx audio (n/a 885/1150 & 887/888 Legacy)"
+        echo "3 - HD3000/HD4000/GT530 HDMI and Realtek ALCxxx audio (n/a 885 & 887/888 Legacy)"
         echo "Caution: if Audio ID: $gAudioid is not fixed, no audio after restart"
     fi
 fi
@@ -836,7 +837,7 @@ if [ $gCloverALC = 1 ]; then
 # echo "0 - dsdt/ssdt HDMI audio (AMD/Nvidia/Intel)"
         echo "1 - 3/5/6 port Realtek ALCxxx audio"
         echo "2 - 3 port (5.1) Realtek ALCxxx audio (n/a 885)"
-        echo "3 - HD3000/HD4000 HDMI and Realtek ALCxxx audio (n/a 885/1150 & 887/888 Legacy)"
+        echo "3 - HD3000/HD4000/GT530 HDMI and Realtek ALCxxx audio (n/a 885 & 887/888 Legacy)"
         while true
         do
 # read -p "Select Audio ID? (0, 1, 2 or 3): " choice6
@@ -1155,7 +1156,9 @@ if [ $gDebug = 0 ]; then
     sudo rm -R "$gCloverDirectory/$gSysFolder/realtekALC.kext"
 # echo "$gCloverDirectory/$gSysFolder/realtekALC.kext deleted"
     fi
+
     sudo cp -R "/tmp/realtekALC.kext" "$gCloverDirectory/$gSysFolder/"
+
 else
     echo "Debug mode"
     echo "No system files were changed"
@@ -1185,13 +1188,13 @@ if [ $gDebug = 0 ]; then
 
     case $gCodec in
 
-    887|888|889|892|898 )
+    887|888|889|892|898|1150 )
     sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
     sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout3.xml.zlib  $gHDAContentsDirectory/Resources/layout3.zml.zlib
     ;;
-    1150 )
-    sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
-    ;;
+#   1150 )
+#   sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
+#   ;;
     esac
 fi
 
