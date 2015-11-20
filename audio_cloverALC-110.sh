@@ -1010,7 +1010,7 @@ echo "Download kext patches"
 gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/config-audio_cloverALC.plist.zip"
 sudo curl -o "/tmp/config-audio_cloverALC.plist.zip" $gDownloadLink
 unzip -qu "/tmp/config-audio_cloverALC.plist.zip" -d "/tmp/"
-
+cd /tmp/ && mv config-audio_cloverALC.plist config.plist
 # add KernelAndKextPatches/KextsToPatch codec patches
 # remove existing audio patches
 
