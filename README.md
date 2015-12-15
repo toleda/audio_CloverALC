@@ -64,7 +64,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 1.  Clover patched AppleHDA
 
     1.  [Download (View Raw) audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip)
-or  1.  [Download (View Raw) audio\_pikeralphaALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip)
+or  1.  [Download (View Raw) audio\_pikeralphaALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_pikeralphaALC-110.command.zip)
     2.  Double click: Downloads/audio_cloverALC-110.command
     3.  Password:
     4.  Confirm Codec ALCxxx: (885, 887, 888, 889, 892, 898, 1150 only)
