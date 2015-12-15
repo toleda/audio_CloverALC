@@ -35,9 +35,9 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 
 **B. Realtek ALCxxx** (verify codec and Audio ID)
 
-1.  Supported codecs
-    1.  269 (BRIX only)*
-    2.  283 (BRIX Pro and NUC only)*
+1.  Supported codecs (* Not supported with audio_pikeralpha-110)
+    1.  269 (BRIX only) *
+    2.  283 (BRIX Pro and NUC only) *
     3.  885
     4.  887
     5.  888
@@ -45,7 +45,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     7.  892
     8.  898
     9.  1150
-    * Not supported with audio_pikeralpha-110
+
 2.  Supported Audio IDs
     -  Audio ID: 1 supports 269, 283, 885, 887, 888, 889, 892, 898, 1150
 
