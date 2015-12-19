@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0n"
+gFile="audio_cloverALC-110.command_v1.0n10"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -46,6 +46,7 @@ gFile="audio_cloverALC-110.command_v1.0n"
 # v1.0l - 11/13/15: add 1150/Audio ID: 3, add mb8 considerations
 # v1.0m - 11/30/15: unsupported audio_id fix
 # v1.0n - 12/20/15: detect HD4600 HDMI audio codec
+# v1.0n10 - 12/20/15: typo
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -783,7 +784,7 @@ if [[ $(cat /tmp/B0D3.txt | grep -c "B0D3@3") != 0 ]]; then
         echo "B0D3@3 found, HDAU edit required for HD4600 HDMI audio"
         echo "dsdt edit/ssdt injection not available with this script"
         gController=1
-    afi
+    fi
 fi
 sudo rm -R /tmp/B0D3.txt
 
