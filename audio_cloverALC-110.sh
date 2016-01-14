@@ -1126,20 +1126,20 @@ unzip -qu "/tmp/config-audio_cloverALC.plist.zip" -d "/tmp/"
 # add KernelAndKextPatches/KextsToPatch codec patches
 # remove existing audio patches
 
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist)
+ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist)
 
 if [ -z "${ktpexisting}" ]; then
     sudo /usr/libexec/PlistBuddy -c "Add KernelAndKextPatches:KextsToPatch array" /tmp/config.plist
     echo "Edit config.plist: Add KernelAndKextPatches/KextsToPatch - Fixed"
 fi
 
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "t1-")
+ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "t1-")
 
 # remove t1 patches (cloverALC)
 index=0
 while [ $ktpexisting -ge 1 ]; do
-if [ $(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "t1-") = 1 ]; then
-    sudo /usr/libexec/plistbuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "t1-") = 1 ]; then
+    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
     ktpexisting=$((ktpexisting - 1))
     index=$((index - 1))
 fi
@@ -1152,12 +1152,12 @@ fi
 done
 
 # remove AppleHDAController patches (mb)
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDAController")
+ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDAController")
 
 index=0
 while [ $ktpexisting -ge 1 ]; do
-if [ $(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDAController") = 1 ]; then
-    sudo /usr/libexec/plistbuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDAController") = 1 ]; then
+    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
     ktpexisting=$((ktpexisting - 1))
     index=$((index - 1))
 fi
@@ -1170,12 +1170,12 @@ fi
 done
 
 # remove AppleHDA patches (mb)
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDA")
+ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDA")
 
 index=0
 while [ $ktpexisting -ge 1 ]; do
-if [ $(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") = 2 ]; then
-    sudo /usr/libexec/plistbuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") = 2 ]; then
+    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
     ktpexisting=$((ktpexisting - 2))
     index=$((index - 2))
 fi
@@ -1189,12 +1189,12 @@ fi
 done
 
 # remove AppleHDA patches (any remaining)
-ktpexisting=$(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDA")
+ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDA")
 
 index=0
 while [ $ktpexisting -ge 1 ]; do
-if [ $(sudo /usr/libexec/plistbuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") = 1 ]; then
-    sudo /usr/libexec/plistbuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") = 1 ]; then
+    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
     ktpexisting=$((ktpexisting - 1))
     index=$((index - 1))
 fi
