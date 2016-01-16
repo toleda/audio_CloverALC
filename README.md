@@ -1,30 +1,52 @@
 ![alt text](https://github.com/toleda/audio_RealtekALC/blob/master/sound.jpeg)
 #audio\_cloverALC
 
-**OS X/Clover Patched AppleHDA Realtek ALC Audio**
-
+**OS X/Clover Patched AppleHDA Realtek ALC Audio**  
 Native AppleHDA/Persistent
 
 The Clover Patched Realtek ALC method enables OS X AppleHDA onboard audio with or without HDMI and DP audio. The script adds codec specific layout and platform files and injects binary patch and pin configuration data to the native installed AppleHDA.kext.
 
 Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext kernel cache patches to config.plist and installs L/E/AppleHDAxxx.kext (xxx = codec)
 
-**Versions: audio_cloverALC-110**
-
-1. Easy: .command, see C. Installation
-2. Bash: .sh, see D. Terminal
-
 **Updates**
 
-1. 12-14-15 - audio_pikeralpha-110 (Clover version of Piker Aplha AppleHDA8Series.sh)
-2. 11-8-15 - Skylake/Series 100 Update, Add 1150/Audio ID: 3
-3. 7-19-15 - 283 Update
-4. 6-15-15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
+1. 12/14/15 - audio_pikeralpha-110 (Clover version of Piker Aplha AppleHDA8Series.sh)
+2. 11/8/15 - Skylake/Series 100 Update, Add 1150/Audio ID: 3
+3. 7/19/15 - 283 Update
+4. 6/15/15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
 
-**A. Requirements**
+**Versions: audio_cloverALC-110**
+
+1. Easy: .command, see A. Installation
+2. Bash: .sh, see B. Terminal
+
+**A. Installation**
+
+1.  Clover patched AppleHDA
+    1.  [audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip) (select View Raw) 
+    or [audio\_pikeralphaALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_pikeralphaALC-110.command.zip) (select View Raw)
+    2.  Double click: Downloads/audio_cloverALC-110.command
+    3.  Password:
+    4.  Confirm Codec ALCxxx: (885, 887, 888, 889, 892, 898, 1150 only)
+    5.  Clover/Legacy: answer y to Confirm Clover Legacy Install (y/n)
+    6.  Clover Audio ID Injection (y/n):
+    7.  Use Audio ID: x (y/n):
+    8.  Optional: Terminal/Terminal Saved Output
+2.  Restart
+3.  Verify ALC onboard audio
+    1.  System Preferences/Sound/Output/select audio device
+
+**B. Terminal**
+
+1.  Clover patched AppleHDA
+    1. [audio\_cloverALC-110.sh](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.sh) (select View Raw)
+    2. Terminal $ ./audio_cloverALC-110....sh
+    3. Same (as above)
+
+**C. Requirements**
 
 1.  OS X/Clover_v2696 or newer
-    1.  10.11/El Capitan, set boot flag: rootless=0 
+    1.  10.11/El Capitan, disable SIP 
     2.  10.10/Yosemite, set boot flag: kext-dev-mode=1
     3.  10.9/Mavericks
     4.  10.8/Mountain Lionon
@@ -33,7 +55,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 3.  Supported Realtek onboard audio codec
     1.  [Unknown codec?](https://github.com/toleda/audio_ALC_guides/blob/master/Identify%20Audio%20Codec%20%5BGuide%5D.pdf)
 
-**B. Realtek ALCxxx** (verify codec and Audio ID)
+**D. Realtek ALCxxx** (verify codec and Audio ID)**
 
 1.  Supported codecs (* Not supported with audio_pikeralpha-110)
     1.  269 (BRIX only) *
@@ -47,42 +69,13 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     9.  1150
 
 2.  Supported Audio IDs
-    -  Audio ID: 1 supports 269, 283, 885, 887, 888, 889, 892, 898, 1150
-
+    -  Audio ID: 1 - supports 269, 283, 885, 887, 888, 889, 892, 898, 1150  
         Realtek ALC audio (default, 1/2/3/5/6 motherboard audio ports)
 
-    -  Audio ID: 2 supports 887, 888, 889, 892, 898, 1150
-
+    -  Audio ID: 2 - supports 887, 888, 889, 892, 898, 1150  
         Realtek ALC/5.1 surround sound (3 motherboard audio ports)
-
-    -  Audio ID: 3 supports 887, 888, 889, 892, 898, 1150
-
+    -  Audio ID: 3 - supports 887, 888, 889, 892, 898, 1150
         HD3000/HD4000 HDMI audio with Realtek ALC audio
-
-**C. Installation**
-
-1.  Clover patched AppleHDA
-
-    1.  [Download (View Raw) audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip)
-    or [Download (View Raw) audio\_pikeralphaALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_pikeralphaALC-110.command.zip)
-    2.  Double click: Downloads/audio_cloverALC-110.command
-    3.  Password:
-    4.  Confirm Codec ALCxxx: (885, 887, 888, 889, 892, 898, 1150 only)
-    5.  Clover/Legacy: answer y to Confirm Clover Legacy Install (y/n)
-    6.  Clover Audio ID Injection (y/n):
-    7.  Use Audio ID: x (y/n):
-    8.  Optional: Terminal/Terminal Saved Output
-2.  Restart
-3.  Verify ALC onboard audio
-    1.  System Preferences/Sound/Output/select audio device
-
-**D. Terminal**
-
-1.  Clover patched AppleHDA
-
-    1. [Download audio\_cloverALC-110.sh](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.sh)
-    2. Terminal $ ./audio_cloverALC-110....sh
-    3. Same (as above)
 
 **E. More Information**
 
