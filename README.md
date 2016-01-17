@@ -125,7 +125,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 	2. audio_pikeralphaALC-110...command
 10.	Clover
 	1.	EFI/CLOVER/config.plist
-	2.	DPCIManager/Misc/Boot Log
+	2.	DPCIManager/Misc/Boot Log (Tools 2.)
 	3.	EFI/CLOVER/ACPI/Patched/dsdt.aml (if installed)
 	4.	EFI/CLOVER/ACPI/Patched/ssdt.aml (if installed)
 11.	Post to:
