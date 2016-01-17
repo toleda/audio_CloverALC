@@ -77,12 +77,12 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     9.  1150
 
 2.  Supported Audio IDs
-    -  Audio ID: 1 - supports 269, 283, 885, 887, 888, 889, 892, 898, 1150  
+    1. Audio ID: 1 - supports 269, 283, 885, 887, 888, 889, 892, 898, 1150  
         Realtek ALC audio (default, 1/2/3/5/6 motherboard audio ports)
 
-    -  Audio ID: 2 - supports 887, 888, 889, 892, 898, 1150  
+    2. Audio ID: 2 - supports 887, 888, 889, 892, 898, 1150  
         Realtek ALC/5.1 surround sound (3 motherboard audio ports)
-    -  Audio ID: 3 - supports 887, 888, 889, 892, 898, 1150  
+    3. Audio ID: 3 - supports 887, 888, 889, 892, 898, 1150  
         HD3000/HD4000 HDMI audio with Realtek ALC audio
 
 **E. More Information**
@@ -93,9 +93,15 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     3.  Notes
     4.  Guides
     5.  Tools
-    6.  Problem Reporting
 2. [Realtek ALC guides](https://github.com/toleda/audio_ALC_guides)
-2. Terminal Saved Output
+	1. Capabilities
+	2. Customization
+	3. No Audio Devices 
+	4. No Audio After Sleep/Wake
+	5. No Sound
+	6. Screenshots
+	7. Surround Sound  
+3. Terminal Saved Output
     1.  [Clover/EFI](https://github.com/toleda/audio_CloverALC/blob/master/Terminal:audio_cloverALC-110-efi.txt)
     2.  [Clover/Legacy](https://github.com/toleda/audio_CloverALC/blob/master/Terminal:audio_cloverALC-110-legacy.txt)
 
