@@ -23,7 +23,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 **A. Installation**
 
 1.  Clover/kext patched AppleHDA
-    1.  [audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip) (select View Raw) 
+    1.  [audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/  audio_cloverALC-110.command.zip) (select View Raw) 
     or [audio\_pikeralphaALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_pikeralphaALC-110.command.zip) (select View Raw)
     2.  Double click: Downloads/audio_cloverALC-110.command
     3.  Password:
@@ -94,9 +94,10 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     4.  Guides
     5.  Tools
     6.  Problem Reporting
+2. [Realtek ALC guides](https://github.com/toleda/audio_ALC_guides)
 2. Terminal Saved Output
-    1.  [Clover/EFI](https://github.com/toleda/audio_CloverALC/blob/master/Terminal%20Saved%20Output_v1.0.4-efi.txt)
-    2.  [Clover/Legacy](https://github.com/toleda/audio_CloverALC/blob/master/Terminal%20Saved%20Output_v1.0.4-leg.txt)
+    1.  [Clover/EFI](https://github.com/toleda/audio_CloverALC/blob/master/Terminal:audio_cloverALC-110-efi.txt)
+    2.  [Clover/Legacy](https://github.com/toleda/audio_CloverALC/blob/master/Terminal:audio_cloverALC-110-legacy.txt)
 
 **F - Tools**
 
