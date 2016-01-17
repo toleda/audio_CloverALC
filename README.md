@@ -95,9 +95,9 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     5.  Tools
 2. [Realtek ALC guides](https://github.com/toleda/audio_ALC_guides)
 	1. Capabilities
-	2. Customization
-	3. No Audio Devices 
-	4. No Audio After Sleep/Wake
+	2. Customization 
+	3. No Audio After Sleep/Wake
+	4. No Audio Devices
 	5. No Sound
 	6. Screenshots
 	7. Surround Sound  
