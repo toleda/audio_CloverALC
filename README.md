@@ -126,16 +126,15 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 5.	Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (Tools 1.)
 6.	Screenshot: DPCIManager/Status (Tools 2.) 
 7.	DPCIManager/Misc/Boot Log, atttach text file
-8.	MaciASL/File/Export Tableset As... (Tools 3.)
-9.	Terminal/Shell/File/Export Text As. . . /
+8.	Terminal/Shell/File/Export Text As. . . /
 	1. audio_cloverALC-110...command
 	2. audio_pikeralphaALC-110...command
-10.	Clover
+9.	Clover
 	1.	EFI/CLOVER/config.plist
 	2.	DPCIManager/Misc/Boot Log (Tools 2.)
 	3.	EFI/CLOVER/ACPI/Patched/dsdt.aml (if installed)
 	4.	EFI/CLOVER/ACPI/Patched/ssdt.aml (if installed)
-11.	Post to:
+10.	Post to:
 	1.	[Realtek ALC Audio - InsanelyMac.com](http://www.insanelymac.com/forum/topic/308387-el-capitan-realtek-alc-applehda-audio/page-1)
 	2. [Realtek ALC Audio - tonymacx86.com](http://www.tonymacx86.com/audio/143752-no-audio-devices-realtek-alc-applehda-guide.html)
 
