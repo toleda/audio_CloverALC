@@ -58,12 +58,10 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 	2.	10.10+/Allow unsigned kexts/set, restart, install
 		1.	Clover/config.plist
 			1.	Mandatory, Add: Boot/Arguments/kext-dev-mode=1
-3.  Native AppleHDA.kext
-    1.  [Need native?](https://github.com/toleda/audio_ALC_guides/blob/master/Restore%20native%20AppleHDA%20%5BGuide%5D.pdf)
-4.  Supported Realtek onboard audio codec
-    1.  [Unknown codec?](https://github.com/toleda/audio_ALC_guides/blob/master/Identify%20Audio%20Codec%20%5BGuide%5D.pdf)
+3.  [Native AppleHDA.kext](https://github.com/toleda/audio_ALC_guides/blob/master/Restore%20native%20AppleHDA%20%5BGuide%5D.pdf)
+4.  Audio codec? See Tools 4.
 
-**D. Realtek ALCxxx** (verify codec and Audio ID)**
+**D. Realtek ALCxxx** - Verify, see Tools 4.
 
 1.  Supported codecs (* Not supported with audio_pikeralpha-110)
     1.  269 (BRIX only) *
@@ -110,25 +108,27 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 1. [IOReg_v2.1](https://github.com/toleda/audio_ALCInjection/blob/master/IORegistryExplorer_v2.1.zip) (select View Raw)
 2. [DPCIManger](http://sourceforge.net/projects/dpcimanager/)  
 3. [MaciASL](http://sourceforge.net/projects/maciasl/)
-4. Property List Editors -
+4. [audio_codecdetect.command](https://github.com/toleda/audio_ALCInjection/blob/master/audio_codecdetect.command.zip) (select View Raw)
+5. Property List Editors -
 	1. [Xcode](https://developer.apple.com/xcode/)  
 	2. Property List Editor, PlistEdit Pro, TextEdit, etc.
 	3. TextEdit, TextWrangler (last resort)
-4. [Clover Configurator](http://www.osx86.net/files/file/49-clover-configurator/)
-6. [Clover Wiki](http://clover-wiki.zetam.org/Home)
+6. [Clover Configurator](http://www.osx86.net/files/file/49-clover-configurator/)
+7. [Clover Wiki](http://clover-wiki.zetam.org/Home)
 
 **G - Problem Reporting** (no files atached, no reply)
 
 1.	Description of audio problem
 2.	OS X version/motherboard model/BIOS version/processor/graphics
 3.	Procedure/Guide used
-4.	Installed S/L/E/AppleHDA.kext
-5.	Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (Tools 1.)
-6.	Screenshot: DPCIManager/Status (Tools 2.) 
-7.	DPCIManager/Misc/Boot Log, atttach text file
-8.	Terminal/Shell/File/Export Text As. . . /
-	1. audio_cloverALC-110...command
-	2. audio_pikeralphaALC-110...command
+4.	Terminal/Shell/File/Export Text As. . . 
+	1. audio_codecdetect.command (Tools 4.)
+	2. audio_cloverALC-110...command
+	3. audio_pikeralphaALC-110...command
+5.	Installed S/L/E/AppleHDA.kext
+6.	Copy of IOReg - IOReg_v2.1/File/Save a Copy As…, verify file (Tools 1.)
+7.	Screenshot: DPCIManager/Status (Tools 2.) 
+8.	DPCIManager/Misc/Boot Log, atttach text file
 9.	Clover
 	1.	EFI/CLOVER/config.plist
 	2.	DPCIManager/Misc/Boot Log (Tools 2.)
@@ -137,7 +137,6 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 10.	Post to:
 	1.	[Realtek ALC Audio - InsanelyMac.com](http://www.insanelymac.com/forum/topic/308387-el-capitan-realtek-alc-applehda-audio/page-1)
 	2. [Realtek ALC Audio - tonymacx86.com](http://www.tonymacx86.com/audio/143752-no-audio-devices-realtek-alc-applehda-guide.html)
-
 
 Credit
 THe KiNG, bcc9, RevoGirl, PikeRAlpha, SJ\_UnderWater, RehabMan, TimeWalker75a, lisai9093, [abxite](http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647)
