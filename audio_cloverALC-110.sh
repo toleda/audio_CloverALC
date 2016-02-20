@@ -1,6 +1,6 @@
-#!/bin/sh
+a#!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0o10"
+gFile="audio_cloverALC-110.command_v1.0p10"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -47,6 +47,7 @@ gFile="audio_cloverALC-110.command_v1.0o10"
 # v1.0m - 11/30/15: unsupported audio_id fix
 # v1.0n - 12/20/15: detect HD4600 HDMI audio codec
 # v1.0o10 - 12/20/15: add Osmosis, typo, credit: dabaer
+# v1.0p10 - 2/18/15: add test drive, typos
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -55,7 +56,12 @@ echo "for any reason without permission. The audio_cloverALC-110 script is"
 echo "provided as is and without any kind of warranty."
 echo " "
 
+# debug=0 - normal install,
+# debug=1 - test drive: copy config.plist to Desktop, edited config.plist, 
+#   realtekALC.kext, layout_.xml and Platforms files copied to Desktop/codec
+
 # set initial variables
+gDebug=0
 gSysVer=`sw_vers -productVersion`
 gSysName="Mavericks"
 gStartupDisk=EFI
@@ -73,7 +79,6 @@ gCodec=892
 gLegacy=n
 gController=n
 gMake=0
-gDebug=0
 gMB=0
 # gCodecsinstalled
 # gCodecVendor
@@ -85,13 +90,16 @@ gPikerAlphaALC=0
 gRealtekALC=0
 gAudioidvalid=n
 gCodecvalid=n
+gtestALC=1
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
+    echo "gDebug = $gDebug"
     echo "gMake = $gMake"
     echo "gCloverALC = $gCloverALC"
     echo "gPikerAlphaALC = $gPikerAlphaALC"
     echo "gRealtekALC = $gRealtekALC"
+    echo "gtestALC = $gtestALC"
 
 # while true
 # do
@@ -131,13 +139,21 @@ exit 1
 esac
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     # gSysVer=10.9
     echo "System version: supported"
     echo "gSysVer = $gSysVer"
 fi
 
 echo "File: $gFile"
+
+# debug
+case $gDebug in
+
+1 )
+    echo "Test Drive Mode"
+    ;;
+esac
 
 # debug
 if [ $gMake = 1 ]; then
@@ -174,7 +190,7 @@ gStartupDevice=$(mount | grep "on / " | cut -f1 -d' ')
 gStartupDisk=$(mount | grep "on / " | cut -f1 -d' ' | xargs diskutil info | grep "Volume Name" | perl -an -F'/:\s+/' -e 'print "$F[1]"')
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "Boot device: $gStartupDevice"
     echo "Boot volume: $gStartupDisk"
 fi
@@ -188,7 +204,7 @@ if [ $gRealtekALC = 1 ]; then
     gChameleonDirectory=/Volumes/"$gStartupDisk"/Extra
 
 # debug
-    if [ $gDebug = 1 ]; then
+    if [ $gDebug = 2 ]; then
         echo "gChameleonDirectory = $gChameleonDirectory"
         echo "gSysName = $gSysName"
     fi
@@ -198,7 +214,7 @@ if [ $gRealtekALC = 1 ]; then
             cp -p "$gChameleonDirectory/org.chameleon.Boot.plist" "/tmp/org.chameleon.Boot.txt"
 
 # debug
-            if [ $gDebug = 1 ]; then
+            if [ $gDebug = 2 ]; then
                 echo "$gChameleonDirectory/org.chameleon.Boot.plist found"
             fi
 
@@ -503,15 +519,31 @@ else
     fi
     ;;
 
-    1 )
-    echo "gHDAversioninstalled = $gHDAversioninstalled"
+1 )
+    if [ -d "$gDesktopDirectory/config-basic.plist" ]; then  
+       echo "Desktop/config-basic.plist copied missing"
+       exit 1
+    fi
+
+    sudo cp -R "$gDesktopDirectory/config-basic.plist" /tmp/config.plist
     echo "Desktop/config-basic.plist copied to /tmp/config.plist"
-    sudo cp -X config-basic.plist /tmp/config.plist
-;;
+   ;;
+
+2 )
+    echo "gHDAversioninstalled = $gHDAversioninstalled"
+    if [ -d "$gDesktopDirectory/config-basic.plist" ]; then  
+       echo "Desktop/config-basic.plist copied missing"
+       exit 1
+    fi
+
+    sudo cp -R "$gDesktopDirectory/config-basic.plist" /tmp/config.plist
+    echo "Desktop/config-basic.plist copied to /tmp/config.plist"
+    ;;
+
 * )
-echo "gDebug = $gDebug, fix"
-exit 1
-;;
+    echo "gDebug = $gDebug, fix"
+    exit 1
+    ;;
 esac
 
 fi
@@ -531,7 +563,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "EFI: success"
 fi
 
@@ -541,17 +573,18 @@ ioreg -rw 0 -p IODeviceTree -n HDEF > /tmp/HDEF.txt
 if [[ $(cat /tmp/HDEF.txt | grep -c "HDEF@1") != 0 ]]; then
     gLayoutidioreg=$(cat /tmp/HDEF.txt | grep layout-id | sed -e 's/.*<//' -e 's/>//')
     gLayoutidhex="0x${gLayoutidioreg:6:2}${gLayoutidioreg:4:2}${gLayoutidioreg:2:2}${gLayoutidioreg:0:2}"
-    let gAudioid=$gLayoutidhex
+    gAudioid=$((gLayoutidhex))
     sudo rm -R /tmp/HDEF.txt
 else
     echo "Error: no IOReg/HDEF; BIOS/audio/disabled or ACPI problem"
     echo "No system files were changed"
     echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-    exit 1
+    sudo rm -R /tmp/HDEF.txt
+exit 1
 fi
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "gLayoutidioreg = $gLayoutidioreg"
     echo "gLayoutidihex = $gLayoutidhex"
     echo "gAudioid = $gAudioid"
@@ -606,7 +639,7 @@ if [ $gMake = 0 ]; then
 fi
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "Native AppleHDA: success"
 fi
 
@@ -615,9 +648,9 @@ gCodecsInstalled=$(ioreg -rxn IOHDACodecDevice | grep VendorID | awk '{ print $4
 gCodecsVersion=$(ioreg -rxn IOHDACodecDevice | grep RevisionID| awk '{ print $4 }')
 
 # debug
-if [ $gDebug = 1 ]; then
-    gCodecsInstalled=0x10ec0887
-    gCodecsVersion=0x100101
+if [ $gDebug = 2 ]; then
+# gCodecsInstalled=0x10ec0887
+# gCodecsVersion=0x100101
 # gCodecsVersion=0x100202
 # gCodecsVersion=0x100302
 # gCodecsInstalled=0x10ec0900
@@ -651,7 +684,7 @@ for codec in $gCodecsInstalled
 do
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "Index = $index, Codec = $codec, Version = ${version[$index]}"
 fi
 
@@ -674,7 +707,7 @@ index=$((index + 1))
 done
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "HDMI audio codec(s)"
         if [ $intel = y ]; then
             echo "Intel:    $Codecintelhdmi"
@@ -721,7 +754,7 @@ if [ $realtek = y ]; then
     gCodecDevice=${Codecrealtekaudio:6:4}
 
 # debug
-    if [ $gDebug = 1 ]; then
+    if [ $gDebug = 2 ]; then
         echo "gCodecVendor = $gCodecVendor"
         echo "gCodecDevice = $gCodecDevice"
     fi
@@ -739,7 +772,7 @@ if [ $realtek = y ]; then
     fi
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "Codec identification: success"
 fi
 
@@ -836,27 +869,35 @@ case "$gCodec" in
 
 esac
 
+case "$gCodec" in
+
+887|892|898|1150 )
+
 # verify ioreg/HDAU for HD4600 HDMI audio
-ioreg -rw 0 -p IODeviceTree -n HDAU > /tmp/HDAU.txt
+   ioreg -rw 0 -p IODeviceTree -n HDAU > /tmp/HDAU.txt
 
-if [[ $(cat /tmp/HDAU.txt | grep -c "HDAU@3") != 0 ]]; then
-    if [[ $(cat /tmp/HDAU.txt | grep -c "0c0c") != 0 ]]; then
-        echo "HDAU@3 found, HD4600 HDMI audio capable"
-        gController=1
-    fi
-fi
-sudo rm -R /tmp/HDAU.txt
+   if [[ $(cat /tmp/HDAU.txt | grep -c "HDAU@3") != 0 ]]; then
+       if [[ $(cat /tmp/HDAU.txt | grep -c "0c0c") != 0 ]]; then
+           echo "HDAU@3 found, HD4600 HDMI audio capable"
+           gController=1
+       fi
+   fi
+   sudo rm -R /tmp/HDAU.txt
 
-ioreg -rw 0 -p IODeviceTree -n B0D3 > /tmp/B0D3.txt
+   ioreg -rw 0 -p IODeviceTree -n B0D3 > /tmp/B0D3.txt
 
-if [[ $(cat /tmp/B0D3.txt | grep -c "B0D3@3") != 0 ]]; then
-    if [[ $(cat /tmp/B0D3.txt | grep -c "0c0c") != 0 ]]; then
-        echo "B0D3@3 found, HDAU edit required for HD4600 HDMI audio"
-        echo "dsdt edit/ssdt injection not available with this script"
-        gController=1
-    fi
-fi
-sudo rm -R /tmp/B0D3.txt
+   if [[ $(cat /tmp/B0D3.txt | grep -c "B0D3@3") != 0 ]]; then
+        if [[ $(cat /tmp/B0D3.txt | grep -c "0c0c") != 0 ]]; then
+            echo "B0D3@3 found, HDAU edit required for HD4600 HDMI audio"
+            echo "dsdt edit/ssdt injection not available with this script"
+            gController=1
+        fi
+   fi
+   sudo rm -R /tmp/B0D3.txt
+
+   ;;
+
+esac
 
 # HD4600 HDMI audio patch]
 choice2=n
@@ -962,8 +1003,10 @@ if [ $gCloverALC = 1 ]; then
 
 fi
 
+
+
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "gCodec = $gCodec"
     echo "gAudioid = $gAudioid"
     echo "gLegacy = $gLegacy"
@@ -974,6 +1017,8 @@ fi
 if [ $gPikerAlphaALC = 0 ]; then
 echo ""
 echo "Download ALC$gCodec files ..."
+
+if [ $gtestALC = 0 ]; then
 gDownloadLink="https://raw.githubusercontent.com/toleda/audio_ALC$gCodec/master/$gCodec.zip"
 if [ $gLegacy = y ]; then
     Legacy=_v100202
@@ -985,6 +1030,32 @@ fi
 
 unzip -qu "/tmp/ALC$gCodec.zip" -d "/tmp/"
 
+else
+# confirm codec test
+while true
+do
+    read -p "Confirm Realtek ALC$gCodec test (y/n): "  choice13
+    case "$choice13" in
+    [yY]* ) break;;
+    [nN]* )
+        echo "Error: set gtestALC=0"
+        echo "No system files were changed"
+        echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
+        exit 1
+        ;;
+    * ) echo "Try again...";;
+    esac
+done
+
+gDownloadLink="https://raw.githubusercontent.com/toleda/audio_alc_test/master/$gCodec.zip"
+sudo curl -o "/tmp/ALC$gCodec.zip" $gDownloadLink
+unzip -qu "/tmp/ALC$gCodec.zip" -d "/tmp/"
+gDownloadLink="https://raw.githubusercontent.com/toleda/audio_alc_test/master/realtekALC.kext.zip"
+sudo curl -o "/tmp/realtekALC.kext.zip" $gDownloadLink
+unzip -qu "/tmp/realtekALC.kext.zip" -d "/tmp/"
+
+fi
+
 # exit if error
 if [ "$?" != "0" ]; then
     echo "Error: Download failure, verify network"
@@ -995,7 +1066,7 @@ fi
 fi
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "gCloverALC = $gCloverALC"
     echo "gPikerAlphaALC = $gPikerAlphaALC"
     echo "gRealtekALC = $gRealtekALC"
@@ -1026,7 +1097,7 @@ sudo /usr/libexec/PlistBuddy -c "Add :Devices:Audio:Inject string '$gAudioid'" /
 fi
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "gAudioid = $gAudioid"
     echo "configaudio = $configaudio"
 fi
@@ -1037,7 +1108,7 @@ echo "Edit config.plist/SystemParameters/InjectKexts/YES"
 injectkexts=$(sudo /usr/libexec/PlistBuddy -c "Print ':SystemParameters:InjectKexts:'" /tmp/config.plist)
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "SystemParameters:InjectKexts: = $injectkexts"
 fi
 
@@ -1051,7 +1122,7 @@ if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':SystemParameters:InjectKexts'" /
 fi
 
 # debug 
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "After edit. :SystemParameters:InjectKexts; = $(sudo /usr/libexec/PlistBuddy -c "Print ':SystemParameters:InjectKexts:'" /tmp/config.plist)"
 fi
 
@@ -1081,7 +1152,7 @@ fi
 # bootarguments=$(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)
 
 # debug
-# if [ $gDebug = 1 ]; then
+# if [ $gDebug = 2 ]; then
 #     echo "Boot:Arguments: = $bootarguments"
 # fi
 
@@ -1096,7 +1167,7 @@ fi
 # fi
 
 # debug
-# if [ $gDebug = 1 ]; then
+# if [ $gDebug = 2 ]; then
 #     echo "After edit. Boot:Arguments: = $(sudo /usr/libexec/PlistBuddy -c "Print ':Boot:Arguments:'" /tmp/config.plist)"
 # fi
 
@@ -1145,7 +1216,7 @@ if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatc
 fi
 index=$((index + 1))
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1163,7 +1234,7 @@ if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatc
 fi
 index=$((index + 1))
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1182,7 +1253,7 @@ fi
 gMB=1
 index=$((index + 1))
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1202,7 +1273,7 @@ gMB=1
 index=$((index + 1))
 
 # debug
-if [ $gDebug = 1 ]; then
+if [ $gDebug = 2 ]; then
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1296,14 +1367,25 @@ if [ "$?" != "0" ]; then
 fi
 
 # install updated config.plst
-if [ $gDebug = 0 ]; then
-    sudo cp -R "/tmp/config.plist" "$gCloverDirectory/config.plist"
+case $gDebug in
 
-else
-    echo "Debug mode"
-    sudo cp -R /tmp/config.plist gDesktopDirectory
-    echo "/tmp/config.plist copied to Desktop"
-fi
+0 )
+    sudo cp -R "/tmp/config.plist" "$gCloverDirectory/config.plist"
+    ;;
+
+1|2 )
+
+    echo # "Debug mode"
+    if [ -d "$gDesktopDirectory/config.plist" ]; then
+        sudo rm -R "$gDesktopDirectory/config.plist"
+        echo "Desktop/config.plist deleted"
+    fi
+
+    sudo cp -R /tmp/config.plist /tmp/$gCodec
+    echo "/tmp/config.plist copied to /tmp/$gCodec"
+    ;;
+
+esac
 
 # cleanup /tmp
 sudo rm -R /tmp/ktp.plist
@@ -1365,44 +1447,67 @@ if [ -d "$gCloverDirectory/$gSysFolder" ]; then
     gSysFolder=kexts/Other
 fi
 
-echo "Install $gCloverDirectory/$gSysFolder/realtekALC.kext"
-
-echo "Download config kext and install ..."
-gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/realtekALC.kext.zip"
-sudo curl -o "/tmp/realtekALC.kext.zip" $gDownloadLink
-unzip -qu "/tmp/realtekALC.kext.zip" -d "/tmp/"
+if [ $gtestALC = 0 ]; then
+    echo "Download config kext and install ..."
+    gDownloadLink="https://raw.githubusercontent.com/toleda/audio_cloverALC/master/realtekALC.kext.zip"
+    sudo curl -o "/tmp/realtekALC.kext.zip" $gDownloadLink
+    unzip -qu "/tmp/realtekALC.kext.zip" -d "/tmp/"
+fi
 
 # install realtekALC.kext
+
+case $gDebug in
+
+0 )
+
+case $gMB in
+
+   0 )
+# to EFI/CLOVER/kexts/ (cloverALC)
+
+    if [ -d "$gCloverDirectory/$gSysFolder/realtekALC.kext" ]; then
+    sudo rm -R "$gCloverDirectory/$gSysFolder/realtekALC.kext"
+    # echo "$gCloverDirectory/$gSysFolder/realtekALC.kext deleted"
+    fi
+
+    sudo cp -R "/tmp/realtekALC.kext" "$gCloverDirectory/$gSysFolder/"
+    echo "Install $gCloverDirectory/$gSysFolder/realtekALC.kext"
+    if [ -d "$gLibraryDirectory/realtekALC.kext" ]; then
+    	sudo rm -R "$gLibraryDirectory/realtekALC.kext"
+    fi
+    ;;
+
+   1 )
 # to Library/Extensions/ (mb)
-if [ $gMB = 1 ]; then
+
     if [ -d "$gLibraryDirectory/realtekALC.kext" ]; then
     sudo rm -R "$gLibraryDirectory/realtekALC.kext"
 	else
 	gMB=0
-# echo "$gLibraryDirectory/realtekALC.kext deleted"
+    # echo "$gLibraryDirectory/realtekALC.kext deleted"
     fi
 
-    sudo cp -R "/tmp/realtekALC.kext" "$gLibraryDirectory/"
-fi
+    sudo cp -R "/tmp/realtekALC.kext" "/tmp/$gCodec"
+    echo "Install $gLibraryDirectory/realtekALC.kext"
+    ;;
 
-# to EFI/CLOVER/kexts/ (cloverALC)
-if [ $gMB = 0 ]; then
-if [ $gDebug = 0 ]; then
-    if [ -d "$gCloverDirectory/$gSysFolder/realtekALC.kext" ]; then
-    sudo rm -R "$gCloverDirectory/$gSysFolder/realtekALC.kext"
-# echo "$gCloverDirectory/$gSysFolder/realtekALC.kext deleted"
+    esac
+
+    ;;
+
+1|2 )
+    if [ -d "$gDesktopDirectory/realtekALC.kext" ]; then
+        sudo rm -R "$gDesktopDirectory/realtekALC.kext"
+       # echo "Desktop/realtekALC.kext deleted"
     fi
 
-    sudo cp -R "/tmp/realtekALC.kext" "$gCloverDirectory/$gSysFolder/"
-    if [ -d "$gLibraryDirectory/realtekALC.kext" ]; then
-    	sudo rm -R "$gLibraryDirectory/realtekALC.kext"
-    fi
+    sudo cp -R /tmp/realtekALC.kext /tmp/$gCodec
+    echo "/tmp/realtekALC.kext copied to /tmp/$gCodec"
 
-else
-    echo "Debug mode"
-    echo "No system files were changed"
-fi
-fi
+    ;;
+
+esac
+
 sudo rm -R /tmp/realtekALC.kext.zip
 sudo rm -R /tmp/realtekALC.kext
 sudo rm -R /tmp/__MACOSX
@@ -1415,8 +1520,12 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
+# set install folder
+case $gDebug in
+
+0 )
+
 # install codec specific files
-if [ $gDebug = 0 ]; then
     if [ -d "$gHDAContentsDirectory/Resources/*.zml.zlib" ]; then
     sudo rm -R "$gHDAContentsDirectory/Resources/*.zml.zlib"
 # echo "System/Library/Extensions/AppleHDA.kext/ALC$gCodec zml files deleted"
@@ -1436,7 +1545,21 @@ if [ $gDebug = 0 ]; then
 #   sudo install -m 644 -o root -g wheel /tmp/$gCodec/layout2.xml.zlib  $gHDAContentsDirectory/Resources/layout2.zml.zlib
 #   ;;
     esac
-fi
+    ;;
+
+1|2 )
+    if [ -d "$gDesktopDirectory/$gCodec" ]; then
+        sudo rm -R "$gDesktopDirectory/$gCodec"
+        # echo "Desktop/$gCodec deleted"
+    fi
+
+    sudo cp -R /tmp/$gCodec $gDesktopDirectory
+    echo "/tmp/$gCodec copied to Desktop"
+    echo "No system files were changed"
+    ;;
+
+esac
+
 
 # exit if error
 if [ "$?" != "0" ]; then
@@ -1448,6 +1571,8 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
+
+
 # remove temp files
 sudo rm -R /tmp/ALC$gCodec.zip
 sudo rm -R /tmp/$gCodec
@@ -1457,6 +1582,9 @@ fi    # end: PikerAlphaALC
 fi    # end: if [ $gCloverALC = 1 ]
 
 # fix permissions and rebuild cache
+
+
+if [ $gDebug = 0 ]; then
 case $gSysName in
 
 "El Capitan"|"Yosemite" )
@@ -1476,6 +1604,7 @@ echo "Allow a few minutes for kernel cache rebuild."
 ;;
 
 esac
+fi
 
 # exit if error
 # if [ "$?" != "0" ]; then
@@ -1488,6 +1617,17 @@ esac
 # fi
 
 echo ""
-echo "Install finished, restart required."
+case $gDebug in
+
+0 )
+    echo "Install finished, restart required."
+    ;;
+
+1|2 )
+    echo "Install finished, see Desktop/$gCodec"
+    ;;
+
+esac
+
 echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
 exit
