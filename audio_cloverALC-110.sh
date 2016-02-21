@@ -1,6 +1,6 @@
 a#!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0p10"
+gFile="audio_cloverALC-110.command_v1.0p20"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -48,6 +48,7 @@ gFile="audio_cloverALC-110.command_v1.0p10"
 # v1.0n - 12/20/15: detect HD4600 HDMI audio codec
 # v1.0o10 - 12/20/15: add Osmosis, typo, credit: dabaer
 # v1.0p10 - 2/18/15: add test drive, typos
+# v1.0p10 - 2/20/15: typos
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -90,7 +91,7 @@ gPikerAlphaALC=0
 gRealtekALC=0
 gAudioidvalid=n
 gCodecvalid=n
-gtestALC=1
+gtestALC=0
 
 # debug
 if [ $gDebug = 2 ]; then
