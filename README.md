@@ -109,9 +109,9 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
  	   1.  [Clover/EFI](https://github.com/toleda/audio_CloverALC/blob/master/Terminal:audio_cloverALC-110-efi.txt)
  	   2.  [Clover/Legacy](https://github.com/toleda/audio_CloverALC/blob/master/Terminal:audio_cloverALC-110-legacy.txt)
 
-F. [Problem Reporting](https://github.com/toleda/audio_ALC_guides/blob/master/Problem%20Reporting.md)  
+**F. [Problem Reporting](https://github.com/toleda/audio_ALC_guides/blob/master/Problem%20Reporting.md)**
 
-1.	Problem Reporting/Post to: 
+1.	Problem Reporting/Post to
 2.	Problem Reporting/Attached requested files
 
 Credit
