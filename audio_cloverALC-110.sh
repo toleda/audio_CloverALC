@@ -1,6 +1,7 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-110.command_v1.0q10"
+gFile="audio_cloverALC-110.command_v1.0s10"
+# gFile="audio_pikeralphaALC-110.command_v1.0s11"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -50,6 +51,8 @@ gFile="audio_cloverALC-110.command_v1.0q10"
 # v1.0p10 - 2/18/16: add test drive, typos
 # v1.0p20 - 2/20/16: typos
 # v1.0q10 - 3/9/16: line 1/typo
+# v1.0r10 - 3/9/16: x99 fix
+# v1.0s10 - 8/11/16: config.plist: Does Not Exist fix
 echo " "
 echo "Agreement"
 echo "The audio_cloverALC-110 script is for personal use only. Do not distribute" 
@@ -59,8 +62,7 @@ echo "provided as is and without any kind of warranty."
 echo " "
 
 # debug=0 - normal install,
-# debug=1 - test drive: copy config.plist to Desktop, edited config.plist, 
-#   realtekALC.kext, layout_.xml and Platforms files copied to Desktop/codec
+# debug=1 - test drive: copy config.plist to Desktop, edited config.plist, realtekALC.kext, layout_.xml and Platforms files copied to Desktop/codec
 
 # set initial variables
 gDebug=0
@@ -96,7 +98,7 @@ gtestALC=0
 
 # debug
 if [ $gDebug = 2 ]; then
-    echo "gDebug = $gDebug"
+    echo "gDebug = $gDebug - ${gDebugMode[$gDebug]}"
     echo "gMake = $gMake"
     echo "gCloverALC = $gCloverALC"
     echo "gPikerAlphaALC = $gPikerAlphaALC"
@@ -147,15 +149,12 @@ if [ $gDebug = 2 ]; then
     echo "gSysVer = $gSysVer"
 fi
 
+gDebugMode[0]=Release
+gDebugMode[1]=TestDrive
+gDebugMode[2]=Debug
+
 echo "File: $gFile"
-
-# debug
-case $gDebug in
-
-1 )
-    echo "Test Drive Mode"
-    ;;
-esac
+echo "${gDebugMode[$gDebug]} Mode"
 
 # debug
 if [ $gMake = 1 ]; then
@@ -1213,12 +1212,13 @@ index=0
 while [ $ktpexisting -ge 1 ]; do
 if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "t1-") = 1 ]; then
     sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
-    ktpexisting=$((ktpexisting - 1))
+    ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "t1-")
     index=$((index - 1))
 fi
 index=$((index + 1))
 # debug
 if [ $gDebug = 2 ]; then
+    echo "t1 patches"
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1230,13 +1230,16 @@ ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:Kext
 index=0
 while [ $ktpexisting -ge 1 ]; do
 if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDAController") = 1 ]; then
-    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
-    ktpexisting=$((ktpexisting - 1))
+    if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "x99") = 0 ]; then
+            sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+    fi
+    ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDAController")
     index=$((index - 1))
 fi
 index=$((index + 1))
 # debug
 if [ $gDebug = 2 ]; then
+    echo "AppleHDAController patches (mb)"
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1247,15 +1250,18 @@ ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:Kext
 
 index=0
 while [ $ktpexisting -ge 1 ]; do
-if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") = 2 ]; then
-    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
-    ktpexisting=$((ktpexisting - 2))
-    index=$((index - 2))
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") != 0 ]; then
+    if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "x99") = 0 ]; then
+            sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+    fi
+    ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDA")
+    index=$((index - 1))
 fi
 gMB=1
 index=$((index + 1))
 # debug
 if [ $gDebug = 2 ]; then
+    echo "AppleHDA patches (mb)"
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1267,8 +1273,10 @@ ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:Kext
 index=0
 while [ $ktpexisting -ge 1 ]; do
 if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "AppleHDA") = 1 ]; then
-    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
-    ktpexisting=$((ktpexisting - 1))
+        if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "x99") = 0 ]; then
+        sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+    fi
+    ktpexisting=$(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:'" /tmp/config.plist | grep -c "AppleHDA")
     index=$((index - 1))
 fi
 gMB=1
@@ -1276,6 +1284,7 @@ index=$((index + 1))
 
 # debug
 if [ $gDebug = 2 ]; then
+    echo "AppleHDA patches (any remaining)"
     echo "index = $index"
     echo "ktpexisting = $ktpexisting"
 fi
@@ -1376,13 +1385,6 @@ case $gDebug in
     ;;
 
 1|2 )
-
-    echo # "Debug mode"
-    if [ -d "$gDesktopDirectory/config.plist" ]; then
-        sudo rm -R "$gDesktopDirectory/config.plist"
-        echo "Desktop/config.plist deleted"
-    fi
-
     sudo cp -R /tmp/config.plist /tmp/$gCodec
     echo "/tmp/config.plist copied to /tmp/$gCodec"
     ;;
@@ -1498,14 +1500,8 @@ case $gMB in
     ;;
 
 1|2 )
-    if [ -d "$gDesktopDirectory/realtekALC.kext" ]; then
-        sudo rm -R "$gDesktopDirectory/realtekALC.kext"
-       # echo "Desktop/realtekALC.kext deleted"
-    fi
-
     sudo cp -R /tmp/realtekALC.kext /tmp/$gCodec
     echo "/tmp/realtekALC.kext copied to /tmp/$gCodec"
-
     ;;
 
 esac
@@ -1550,18 +1546,16 @@ case $gDebug in
     ;;
 
 1|2 )
-    if [ -d "$gDesktopDirectory/$gCodec" ]; then
-        sudo rm -R "$gDesktopDirectory/$gCodec"
-        # echo "Desktop/$gCodec deleted"
+    if [ -d $gDesktopDirectory$gCodec-${gDebugMode[$gDebug]} ]; then
+        sudo rm -R $gDesktopDirectory$gCodec-${gDebugMode[$gDebug]}
     fi
-
-    sudo cp -R /tmp/$gCodec $gDesktopDirectory
-    echo "/tmp/$gCodec copied to Desktop"
+    sudo cp -R /tmp/$gCodec $gDesktopDirectory$gCodec-${gDebugMode[$gDebug]}
+    sudo rm -R "$gDesktopDirectory$gCodec-${gDebugMode[$gDebug]}"/Info-*.plist
+    echo "$gCodec-${gDebugMode[$gDebug]} copied to Desktop"
     echo "No system files were changed"
     ;;
 
 esac
-
 
 # exit if error
 if [ "$?" != "0" ]; then
@@ -1573,8 +1567,6 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-
-
 # remove temp files
 sudo rm -R /tmp/ALC$gCodec.zip
 sudo rm -R /tmp/$gCodec
@@ -1584,7 +1576,6 @@ fi    # end: PikerAlphaALC
 fi    # end: if [ $gCloverALC = 1 ]
 
 # fix permissions and rebuild cache
-
 
 if [ $gDebug = 0 ]; then
 case $gSysName in
@@ -1626,7 +1617,7 @@ case $gDebug in
     ;;
 
 1|2 )
-    echo "Install finished, see Desktop/$gCodec"
+    echo "Install finished, see Desktop/$gCodec-${gDebugMode[$gDebug]}"
     ;;
 
 esac
