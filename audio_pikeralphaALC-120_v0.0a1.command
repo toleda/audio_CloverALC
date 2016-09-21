@@ -1,7 +1,7 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
 # gFile="audio_cloverALC-110.command_v1.0r10"
-gFile="audio_pikeralphaALC-120.command_v0.0a1"
+gFile="audio_pikeralphaALC-120.command_v1.0a1"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -68,7 +68,7 @@ gDebug=0
 gSysVer=`sw_vers -productVersion`
 gSysName="Mavericks"
 gStartupDisk=EFI
-gCloverDirectory=/Volumes/EFI/CLOVER
+gCloverDirectory=/$gStartupDisk/Volumes/EFI/CLOVER
 gDesktopDirectory=/Users/$(whoami)/Desktop/
 gLibraryDirectory=/Library/Extensions
 gExtensionsDirectory=/System/Library/Extensions
@@ -118,9 +118,8 @@ fi
 # verify system version
 case ${gSysVer} in
 
-
 10.12* ) gSysName="Sierra"
-gSysFolder=kexts/10.12
+gSysFolder=kexts/10.11
 gSID=$(csrutil status)
 ;;
 10.11* ) gSysName="El Capitan"
@@ -169,11 +168,7 @@ if [ $gMake = 1 ]; then
         sudo rm -R "$gExtensionsDirectory/AppleHDA.kext"
     case $gSysName in
 
-    "Sierra" )
-    sudo cp -X $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
-    ;;
-
-    "El Capitan" )
+    "Sierra"|"El Capitan" )
     sudo cp -X $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
     ;;
 
@@ -239,26 +234,7 @@ if [ $gRealtekALC = 1 ]; then
 
         case $gSysName in
 
-        "Sierra" )
-        echo $gSID > /tmp/gsid.txt
-        if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
-            rm -R /tmp/gsid.txt
-            echo "$gSID"
-            echo ""
-            echo "NOK to patch"
-            echo "Add org.chameleon.Boot.plist/Kernel Flags = CsrActiveConfig=0x3 and restart"
-            echo "No system files were changed"
-            echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-            exit 1
-        else
-            rm -R /tmp/gsid.txt
-            echo "$gSID"
-            echo ""
-            echo "OK to patch"
-        fi
-        ;;
-
-        "El Capitan" )
+        "Sierra"|"El Capitan" )
         echo $gSID > /tmp/gsid.txt
         if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             rm -R /tmp/gsid.txt
@@ -302,27 +278,7 @@ if [ $gRealtekALC = 1 ]; then
 
     [yY]* )
         case $gSysName in
-        "Sierra" )
-
-        echo $gSID > /tmp/gsid.txt
-        if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
-            rm -R /tmp/gsid.txt
-            echo "$gSID"
-            echo ""
-            echo "NOK to patch"
-            echo "Set Kernel Flag = CsrActiveConfig=0x3 and restart"
-            echo "No system files were changed"
-            echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-            exit 1
-        else
-        rm -R /tmp/gsid.txt
-        echo "$gSID"
-        echo ""
-        echo "OK to patch"
-        fi
-        break
-        ;;
-        "El Capitan" )
+        "Sierra"|"El Capitan" )
 
         echo $gSID > /tmp/gsid.txt
         if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
@@ -427,7 +383,7 @@ if [ $gEFI = 1 ]; then
 
         case $gSysName in
 
-        "El Capitan" )
+        "Sierra"|"El Capitan" )
 	    echo $gSID > /tmp/gsid.txt
             if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             rm -R /tmp/gsid.txt 
@@ -477,11 +433,11 @@ else
     echo "EFI partition not mounted"
 
 # confirm Clover Legacy install
-    gCloverDirectory=/Volumes/EFI/CLOVER
+    gCloverDirectory=/"$gStartupDisk"/Volumes/EFI/CLOVER
     if [ -d "$gCloverDirectory" ]; then
-	    echo "EFI folder found"
-    else echo "EFI folder not found"
-	    echo "/Volumes/EFI/CLOVER folder not available to install audio"
+	    echo "$gStartupDisk/EFI folder found"
+    else echo "$gStartupDisk/EFI not found"
+	    echo "EFI/CLOVER folder not available to install audio"
 	    echo "No system files were changed"
 	    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
 	    exit 1
@@ -493,33 +449,14 @@ else
     case "$choice8" in
 
     [yY]* )
-#    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER
+#    gCloverDirectory=/"$gStartupDisk"/Volumes/EFI/CLOVER
     if [ -d "$gCloverDirectory" ]; then
         if [ -f "$gCloverDirectory/config.plist" ]; then
 
             cp -p "$gCloverDirectory/config.plist" "/tmp/config.txt"
             case $gSysName in
 
-            "Sierra" )
-	    	echo $gSID > /tmp/gsid.txt
-        	if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
-            	rm -R /tmp/gsid.txt 
-                echo "$gSID"
-                echo ""
-                echo "NOK to patch"
-                echo "Add config.plist/RtVariables/CsrActiveConfig=0x3 and restart"
-                echo "No system files were changed"
-                echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
-                exit 1
-            else
-            	rm -R /tmp/gsid.txt                
-		echo "$gSID"
-               echo ""
-		echo "OK to patch"
-            fi
-            ;;
-
-            "El Capitan" )
+            "Sierra"|"El Capitan" )
 	    	echo $gSID > /tmp/gsid.txt
         	if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             	rm -R /tmp/gsid.txt 
@@ -1387,7 +1324,7 @@ done
 
 case $gSysName in
 
-"El Capitan" )
+"Sierra"|"El Capitan" )
 
 case $gCodec in
 
