@@ -477,11 +477,11 @@ else
     echo "EFI partition not mounted"
 
 # confirm Clover Legacy install
-    gCloverDirectory=/Volumes/"$gStartupDisk"/EFI/CLOVER
+    gCloverDirectory=/Volumes/EFI/CLOVER
     if [ -d "$gCloverDirectory" ]; then
-	    echo "$gStartupDisk/EFI folder found"
-    else echo "$gStartupDisk/EFI not found"
-	    echo "EFI/CLOVER folder not available to install audio"
+	    echo "EFI folder found"
+    else echo "EFI folder not found"
+	    echo "/Volumes/EFI/CLOVER folder not available to install audio"
 	    echo "No system files were changed"
 	    echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
 	    exit 1
