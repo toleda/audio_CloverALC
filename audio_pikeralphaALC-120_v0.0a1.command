@@ -1,7 +1,7 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
 # gFile="audio_cloverALC-110.command_v1.0r10"
-gFile="audio_pikeralphaALC-120.command_v1.0a0"
+gFile="audio_pikeralphaALC-120.command_v0.0a1"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -68,7 +68,7 @@ gDebug=0
 gSysVer=`sw_vers -productVersion`
 gSysName="Mavericks"
 gStartupDisk=EFI
-gCloverDirectory=/Volumes/$gStartupDisk/EFI/CLOVER
+gCloverDirectory=/Volumes/EFI/CLOVER
 gDesktopDirectory=/Users/$(whoami)/Desktop/
 gLibraryDirectory=/Library/Extensions
 gExtensionsDirectory=/System/Library/Extensions
