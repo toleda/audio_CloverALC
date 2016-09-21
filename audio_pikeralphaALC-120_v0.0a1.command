@@ -68,7 +68,7 @@ gDebug=0
 gSysVer=`sw_vers -productVersion`
 gSysName="Mavericks"
 gStartupDisk=EFI
-gCloverDirectory=/$gStartupDisk/Volumes/EFI/CLOVER
+gCloverDirectory=/Volumes/EFI/CLOVER
 gDesktopDirectory=/Users/$(whoami)/Desktop/
 gLibraryDirectory=/Library/Extensions
 gExtensionsDirectory=/System/Library/Extensions
@@ -433,7 +433,7 @@ else
     echo "EFI partition not mounted"
 
 # confirm Clover Legacy install
-    gCloverDirectory=/"$gStartupDisk"/Volumes/EFI/CLOVER
+    gCloverDirectory=/Volumes/EFI/CLOVER
     if [ -d "$gCloverDirectory" ]; then
 	    echo "$gStartupDisk/EFI folder found"
     else echo "$gStartupDisk/EFI not found"
@@ -449,7 +449,7 @@ else
     case "$choice8" in
 
     [yY]* )
-#    gCloverDirectory=/"$gStartupDisk"/Volumes/EFI/CLOVER
+#    gCloverDirectory=/Volumes/EFI/CLOVER
     if [ -d "$gCloverDirectory" ]; then
         if [ -f "$gCloverDirectory/config.plist" ]; then
 
