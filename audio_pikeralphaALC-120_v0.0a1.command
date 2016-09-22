@@ -1,7 +1,7 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
 # gFile="audio_cloverALC-110.command_v1.0r10"
-gFile="audio_pikeralphaALC-120.command_v0.0a1"
+gFile="audio_pikeralphaALC-120.command_v0.0a2"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
@@ -1419,12 +1419,19 @@ if [ -d "$gLibraryDirectory/AppleHDA$gCodec.kext" ]; then
     sudo rm -R "$gLibraryDirectory/AppleHDA$gCodec.kext"
 fi
 
-# run AppleHDA8Series.sh
+# # run AppleHDA8Series.sh
+# echo "Install $gLibraryDirectory/AppleHDA$gCodec.kext"
+# chmod +x /tmp/AppleHDA8Series/AppleHDA8Series.sh
+# sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -d $gLibraryDirectory
+
+# run AppleHDA8Series.sh with clover target directory (it's 2016...)
+# NOTE THIS IS ONLY FOR SIERRA
+# also, it should be -t not -d
 echo "Install $gLibraryDirectory/AppleHDA$gCodec.kext"
 chmod +x /tmp/AppleHDA8Series/AppleHDA8Series.sh
-sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -d $gLibraryDirectory
+sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -t $gCloverDirectory/kexts/10.12/
+exit if error
 
-# exit if error
 if [ "$?" != "0" ]; then
     echo Error: AppleHDA8Series.sh
     echo "No system files were changed"
