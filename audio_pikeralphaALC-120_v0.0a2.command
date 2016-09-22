@@ -1419,18 +1419,10 @@ if [ -d "$gLibraryDirectory/AppleHDA$gCodec.kext" ]; then
     sudo rm -R "$gLibraryDirectory/AppleHDA$gCodec.kext"
 fi
 
-# # run AppleHDA8Series.sh
-# echo "Install $gLibraryDirectory/AppleHDA$gCodec.kext"
-# chmod +x /tmp/AppleHDA8Series/AppleHDA8Series.sh
-# sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -d $gLibraryDirectory
-
-# run AppleHDA8Series.sh with clover target directory (it's 2016...)
-# NOTE THIS IS ONLY FOR SIERRA
-# also, it should be -t not -d
-echo "Install $gCloverDirectory/kexts/10.12/AppleHDA$gCodec.kext"
+# run AppleHDA8Series.sh
+echo "Install $gLibraryDirectory/AppleHDA$gCodec.kext"
 chmod +x /tmp/AppleHDA8Series/AppleHDA8Series.sh
-sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -t "$gCloverDirectory/kexts/10.12/"
-exit if error
+sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -t $gLibraryDirectory
 
 if [ "$?" != "0" ]; then
     echo Error: AppleHDA8Series.sh
