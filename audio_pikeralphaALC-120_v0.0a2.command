@@ -1427,7 +1427,7 @@ fi
 # run AppleHDA8Series.sh with clover target directory (it's 2016...)
 # NOTE THIS IS ONLY FOR SIERRA
 # also, it should be -t not -d
-echo "Install $gLibraryDirectory/AppleHDA$gCodec.kext"
+echo "Install $gCloverDirectory/kexts/10.12/AppleHDA$gCodec.kext"
 chmod +x /tmp/AppleHDA8Series/AppleHDA8Series.sh
 sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -t $gCloverDirectory/kexts/10.12/
 exit if error
