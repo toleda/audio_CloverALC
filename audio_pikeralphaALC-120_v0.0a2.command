@@ -1429,7 +1429,7 @@ fi
 # also, it should be -t not -d
 echo "Install $gCloverDirectory/kexts/10.12/AppleHDA$gCodec.kext"
 chmod +x /tmp/AppleHDA8Series/AppleHDA8Series.sh
-sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -t $gCloverDirectory/kexts/10.12/
+sh /tmp/AppleHDA8Series/AppleHDA8Series.sh -a $gCodec -l $gAudioid -t "$gCloverDirectory/kexts/10.12/"
 exit if error
 
 if [ "$?" != "0" ]; then
