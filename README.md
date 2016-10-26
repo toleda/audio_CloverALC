@@ -18,7 +18,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 3. 7/19/15 - 283 Update
 4. 6/15/15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
 
-**Versions: audio_cloverALC-110**
+**Versions: audio_cloverALC-120**
 
 1. Easy: .command, see A. Installation
 2. Bash: .sh, see B. Terminal
