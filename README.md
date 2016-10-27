@@ -18,7 +18,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 3. 7/19/15 - 283 Update
 4. 6/15/15 - 10.11 - El Capitan Realtek ALC AppleHDA.kext Initial Support
 
-**Versions: audio_cloverALC-110**
+**Versions: audio_cloverALC-120**
 
 1. Easy: .command, see A. Installation
 2. Bash: .sh, see B. Terminal
@@ -26,9 +26,9 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 **A. Installation**
 
 1.  Clover/kext patched AppleHDA
-    1.  [audio\_cloverALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.command.zip) (select View Raw) 
-    or [audio\_pikeralphaALC-110.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_pikeralphaALC-110.command.zip) (select View Raw)
-    2.  Double click: Downloads/audio_cloverALC-110.command
+    1.  [audio\_cloverALC-120.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-120.command.zip) (select View Raw) 
+    or [audio\_pikeralphaALC-120.command](https://github.com/toleda/audio_CloverALC/blob/master/audio_pikeralphaALC-120.command.zip) (select View Raw)
+    2.  Double click: Downloads/audio_cloverALC-120.command
     3.  Password:
     4.  Confirm Codec ALCxxx: (885, 887, 888, 889, 892, 898, 1150 only)
     5.  Clover/Legacy: answer y to Confirm Clover Legacy Install (y/n)
@@ -42,10 +42,10 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 **B. Terminal**
 
 1.  Clover/kext patched AppleHDA
-    1. [audio\_cloverALC-110.sh](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-110.sh) (select View Raw)
+    1. [audio\_cloverALC-120.sh](https://github.com/toleda/audio_CloverALC/blob/master/audio_cloverALC-120.sh) (select View Raw)
     2. Terminal $ cd Downloads
-    3. Terminal $ mv audio\_cloverALC-110....command audio\_cloverALC-110....sh
-    3. Terminal $ ./audio\_cloverALC-110....sh
+    3. Terminal $ mv audio\_cloverALC-120....command audio\_cloverALC-120....sh
+    3. Terminal $ ./audio\_cloverALC-120....sh
     3. Same (as above)
 
 **C. Requirements**
