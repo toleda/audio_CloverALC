@@ -1,7 +1,7 @@
 ![alt text](https://github.com/toleda/audio_RealtekALC/blob/master/sound.jpeg)
 #audio\_cloverALC
 Realtek ALC/Desktop: 269(1), 283(1), 885, 887, 888, 892, 898 and 1150 on board audio  (1) BRIX/NUC only  
-Supports OS X: 10.11, 10.10, 10.9 and 10.8  
+Supports OS X: 10.12, 10.11, 10.10, 10.9 and 10.8  
 Native AppleHDA/Persistent
 
 **OS X/Clover patched AppleHDA Realtek ALC Audio**  
@@ -12,7 +12,8 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 
 **Updates**
 
-1. 7/15/16 - Initial 10.12 support, try -120 versions
+1. 10/26/16 - 10.12 support
+2. 7/15/16 - Initial 10.12 support, try -120 versions
 2. 12/14/15 - audio_pikeralpha-110 (Clover version of Piker Aplha AppleHDA8Series.sh)
 2. 11/8/15 - Skylake/Series 100 Update, Add 1150/Audio ID: 3
 3. 7/19/15 - 283 Update
@@ -51,7 +52,8 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 **C. Requirements**
 
 1.  OS X Versions (+ all)
-    1.  10.11+/El Capitan 
+    1.  10.12+/Sierra 
+    2.  10.11+/El Capitan
     2.  10.10+/Yosemite
     3.  10.9+/Mavericks
     4.  10.8+/Mountain Lion
@@ -87,7 +89,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 
     2. Audio ID: 2 - supports 887, 888, 889, 892, 898, 1150  
         Realtek ALC/5.1 surround sound (3 motherboard audio ports)
-    3. Audio ID: 3 - supports 887, 888, 889, 892, 898, 1150  
+    3. Audio ID: 3 - supports 887, 888, 889, 892, 898 
         HD3000/HD4000 HDMI audio with Realtek ALC audio
 
 **E. More Information**
