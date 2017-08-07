@@ -69,10 +69,13 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
 			2.	Boot/Arguments/kext-dev-mode=1
 3.  [Native AppleHDA.kext](https://github.com/toleda/audio_ALC_guides/blob/master/Restore%20native%20AppleHDA%20%5BGuide%5D.pdf)
 4.  Audio codec? See Tools 4.
+5. 100/200 Series Audio Fixes (not macOS native, select one)
+	1.	[config.plist edit:] (https://github.com/toleda/audio_CloverALC/blob/master/config-audio_cloverALC-120.plist.zip) ACPI/DSDT/patches/Item 0
+	2. [ssdt enabler] (https://github.com/toleda/audio_ALCInjection/blob/master/ssdt_hdef/ssdt_hdef-1-100-hdas.zip)
 
 **D. Realtek ALCxxx** - Verify, see Tools 4.
 
-1.  Supported codecs (* Not supported with audio_pikeralpha-110)
+1.  Supported codecs (* Not supported with audio_pikeralphaALC)
     1.  269 (BRIX only) *
     2.  283 (BRIX Pro and NUC only) *
     3.  885
@@ -82,6 +85,7 @@ Clover version of Piker Alpha/AppleHDA8Series.sh. The script adds AppleHDA.kext 
     7.  892
     8.  898
     9.  1150
+    10. 1220
 
 2.  Supported Audio IDs
     1. Audio ID: 1 - supports 269, 283, 885, 887, 888, 889, 892, 898, 1150  
