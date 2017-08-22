@@ -1,6 +1,6 @@
 ![alt text](https://github.com/toleda/audio_RealtekALC/blob/master/sound.jpeg)
 #audio\_cloverALC
-Realtek ALC/Desktop: 269(1), 283(1), 885, 887, 888, 892, 898 and 1150 on board audio  (1) BRIX/NUC only  
+Realtek ALC/Desktop: 269(1), 283(1), 885, 887, 888, 892, 898, 1150 and 1220 on board audio  (1) BRIX/NUC only  
 Supports OS X: 10.12, 10.11, 10.10, 10.9 and 10.8  
 Native AppleHDA/Persistent
 
