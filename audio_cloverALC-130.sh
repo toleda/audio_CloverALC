@@ -1,23 +1,23 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-120.command_v1.0f3"
-# gFile="audio_pikeralphaALC-120.command_v1.0f"
+gFile="audio_cloverALC-130.command_v0.3"
+# gFile="audio_pikeralphaALC-120.command_vv0.1"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # OS X Clover Realtek ALC Onboard Audio
 #
-# Enables OS X Realtek ALC onboard audio in 10.12, 10.11, 10.10, 10.9 and 10.8, all versions
+# Enables OS X Realtek ALC onboard audio in 10.13, 10.12, 10.11, 10.10, 10.9 and 10.8, all versions
 # 1. Supports Realtek ALC885, 887, 888, 889, 892, 898, 1150 and 1220
 # 2. Clover patched native AppleHDA.kext installed in System/Library/Extensions
 #
 # Requirements
-# 1. OS X: 10.12/10.11/10.10/10.9/10.8, all versions
+# 1. OS X: 10.13/10.12/10.11/10.10/10.9/10.8, all versions
 # 2. Native AppleHDA.kext (if not installed, run 10.x installer)
 # 3. Supported Realtek ALC on board audio codec (see above)
 # 4. Audio ID: 1, 2 or 3 Injection, see https://github.com/toleda/audio_ALCinjection
 #
 # Installation
-# 1. Double click audio_cloverALC-120.command
+# 1. Double click audio_cloverALC-130.command
 # 2. Enter password at prompt
 # 3. For Clover/EFI, EFI partition must be mounted before running script
 # 4. For Clover/Legacy, answer y to Confirm Clover Legacy Install (y/n)
@@ -34,12 +34,9 @@ gFile="audio_cloverALC-120.command_v1.0f3"
 # 9. Restart
 #
 # Change log:
-# v1.0f0 - 2/21/17: Add 1220 codecs, fix PlugIn, bugs
-# v1.0e0 - Not released
-# v1.0d0 - 8/24/16: Clean up, synch with realtekALC and pikeralphaALC
-# v1.0c0 - 8/16/16: Clean up
-# v1.0b0 - 8/7/16: KextTo Patch fix
-# v1.0a - 7/15/16: Initial 10.12 support
+# v0.3 - 9/12/17: Audio ID validation typo
+# v0.2 - 8/31/17: Audio ID validation
+# v0.1 - 7/5/17: Alpha 10.13 support
 
 echo " "
 echo "Agreement"
@@ -89,6 +86,7 @@ gRealtekALC=0
 gAudioidvalid=n
 gCodecvalid=n
 g200SeriesAudio=n
+gCodecconfig=0
 
 # debug
 if [ $gDebug = 2 ]; then
@@ -112,6 +110,11 @@ fi
 
 # verify system version
 case ${gSysVer} in
+
+    10.13* ) gSysName="High Sierra"
+    gSysFolder=kexts/10.13
+    gSID=$(csrutil status)
+    ;;
 
     10.12* ) gSysName="Sierra"
     gSysFolder=kexts/10.12
@@ -164,7 +167,7 @@ if [ $gMake = 1 ]; then
         sudo rm -R "$gExtensionsDirectory/AppleHDA.kext"
     case $gSysName in
 
-    "Sierra"|"El Capitan" )
+    "High Sierra"|"Sierra"|"El Capitan" )
     sudo cp -X $gDesktopDirectory/AppleHDA.kext $gExtensionsDirectory/AppleHDA.kext
     ;;
 
@@ -230,7 +233,7 @@ if [ $gRealtekALC = 1 ]; then
 
         case $gSysName in
 
-        "Sierra"|"El Capitan" )
+        "High Sierra"|"Sierra"|"El Capitan" )
         echo $gSID > /tmp/gsid.txt
         if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             rm -R /tmp/gsid.txt
@@ -274,7 +277,7 @@ if [ $gRealtekALC = 1 ]; then
 
     [yY]* )
         case $gSysName in
-        "Sierra"|"El Capitan" )
+        "High Sierra"|"Sierra"|"El Capitan" )
 
         echo $gSID > /tmp/gsid.txt
         if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
@@ -379,7 +382,7 @@ if [ $gEFI = 1 ]; then
 
         case $gSysName in
 
-        "Sierra"|"El Capitan" )
+        "High Sierra"|"Sierra"|"El Capitan" )
 	    echo $gSID > /tmp/gsid.txt
             if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             rm -R /tmp/gsid.txt 
@@ -452,7 +455,7 @@ else
             cp -p "$gCloverDirectory/config.plist" "/tmp/config.txt"
             case $gSysName in
 
-            "Sierra"|"El Capitan" )
+            "High Sierra"|"Sierra"|"El Capitan" )
 	    	echo $gSID > /tmp/gsid.txt
         	if [[ $(cat /tmp/gsid.txt | grep -c "disabled") = 0 ]]; then
             	rm -R /tmp/gsid.txt 
@@ -961,33 +964,123 @@ if [ $gController = 1 ]; then
 fi
 
 # validate audio id
-case $gAudioid in
-# 0|1|2|3 ) gAudioidvalid=y;;
-1|2|3 ) gAudioidvalid=y;;
-* )  
+
+audioid[0]="1 - 1/3/5/6 port Realtek ALCxxx audio"
+audioid[1]="2 - 3 port (5.1) Realtek ALCxxx audio, Pink and Blue ports repurposed to outputs"
+audioid[2]="3 - Use ony with HD3000/HD4000 HDMI audio enabled, Orange port disbled"
+
+case "$gCodec" in
+
+    269|283|885 )
+    gCodecconfig=1
+    ;;
+
+    887|888|889|892|898|1150|1220 )
+    gCodecconfig=2
+    ;;
+
+esac
+
+# valid audio id: 3
+
+# verify ioreg/GFX0
+ioreg -rw 0 -p IODeviceTree -n GFX0@2 > /tmp/IGPU.txt
+if [[ $(cat /tmp/IGPU.txt | grep -c "GFX0@2") = 0 ]]; then
+gigfx=0
+
+# debug
+if [ $gDebug = 2 ]; then
+echo "GFX0 - gigfx = $gigfx"
+fi
+
+# verify ioreg/IGPU
+ioreg -rw 0 -p IODeviceTree -n IGPU@2 > /tmp/IGPU.txt
+if [[ $(cat /tmp/IGPU.txt | grep -c "IGPU@2") = 0 ]]; then
+gigfx=0
+
+# debug
+if [ $gDebug = 2 ]; then
+echo "IGPU - gigfx = $gigfx"
+fi
+
+else
+gigfx=IGPU@2
+
+# debug
+if [ $gDebug = 2 ]; then
+echo "gigfx = $gigfx"
+fi
+
+fi
+
+else
+gigfx=GFX0@2
+
+# debug
+if [ $gDebug = 2 ]; then
+echo "gigfx = $gigfx"
+fi
+
+fi
+
+rm -R /tmp/IGPU.txt
+
+if [ $gigfx = 0 ]; then  # no IGFX
+    gCodecconfig=2
+
+else
+    gideviceid=$(ioreg -rxn $gigfx | grep device-id | sed -e 's/.*<//' -e 's/>//')
+fi
+
+# debug
+if [ $gDebug = 2 ]; then
+echo "gideviceid = $gideviceid"
+gideviceid=26010000
+fi
+
+# valid audio id: 3 case
+case "$gideviceid" in
+26010000|62010000 )
+#    gCodecconfig=3
+;;
+esac
+
+# debug
+if [ $gDebug = 2 ]; then
+echo "codec: ALC$gCodec, Audio ID: $gAudioid, max: $gCodecconfig"
+fi
+
+if [ $gAudioid = 0 ] || [ $gAudioid -gt $gCodecconfig ]; then
+
 while true
 do
-read -p "Audio ID: $gAudioid is not supported, continue (y/n): " choice9
+read -p "ALC$gCodec, Audio ID: $gAudioid is not supported, continue (y/n): " choice9
 case "$choice9" in
-	[yY]* ) gAudioid=0; gAudioidvalid=n break;;
+	[yY]* ) gAudioidvalid=n break;;
 	[nN]* ) echo "No system files were changed"; exit;;
 	* ) echo "Try again..."
 ;;
 esac
 done
-;;
-esac
+
+echo "Vaild Audio IDs:"
+
+index=0
+while [ $index -lt $gCodecconfig ]; do
+echo "${audioid[$index]}"
+index=$((index + 1))
+done
+
+else
+gAudioidvalid=y
+fi
 
 if [ $gRealtekALC = 1 ]; then
     if [ $gAudioidvalid = n ]; then
         echo ""
         echo "Note"
-        echo "Set Audio ID injection before restart; valid IDs are:"
-# echo "0 - dsdt/ssdt HDMI audio (AMD/Nvidia/Intel)"
-        echo "1 - 3/5/6 port Realtek ALCxxx audio"
-        echo "2 - 3 port (5.1) Realtek ALCxxx audio (n/a 885)"
-        echo "3 - HD3000/HD4000/HD5xx HDMI audio and Realtek ALCxxx audio (n/a 885 & 887/888 Legacy)"
-        echo "Caution: if Audio ID: $gAudioid is not fixed, no audio after restart"
+        echo "Set correct Audio ID injection before restart"
+        echo "If Audio ID: $gAudioid is not fixed, no audio after restart"
     fi
 fi
 
@@ -997,7 +1090,7 @@ if [ $gCloverALC = 1 ]; then
     read -p "Clover Audio ID Injection (y/n): " choice4
     case "$choice4" in
         [yY]* ) choice4=y; break;;
-        [nN]* ) gAudioid=1; choice5=y; break;;
+        [nN]* ) choice5=y; break;;
         * ) echo "Try again...";;
     esac
     done
@@ -1019,31 +1112,24 @@ if [ $gCloverALC = 1 ]; then
     fi
 
     if [ $choice5 = n ]; then
-        echo "Audio IDs:"
-# echo "0 - dsdt/ssdt HDMI audio (AMD/Nvidia/Intel)"
-        echo "1 - 3/5/6 port Realtek ALCxxx audio"
-        echo "2 - 3 port (5.1) Realtek ALCxxx audio (n/a 885)"
-        echo "3 - HD3000/HD4000 HDMI audio and Realtek ALCxxx audio (n/a 885 & 887/888 Legacy)"
         while true
         do
-# read -p "Select Audio ID? (0, 1, 2 or 3): " choice6
-        read -p "Select Audio ID: " choice6
+        read -p "Enter valid Audio ID (0 to exit): " choice6
         case "$choice6" in
-#	0* ) gAudioid=0; break;;
+            0* ) echo "No system files were changed"; exit;;
             1* ) gAudioid=1; break;;
-            2* ) gAudioid=2; if [ $gCodec = 885 ]; then echo "ID: 2 n/a, try again..."; else break; fi;;
-            3* ) gAudioid=3; valid=y;
-                if [ $gCodec = 885 ]; then valid=n; fi;
-                if [ $gCodec = 1150 ]; then valid=n; fi;
-# new codec
-                if [ $gCodec = 1220 ]; then valid=n; fi;
-                if [ $gLegacy = y ]; then valid=n; fi;
-                if [ $valid = n ]; then echo "ID: 3 n/a, try again..."; else break; fi;;
+            2* ) if [ $choice6 = $gCodecconfig ]; then gAudioid=$choice6; break; else echo "ID: 2 not vaild, try again..."; fi;;
+            3* ) if [ $choice6 = $gCodecconfig ]; then gAudioid=$choice6; break; else echo "ID: 3 not vaild, try again..."; fi;;
             * ) echo "Try again...";;
         esac
         done
     fi
+fi
 
+# debug
+if [ $gDebug = 2 ]; then
+echo "valid audio id"
+echo "codec: ALC$gCodec, Audio ID: $gAudioid, max: $gCodecconfig"
 fi
 
 # debug
@@ -1337,7 +1423,7 @@ case $gCodec in
 # el capitan only, patch1=10
 # hd4600 hdmi audio only, patch1=11
 # hd4600 hdmi audio only, patch1=12
-# sierra only, patch1=13
+# high sierra/sierra only, patch1=13
 # new codecs
 891 ) patch1=14;;
 #1220 ) patch1=15;; # 0x1168
@@ -1372,7 +1458,7 @@ done
 
 case $gSysName in
 
-"Sierra"|"El Capitan" )
+"High Sierra"|"Sierra"|"El Capitan" )
 
 case $gCodecName in
 
@@ -1381,7 +1467,7 @@ case $gCodecName in
 
 case $gSysName in
 
-"Sierra" )
+"High Sierra"|"Sierra" )
 # codec patch out/credit pcpaul/Riley Freeman
 sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:13}'" /tmp/config-audio_cloverALC.plist -x > "/tmp/ktp.plist"
 ;;
@@ -1673,7 +1759,7 @@ fi    # end: if [ $gCloverALC = 1 ]
 if [ $gDebug = 0 ]; then
 case $gSysName in
 
-"Sierra"|"El Capitan"|"Yosemite" )
+"High Sierra"|"Sierra"|"El Capitan"|"Yosemite" )
 echo "Fix permissions ..."
 sudo chown -R root:wheel $gExtensionsDirectory/AppleHDA.kext
 echo "Kernel cache..."
