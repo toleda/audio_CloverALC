@@ -2,6 +2,95 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ACPI</key>
+	<dict>
+		<key>DSDT</key>
+		<dict>
+			<key>Patches</key>
+			<array>
+				<dict>
+					<key>Comment</key>
+					<string>100/200/300-Series-Rename HDAS to HDEF</string>
+					<key>Find</key>
+					<data>SERBUw==</data>
+					<key>Replace</key>
+					<data>SERFRg==</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>X299-Rename CAVS to HDEF</string>
+					<key>Find</key>
+					<data>Q0FWUw==</data>
+					<key>Replace</key>
+					<data>SERFRg==</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>X99-Rename ALZA to HDEF</string>
+					<key>Find</key>
+					<data>QUxaQQ==</data>
+					<key>Replace</key>
+					<data>SERFRg==</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>Legacy/Azalia - Rename AZAL to HDEF</string>
+					<key>Find</key>
+					<data>QVpBTA==</data>
+					<key>Replace</key>
+					<data>SERFRg==</data>
+				</dict>
+			</array>
+			<key>Debug</key>
+			<false/>
+			<key>ReuseFFFF</key>
+			<false/>
+			<key>Name</key>
+			<string>DSDT.aml</string>
+			<key>DropOEM_DSM</key>
+			<false/>
+		</dict>
+		<key>SSDT</key>
+		<dict>
+			<key>DropOem</key>
+			<false/>
+			<key>Generate</key>
+			<dict>
+				<key>PStates</key>
+				<false/>
+				<key>CStates</key>
+				<false/>
+			</dict>
+		</dict>
+	</dict>
+	<key>Boot</key>
+	<dict>
+		<key>Log</key>
+		<false/>
+		<key>Timeout</key>
+		<integer>5</integer>
+		<key>XMPDetection</key>
+		<string>No</string>
+		<key>Secure</key>
+		<false/>
+	</dict>
+	<key>Devices</key>
+	<dict>
+		<key>Audio</key>
+		<dict>
+			<key>Inject</key>
+			<string>1</string>
+		</dict>
+		<key>USB</key>
+		<dict>
+			<key>Inject</key>
+			<false/>
+			<key>FixOwnership</key>
+			<false/>
+		</dict>
+		<key>UseIntelHDMI</key>
+		<false/>
+	</dict>
 	<key>GUI</key>
 	<dict>
 		<key>Mouse</key>
@@ -232,94 +321,12 @@
 			</dict>
 		</array>
 	</dict>
-	<key>ACPI</key>
+	<key>RtVariables</key>
 	<dict>
-		<key>DSDT</key>
-		<dict>
-			<key>Patches</key>
-			<array>
-				<dict>
-					<key>Comment</key>
-					<string>100/200/300-Series-Rename HDAS to HDEF</string>
-					<key>Find</key>
-					<data>SERBUw==</data>
-					<key>Replace</key>
-					<data>SERFRg==</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
-					<string>X299-Rename CAVS to HDEF</string>
-					<key>Find</key>
-					<data>Q0FWUw==</data>
-					<key>Replace</key>
-					<data>SERFRg==</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
-					<string>X99-Rename ALZA to HDEF</string>
-					<key>Find</key>
-					<data>QUxaQQ==</data>
-					<key>Replace</key>
-					<data>SERFRg==</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
-					<string>Legacy/Azalia - Rename AZAL to HDEF</string>
-					<key>Find</key>
-					<data>QVpBTA==</data>
-					<key>Replace</key>
-					<data>SERFRg==</data>
-				</dict>
-			</array>
-			<key>Debug</key>
-			<false/>
-			<key>ReuseFFFF</key>
-			<false/>
-			<key>Name</key>
-			<string>DSDT.aml</string>
-			<key>DropOEM_DSM</key>
-			<false/>
-		</dict>
-		<key>SSDT</key>
-		<dict>
-			<key>DropOem</key>
-			<false/>
-			<key>Generate</key>
-			<dict>
-				<key>PStates</key>
-				<false/>
-				<key>CStates</key>
-				<false/>
-			</dict>
-		</dict>
-	</dict>
-	<key>Boot</key>
-	<dict>
-		<key>Log</key>
-		<false/>
-		<key>Timeout</key>
-		<integer>5</integer>
-		<key>XMPDetection</key>
-		<string>No</string>
-		<key>Secure</key>
-		<false/>
-	</dict>
-	<key>Devices</key>
-	<dict>
-		<key>Audio</key>
-		<dict>
-			<key>Inject</key>
-			<string>1</string>
-		</dict>
-		<key>USB</key>
-		<dict>
-			<key>Inject</key>
-			<false/>
-			<key>FixOwnership</key>
-			<false/>
-		</dict>
-		<key>UseIntelHDMI</key>
-		<false/>
+		<key>BooterConfig</key>
+		<string>0x28</string>
+		<key>CsrActiveConfig</key>
+		<string>0x3</string>
 	</dict>
 	<key>SMBIOS</key>
 	<dict>
