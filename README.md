@@ -97,6 +97,11 @@ The Clover Patched Realtek ALC method enables macOS AppleHDA onboard audio with 
     1.  [Clover/EFI](https://github.com/toleda/audio_CloverALC/blob/master/Terminal%20Saved%20Output_v1.0.4-efi.txt)
     2.  [Clover/Legacy](https://github.com/toleda/audio_CloverALC/blob/master/Terminal%20Saved%20Output_v1.0.4-leg.txt)
 
+**F.** [Problem Reporting](https://github.com/toleda/audio_ALC_guides/blob/master/Problem%20Reporting.md)
+
+1.    Problem Reporting/Post to:
+2.    Problem Reporting/Attached requested files
+
 Credit
 THe KiNG, bcc9, RevoGirl, PikeRAlpha, SJ\_UnderWater, RehabMan, TimeWalker75a, lisai9093, [abxite](http://applelife.ru/threads/patchim-applehda-s-pomoschju-zagruzchika.39406/#post-353647)
 
