@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-130.command_v0.4"
+gFile="audio_cloverALC-130.command_v0.5"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # macOS Clover Realtek ALC Onboard Audio
@@ -35,7 +35,8 @@ gFile="audio_cloverALC-130.command_v0.4"
 # 10. Restart
 #
 # Change log:
-# v0.4 - 2/20/18: Add 300, 200, x299, x99 series audio controller,a add macOS version/disabled, remove HD4600 HDMI audio patch, remove pikeralphaALC, clean up
+# v0.5 - 3/30/18: Fix 1220A
+# v0.4 - 2/20/18: Add 300, 200, x299, x99 series audio controller, add macOS version/disabled, remove HD4600 HDMI audio patch, remove pikeralphaALC, clean up
 # v0.3 - 9/12/17: Audio ID validation typo
 # v0.2 - 8/31/17: Audio ID validation
 # v0.1 - 7/5/17: Alpha 10.13 support
@@ -896,6 +897,10 @@ fi
         exit 1
     fi
 
+fi
+
+if [ $gCodecName = 1220A ]; then
+gCodec=1220
 fi
 
 if [ $gCodecvalid != y ]; then

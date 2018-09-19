@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintained by: toleda for: github.com/toleda/audio_cloverALC
-gFile="audio_cloverALC-130.command_v0.5"
+gFile="audio_cloverALC-130.command_v0.6"
 # Credit: bcc9, RevoGirl, PikeRAlpha, SJ_UnderWater, RehabMan, TimeWalker75a, lisai9093
 #
 # macOS Clover Realtek ALC Onboard Audio
@@ -31,10 +31,11 @@ gFile="audio_cloverALC-130.command_v0.5"
 #    2 - 3 port (5.1) Realtek ALCxxx audio (n/a 885)
 #    3 - HD3000/HD4000 HDMI audio w/Realtek ALCxxx audio (n/a 885/1150/1220 & 887/888 Legacy)
 # 8. Select Audio ID (1, 2 or 3)
-# 9. Motherboard (300/200/x299/x99/Other = n):
+# 9. Deprecated/Motherboard (z390/h310/b360/h370/q370/z370/200/x299/x99/Other = n):
 # 10. Restart
 #
 # Change log:
+# v0.6 - 9/15/18: Coffee Lake audio support, audio controller detection
 # v0.5 - 3/30/18: Fix 1220A
 # v0.4 - 2/20/18: Add 300, 200, x299, x99 series audio controller, add macOS version/disabled, remove HD4600 HDMI audio patch, remove pikeralphaALC, clean up
 # v0.3 - 9/12/17: Audio ID validation typo
@@ -69,6 +70,7 @@ gHDAHardwarConfigDirectory=$gHDAContentsDirectory/PlugIns/AppleHDAHardwareConfig
 gHDAControllerbinaryDirectory=$gHDAContentsDirectory/PlugIns/AppleHDAController.kext/Contents/MacOS
 gAudioid=1
 gLayoutid=1
+gDeviceid=1
 gPatch="-toledaALC"
 gCodec=892
 # gCodec1220S=n
@@ -559,6 +561,7 @@ else
    ;;
 
 2 )
+    gDesktopDirectory=Desktop
     echo "gHDAversioninstalled = $gHDAversioninstalled"
     echo "gDesktopDirectory = $gDesktopDirectory"
 
@@ -605,6 +608,8 @@ if [[ $(cat /tmp/HDEF.txt | grep -c "HDEF@1") != 0 ]]; then
     gLayoutidioreg=$(cat /tmp/HDEF.txt | grep layout-id | sed -e 's/.*<//' -e 's/>//')
     gLayoutidhex="0x${gLayoutidioreg:6:2}${gLayoutidioreg:4:2}${gLayoutidioreg:2:2}${gLayoutidioreg:0:2}"
     gAudioid=$((gLayoutidhex))
+    gDeviceidioreg=$(cat /tmp/HDEF.txt | grep device-id | sed -e 's/.*<//' -e 's/>//')
+    gDeviceid="${gDeviceidioreg:2:2}${gDeviceidioreg:0:2}"
     audiodevice=HDEF
     sudo rm -R /tmp/HDEF.txt
 else
@@ -719,6 +724,9 @@ gCodecsVersion=$(ioreg -rxn IOHDACodecDevice | grep RevisionID| awk '{ print $4 
 # gCodecsVersion=0x100001
 # gCodecsInstalled=0x10134206
 # gCodecsVersion=0x100302
+# gController=x99
+# gController=Kaby
+# gController=Coffee
 # fi
 
 if [ $gDebug = 2 ]; then
@@ -1152,38 +1160,64 @@ if [ $gDebug = 2 ]; then
 fi
 
 # special case, unsupported audio controller: 300, 200, x299, x99
-choice2=n
+
+if [ $gDeviceid != 1 ]; then
+
+case "$gDeviceid" in
+
+8da0 )
+    gController=x99
+    ;;
+
+a2f0 )
+    gController=Kaby
+    ;;
+
+a348 )
+    gController=Coffee
+    ;;
+
+esac
+
+fi
+
+# special case, unsupported audio controller: 300, 200, x299, x99
+# choice2=n
 # choice2a=n
 
-case "$gCodec" in
+# case "$gCodec" in
 
-887|892|1150|1220 )
+# 887|892|1150|1220|1220A )
 
 # while true
 # do
-# read -p "300, 200, x299, x99 Series motherboard (y/n): " choice2a
+# read -p "z370, 200 Series, x299 or X99 motherboard (y/n): " choice2a
+# read -p "300 Series, 200 Series, x299 or X99 motherboard (y/n): " choice2a
 #     case "$choice2a" in
 #         [yY]* ) gController=y; break;;
-#         [nN]* ) gController=n; break;;
-#         * ) echo "Try again...";;
+#        [yY]* ) gController=Kaby; break;;
+#        [nN]* ) gController=n; break;;
+#        * ) echo "Try again...";;
 #     esac
 # done
 # esac
 
-# if [ $choice2a = y ]; then
-while true
-do
-read -p "Motherboard (300/200/x299/x99/Other = n): " choice2
-    case "$choice2" in
-        300|200|x299|X299 ) gController=Kaby; break;;
-        x99|X99 ) gController=x99; break;;
-        [nN]* ) gController=n; break;;
-        * ) echo "Try again...";;
-    esac
-done
+# if [ $gController = y ]; then
+# while true
+# do
+# read -p "Motherboard (z370/x299/200/x99/Other = n): " choice2
+# read -p "Motherboard (z390/h310/b360/h370/q370/z370/200/x299/x99/Other = n): " choice2
+#    case "$choice2" in
+#         x99|X99 ) gController=x99; break;;
+#         z370|Z370|200|x299|X299 ) gController=Kaby; break;;
+#         z390|Z390|h310|H310|b360|B360|h370|H370|q370|Q370 ) gController=Coffee; break;;
+#         [nN]* ) gController=n; break;;
+#         * ) echo "Try again...";;
+#     esac
+# done
 # fi
 
-esac
+# esac
 
 # antipop fix, credit Sergey_Galan-AppleALC - bokrn
 # while true
@@ -1550,23 +1584,9 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-# special case, x99, 200, x299, 300
+# special case, 300/Coffee, 300/Kaby, 200/Kaby, x299/Kaby, x99
 ktplabel="t0-"
 case $gController in
-
-Kaby )
-if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "10.10-x99") = 0 ]; then
-    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
-fi
-
-# index=1
-# patch=( 0 18 )
-# _patchconfig
-patch=15
-_patchconfig
-
-echo "Kaby Lake audio controller patch"
-;;
 
 x99 )
 if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "10.12-Kaby") = 0 ]; then
@@ -1580,6 +1600,34 @@ patch=14
 _patchconfig
 
 echo "X99 audio controller patch"
+;;
+
+Kaby )
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "10.10-x99") = 0 ]; then
+    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+fi
+
+# index=1
+# patch=( 0 15 )
+# _patchconfig
+patch=15
+_patchconfig
+
+echo "Kaby Lake audio controller patch"
+;;
+
+Coffee )
+if [ $(sudo /usr/libexec/PlistBuddy -c "Print ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist | grep -c "10.12-Coffee") = 0 ]; then
+    sudo /usr/libexec/PlistBuddy -c "Delete ':KernelAndKextPatches:KextsToPatch:$index dict'" /tmp/config.plist
+fi
+
+# index=1
+# patch=( 0 18 )
+#_patchconfig
+patch=18
+_patchconfig
+
+echo "Coffee Lake audio controller patch"
 ;;
 
 esac
